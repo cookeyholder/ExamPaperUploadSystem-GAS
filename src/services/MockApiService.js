@@ -73,4 +73,17 @@ export class MockApiService {
     memoryStore[tableName] = memoryStore[tableName].filter(row => row[idKey] !== idValue);
     return true;
   }
+
+  static async uploadExamPaper(payload) {
+    await delay(1500); // Simulate upload time
+    const { examTable, examId, markingType, pageCount } = payload;
+    
+    await MockApiService.updateTableRow(examTable, 'id', examId, {
+      markingType: markingType,
+      pageCount: pageCount,
+      fileUrl: `https://mock.drive.google.com/pdf/${payload.examName}_${payload.department}_${payload.subject}.pdf`
+    });
+
+    return { success: true, fileUrl: `https://mock.drive.google.com/` };
+  }
 }

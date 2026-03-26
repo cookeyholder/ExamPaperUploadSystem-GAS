@@ -21,6 +21,9 @@
 - **後台管理 (CRUD Tables)**：實作「帳號管理」、「群科班級管理」、「科目與命題分配」、「考試分項時間窗」等 SPA 視圖，支援新增、編輯、刪除，並具備互動式 Spinner。
 - **資料隔離與 Mock 架構**: 前端開發期全面採用 `MockApiService` 與本機 JSON 模擬 GAS 試算表行為。
 - **GAS 雙軌制 API 代理**: `ApiService` 中介層能自動判斷環境，切換 Mock/Real 資料流；並在寫入時自動完成前後端欄位名稱 (英/中) 映射。
+- **Drive 附件直傳機制**: 自製以純 JS 達成檔案切割與 Base64 Encode 後，傳送至 `google.script.run` 進行解碼與 Google Drive 檔案保存（包含舊檔覆蓋機制），並完美回寫 URL 至試算表。
+
+🌟 **目前狀態: 全數遷移完成!** (11 個 OpenSpec 提案皆已實作)
 
 ### 1. 建立 Google Cloud 專案與 OAuth Client ID
 

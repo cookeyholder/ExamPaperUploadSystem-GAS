@@ -116,24 +116,27 @@ export class UploadModal {
             reader.onerror = error => reject(error);
         });
         
-        const base64Content = await toBase64(file);
+        const b64String = await toBase64(file);
         
-        // Task 3: Mock Submit
+        // Payload
         const targetTable = document.getElementById('modal-exam-table').value;
         const examId = document.getElementById('modal-exam-id').value;
-        
-        await ApiService.updateTableRow(targetTable, 'id', examId, {
+        const payload = {
+            base64Data: b64String,
+            examTable: targetTable,
+            examId: examId,
+            examName: window.__currentExamContext.examName, // Assuming __currentExamContext is available
+            department: window.__currentExamContext.department,
+            subject: window.__currentExamContext.subject,
             markingType: markingType.value,
-            pageCount: parseInt(pageCount.value),
-            fileUrl: `https://mock.drive.google.com/pdf/${file.name}` // Mock URL
-        });
+            pageCount: parseInt(pageCount.value)
+        };
+        
+        await ApiService.uploadExamPaper(payload);
 
         const myModalEl = document.getElementById('uploadModal');
         const modal = bootstrap.Modal.getInstance(myModalEl);
         modal.hide();
-
-        // Show Toast / Render Page
-        alert("上傳成功！(Mock)");
         window.location.reload(); // Refresh to update badge
 
       } catch (err) {

@@ -22,8 +22,8 @@
 | 順序 | 提案資料夾 | 說明 | 狀態 |
 |---|---|---|---|
 | 09 | `gas-api-read-endpoints` | 實作 `Code.gs` 後端，串接 Google Sheets 讀取 | ✅ 完成 |
-| 10 | `gas-api-write-endpoints` | 撰寫 GAS 後端寫入/刪除端點，替換掉前端的 POST/DELETE Mock Data | 🔄 進行中 |
-| 11 | `gas-drive-upload-flow` | 實作Base64 試卷轉 PDF，寫入 Drive 並更新試算表 | ⏳ 未開始 |
+| 10 | `gas-api-write-endpoints` | 撰寫 GAS 後端寫入/刪除端點，替換掉前端的 POST/DELETE Mock Data | ✅ 完成 |
+| 11 | `gas-drive-upload-flow` | 實作Base64 試卷轉 PDF，寫入 Drive 並更新試算表 | 🔄 進行中 |
 
 ---
 

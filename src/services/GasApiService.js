@@ -89,6 +89,23 @@ export class GasApiService {
       });
   }
 
+  static async uploadExamPaper(payload) {
+      return new Promise((resolve, reject) => {
+          if (typeof google !== 'undefined' && google.script) {
+              google.script.run
+                  .withSuccessHandler(res => {
+                      const result = JSON.parse(res);
+                      if (result.error) reject(new Error(result.error));
+                      else resolve(result);
+                  })
+                  .withFailureHandler(err => reject(err))
+                  .apiUploadExamPaper(payload);
+          } else {
+              reject(new Error("無 GAS 環境"));
+          }
+      });
+  }
+
   static mapKeyToBackend(tableName, keyField) {
       // Map frontend key strings to GAS columns
       if (tableName === 'users' && keyField === 'email') return 'Email';

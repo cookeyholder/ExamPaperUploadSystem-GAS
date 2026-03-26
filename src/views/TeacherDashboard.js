@@ -7,9 +7,13 @@ export class TeacherDashboard {
     const settings = await ApiService.getTableData('settings');
     let pendingUploads = [];
 
+    // We store raw exams in window variables purely for quick context lookup if needed
+    window.__exams1 = await ApiService.getTableData('exam1');
+    window.__exams2 = await ApiService.getTableData('exam2');
+    
     // Filter across 4 tables: exam1, exam2, exam3, exam4
     for (let i = 1; i <= 4; i++) {
-        const examRows = await ApiService.getTableData(`exam${i}`);
+        const examRows = i === 1 ? window.__exams1 : (i === 2 ? window.__exams2 : await ApiService.getTableData(`exam${i}`));
         const setting = settings.find(s => s.id === i.toString());
         
         if (!setting) continue; // Skip if no setting
@@ -30,6 +34,8 @@ export class TeacherDashboard {
         for (const ex of myExams) {
             pendingUploads.push({
                 ...ex,
+                table: `exam${i}`,
+                settingId: setting.id,
                 academicYear: setting.academicYear,
                 semester: setting.semester,
                 examName: setting.examName,
@@ -83,7 +89,7 @@ export class TeacherDashboard {
                         </p>
                     </div>
                     <div class="card-footer bg-white border-0 pb-4 pt-0">
-                        <button class="btn btn-primary w-100 rounded-pill upload-btn ${exam.status !== 'active' ? 'disabled' : ''}" data-exam-id="${exam.id}">
+                        <button class="btn btn-primary w-100 rounded-pill upload-btn ${exam.status !== 'active' ? 'disabled' : ''}" data-table="${exam.table}" data-id="${exam.id}" data-settingid="${exam.settingId}">
                             <i class="bi bi-cloud-arrow-up me-2"></i> 上傳試卷
                         </button>
                     </div>
@@ -95,11 +101,24 @@ export class TeacherDashboard {
     // Hacky way in Vanilla JS SPA to bind events after returning string
     // Usually you'd use lit-html or similar. We attach to a global window event or a setTimeout
     setTimeout(() => {
-        document.querySelectorAll('.upload-btn:not(.disabled)').forEach(btn => {
+        document.querySelectorAll('.upload-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                const examId = e.currentTarget.getAttribute('data-exam-id');
-                const examData = pendingUploads.find(ex => ex.id === examId);
-                if (examData) UploadModal.show(examData);
+                if (e.currentTarget.classList.contains('disabled')) return;
+                
+                const table = e.currentTarget.getAttribute('data-table');
+                const id = e.currentTarget.getAttribute('data-id');
+                const settingId = e.currentTarget.getAttribute('data-settingid');
+                
+                const examRows = Number(settingId) === 1 ? window.__exams1 : window.__exams2 || window.__exams1;
+                const rowData = examRows?.find(r => r.id === id);
+                
+                window.__currentExamContext = {
+                    examName: pendingUploads.find(p => p.id === id)?.examName || '當前考科',
+                    department: rowData?.department || '通用',
+                    subject: rowData?.subject || '科目'
+                };
+
+                UploadModal.show(table, id, settingId);
             });
         });
     }, 0);
