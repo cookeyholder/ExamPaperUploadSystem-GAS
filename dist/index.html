@@ -44,16 +44,23 @@
                     <label class="form-label fw-semibold">閱卷方式</label>
                     <select class="form-select" id="markingType" required>
                       <option value="" selected disabled>請選擇閱卷方式...</option>
-                      <option value="電腦閱卷">電腦閱卷</option>
                       <option value="人工閱卷">人工閱卷</option>
-                      <option value="不需閱卷">不需閱卷</option>
+                      <option value="電腦閱卷">電腦閱卷</option>
+                      <option value="人工閱卷+電腦閱卷">人工閱卷+電腦閱卷</option>
                     </select>
                   </div>
 
                   <div class="mb-3">
-                    <label class="form-label fw-semibold">試卷張數 (B4 雙面為 1 張)</label>
-                    <input type="number" class="form-control" id="pageCount" min="0" max="10" required placeholder="如不需要印試卷請填 0">
-                    <div class="form-text text-muted">目前最多支援 10 張</div>
+                    <label class="form-label fw-semibold">試卷張數 (必填)</label>
+                    <input type="number" class="form-control" id="pageCount" min="1" max="10" required placeholder="請輸入試卷張數">
+                    <div class="form-text text-muted mt-2">
+                        <i class="bi bi-info-circle me-1"></i>試卷總張數（最小值為 1）
+                        <ul class="mb-0 mt-1 small">
+                            <li>試卷與答題卷請一起計算</li>
+                            <li>一律採 B4 雙面列印，如需單面列印或其他需求請轉告教學組 #2304。</li>
+                            <li>(EX: 4 頁試卷 = 2 張，2 頁試卷 + 1 頁答題卷 = 2 張。假如 5 頁試卷打 5 張，皆認定為單面列印之意)</li>
+                        </ul>
+                    </div>
                   </div>
 
                   <div class="mb-4">
