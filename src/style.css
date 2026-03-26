@@ -126,3 +126,16 @@ body {
     margin-left: 0;
   }
 }
+
+/* Teacher Mode Layout */
+body.teacher-mode .sidebar {
+  display: none !important;
+}
+
+body.teacher-mode #main-wrapper {
+  margin-left: 0 !important;
+}
+
+body.teacher-mode #sidebar-toggle {
+  display: none !important;
+}

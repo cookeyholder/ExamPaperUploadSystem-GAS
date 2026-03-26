@@ -14,6 +14,9 @@ const initUserNav = (user) => {
   document.getElementById('user-display-name').textContent = user.name + (user.role === 'admin' ? ' (管理員)' : '');
   if (user.role === 'admin') {
     document.querySelectorAll('.admin-menu-item').forEach(el => el.classList.remove('d-none'));
+    document.body.classList.remove('teacher-mode');
+  } else {
+    document.body.classList.add('teacher-mode');
   }
 };
 
