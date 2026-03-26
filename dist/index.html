@@ -12,21 +12,58 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <script type="module" crossorigin>var e=(e,t)=>()=>(e&&(t=e(e=0)),t),t=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);(function(){let e=document.createElement(`link`).relList;if(e&&e.supports&&e.supports(`modulepreload`))return;for(let e of document.querySelectorAll(`link[rel="modulepreload"]`))n(e);new MutationObserver(e=>{for(let t of e)if(t.type===`childList`)for(let e of t.addedNodes)e.tagName===`LINK`&&e.rel===`modulepreload`&&n(e)}).observe(document,{childList:!0,subtree:!0});function t(e){let t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),e.crossOrigin===`use-credentials`?t.credentials=`include`:e.crossOrigin===`anonymous`?t.credentials=`omit`:t.credentials=`same-origin`,t}function n(e){if(e.ep)return;e.ep=!0;let n=t(e);fetch(e.href,n)}})();var n,r=e((()=>{n=class{constructor(e,t){this.routes=e,this.outlet=document.getElementById(t),window.addEventListener(`hashchange`,()=>this.handleRoute()),window.addEventListener(`load`,()=>this.handleRoute())}handleRoute(){let e=window.location.hash.slice(1)||`/`,t=this.routes[e]||this.routes[`*`];t?(this.outlet.innerHTML=t(),this.updateActiveLink(e)):this.outlet.innerHTML=`
+    <script type="module" crossorigin>var e=(e,t)=>()=>(e&&(t=e(e=0)),t),t=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);(function(){let e=document.createElement(`link`).relList;if(e&&e.supports&&e.supports(`modulepreload`))return;for(let e of document.querySelectorAll(`link[rel="modulepreload"]`))n(e);new MutationObserver(e=>{for(let t of e)if(t.type===`childList`)for(let e of t.addedNodes)e.tagName===`LINK`&&e.rel===`modulepreload`&&n(e)}).observe(document,{childList:!0,subtree:!0});function t(e){let t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),e.crossOrigin===`use-credentials`?t.credentials=`include`:e.crossOrigin===`anonymous`?t.credentials=`omit`:t.credentials=`same-origin`,t}function n(e){if(e.ep)return;e.ep=!0;let n=t(e);fetch(e.href,n)}})();var n,r=e((()=>{n=class{constructor(e,t){this.routes=e,this.outlet=document.getElementById(t),window.addEventListener(`hashchange`,()=>this.handleRoute()),window.addEventListener(`load`,()=>this.handleRoute())}async handleRoute(){let e=window.location.hash.slice(1)||`/`,t=this.routes[e]||this.routes[`*`];if(t){this.outlet.innerHTML=`
+        <div class="d-flex justify-content-center align-items-center py-5 mt-5">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">載入中...</span>
+          </div>
+        </div>`;try{let n=await t();this.outlet.innerHTML=n,this.updateActiveLink(e)}catch(e){console.error(`View rendering failed:`,e),this.outlet.innerHTML=`<div class="alert alert-danger shadow-sm"><i class="bi bi-x-circle-fill me-2"></i> 頁面渲染失敗</div>`}}else this.outlet.innerHTML=`
         <div class="alert alert-danger shadow-sm">
           <i class="bi bi-exclamation-triangle-fill me-2"></i> 找不到該頁面 (404)
-        </div>`}updateActiveLink(e){document.querySelectorAll(`.sidebar-nav .nav-link`).forEach(t=>{t.dataset.path===e?t.classList.add(`active`):t.classList.remove(`active`)})}}})),i,a=e((()=>{i={settings:[{id:`1`,academicYear:`113`,semester:`1`,examName:`第三次定期考`,uploadStart:`2026-03-25T00:00:00`,uploadEnd:`2026-04-10T23:59:59`},{id:`2`,academicYear:`113`,semester:`1`,examName:`第二次定期考`,uploadStart:`2025-11-01T00:00:00`,uploadEnd:`2025-11-15T23:59:59`}],users:[{email:`admin@ksvs.kh.edu.tw`,teacherCode:`A001`,name:`王大明`,role:`admin`},{email:`director@ksvs.kh.edu.tw`,teacherCode:`A002`,name:`林主任`,role:`admin`},{email:`t1001@ksvs.kh.edu.tw`,teacherCode:`T1001`,name:`陳國文`,role:`teacher`},{email:`t1002@ksvs.kh.edu.tw`,teacherCode:`T1002`,name:`李數學`,role:`teacher`},{email:`t1003@ksvs.kh.edu.tw`,teacherCode:`T1003`,name:`張物理`,role:`teacher`},{email:`t1004@ksvs.kh.edu.tw`,teacherCode:`T1004`,name:`吳健康`,role:`teacher`},{email:`t2208@ksvs.kh.edu.tw`,teacherCode:`T2208`,name:`劉測試`,role:`teacher`}],classes:[{id:`101`,name:`機械一甲`},{id:`102`,name:`資訊一甲`},{id:`201`,name:`電機二甲`},{id:`301`,name:`電子三甲`}],exam1:[{id:`e1_1`,department:`一般科目`,grade:1,subject:`國語文`,teacherEmail:`t1001@ksvs.kh.edu.tw`,fileUrl:``,markingType:``,pageCount:0},{id:`e1_2`,department:`一般科目`,grade:1,subject:`數學`,teacherEmail:`t1002@ksvs.kh.edu.tw`,fileUrl:``,markingType:``,pageCount:0},{id:`e1_3`,department:`一般科目`,grade:1,subject:`健康與護理`,teacherEmail:`t1004@ksvs.kh.edu.tw`,fileUrl:`https://example.com/pdf`,markingType:`電腦閱卷`,pageCount:2},{id:`e1_4`,department:`一般科目`,grade:1,subject:`物理`,teacherEmail:`t1003@ksvs.kh.edu.tw`,fileUrl:``,markingType:``,pageCount:0}],exam2:[],exam3:[],exam4:[]}})),o,s,c,l=e((()=>{a(),o=JSON.parse(JSON.stringify(i)),s=(e=300)=>new Promise(t=>setTimeout(t,e)),c=class{static async getUserInfo(){await s();let e=`t1001@ksvs.kh.edu.tw`;return o.users.find(t=>t.email===e)||{email:e,name:`測試無名氏`,role:`teacher`}}static async getTableData(e){if(await s(),!o[e])throw Error(`Table ${e} not found`);return JSON.parse(JSON.stringify(o[e]))}static async addTableRow(e,t){if(await s(),!o[e])throw Error(`Table ${e} not found`);return t.id=t.id||Math.random().toString(36).substr(2,9),o[e].push(t),!0}static async updateTableRow(e,t,n,r){if(await s(),!o[e])throw Error(`Table ${e} not found`);let i=o[e].findIndex(e=>e[t]===n);if(i===-1)throw Error(`Row with ${t}=${n} not found in ${e}`);return o[e][i]={...o[e][i],...r},!0}static async deleteTableRow(e,t,n){if(await s(),!o[e])throw Error(`Table ${e} not found`);return o[e]=o[e].filter(e=>e[t]!==n),!0}}}));t((()=>{r(),l(),document.getElementById(`user-display-name`).textContent=`系統管理員`,new n({"/":()=>`
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="h3 fw-bold mb-0">試卷上傳情形</h2>
-    </div>
-    <div class="card shadow-sm border-0 bg-white">
-      <div class="card-body py-5 text-center text-secondary">
-        <i class="bi bi-clock-history fs-1 mb-3 text-primary-emphasis"></i>
-        <h5 class="fw-semibold">開發中：教師儀表板與 Mock API 即將上線</h5>
-        <p class="mb-0">Please proceed to Change 02 ~ 04</p>
-      </div>
-    </div>
-  `,"/admin/exam-plans":()=>`
+        </div>`}updateActiveLink(e){document.querySelectorAll(`.sidebar-nav .nav-link`).forEach(t=>{t.dataset.path===e?t.classList.add(`active`):t.classList.remove(`active`)})}}})),i,a=e((()=>{i={settings:[{id:`1`,academicYear:`113`,semester:`1`,examName:`第三次定期考`,uploadStart:`2026-03-25T00:00:00`,uploadEnd:`2026-04-10T23:59:59`},{id:`2`,academicYear:`113`,semester:`1`,examName:`第二次定期考`,uploadStart:`2025-11-01T00:00:00`,uploadEnd:`2025-11-15T23:59:59`}],users:[{email:`admin@ksvs.kh.edu.tw`,teacherCode:`A001`,name:`王大明`,role:`admin`},{email:`director@ksvs.kh.edu.tw`,teacherCode:`A002`,name:`林主任`,role:`admin`},{email:`t1001@ksvs.kh.edu.tw`,teacherCode:`T1001`,name:`陳國文`,role:`teacher`},{email:`t1002@ksvs.kh.edu.tw`,teacherCode:`T1002`,name:`李數學`,role:`teacher`},{email:`t1003@ksvs.kh.edu.tw`,teacherCode:`T1003`,name:`張物理`,role:`teacher`},{email:`t1004@ksvs.kh.edu.tw`,teacherCode:`T1004`,name:`吳健康`,role:`teacher`},{email:`t2208@ksvs.kh.edu.tw`,teacherCode:`T2208`,name:`劉測試`,role:`teacher`}],classes:[{id:`101`,name:`機械一甲`},{id:`102`,name:`資訊一甲`},{id:`201`,name:`電機二甲`},{id:`301`,name:`電子三甲`}],exam1:[{id:`e1_1`,department:`一般科目`,grade:1,subject:`國語文`,teacherEmail:`t1001@ksvs.kh.edu.tw`,fileUrl:``,markingType:``,pageCount:0},{id:`e1_2`,department:`一般科目`,grade:1,subject:`數學`,teacherEmail:`t1002@ksvs.kh.edu.tw`,fileUrl:``,markingType:``,pageCount:0},{id:`e1_3`,department:`一般科目`,grade:1,subject:`健康與護理`,teacherEmail:`t1004@ksvs.kh.edu.tw`,fileUrl:`https://example.com/pdf`,markingType:`電腦閱卷`,pageCount:2},{id:`e1_4`,department:`一般科目`,grade:1,subject:`物理`,teacherEmail:`t1003@ksvs.kh.edu.tw`,fileUrl:``,markingType:``,pageCount:0}],exam2:[],exam3:[],exam4:[]}})),o,s,c,l=e((()=>{a(),o=JSON.parse(JSON.stringify(i)),s=(e=300)=>new Promise(t=>setTimeout(t,e)),c=class{static async getUserInfo(){await s();let e=`t1001@ksvs.kh.edu.tw`;return o.users.find(t=>t.email===e)||{email:e,name:`測試無名氏`,role:`teacher`}}static async getTableData(e){if(await s(),!o[e])throw Error(`Table ${e} not found`);return JSON.parse(JSON.stringify(o[e]))}static async addTableRow(e,t){if(await s(),!o[e])throw Error(`Table ${e} not found`);return t.id=t.id||Math.random().toString(36).substr(2,9),o[e].push(t),!0}static async updateTableRow(e,t,n,r){if(await s(),!o[e])throw Error(`Table ${e} not found`);let i=o[e].findIndex(e=>e[t]===n);if(i===-1)throw Error(`Row with ${t}=${n} not found in ${e}`);return o[e][i]={...o[e][i],...r},!0}static async deleteTableRow(e,t,n){if(await s(),!o[e])throw Error(`Table ${e} not found`);return o[e]=o[e].filter(e=>e[t]!==n),!0}}})),u,d=e((()=>{l(),u=class{static async render(){let e=await c.getUserInfo(),t=await c.getTableData(`settings`),n=[];for(let r=1;r<=4;r++){let i=await c.getTableData(`exam${r}`),a=t.find(e=>e.id===r.toString());if(!a)continue;let o=new Date,s=new Date(a.uploadStart),l=new Date(a.uploadEnd),u=o>=s&&o<=l,d=i.filter(t=>t.teacherEmail===e.email);for(let e of d)n.push({...e,academicYear:a.academicYear,semester:a.semester,examName:a.examName,uploadStart:a.uploadStart,uploadEnd:a.uploadEnd,status:u?`active`:`expired`})}return n.length===0?`
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h2 class="h3 fw-bold mb-0">試卷上傳情形</h2>
+            </div>
+            <div class="card shadow-sm border-0 rounded-4 p-5 text-center mt-4">
+                <div class="mb-4">
+                  <i class="bi bi-inbox fs-1 text-muted opacity-50" style="font-size: 4rem;"></i>
+                </div>
+                <h4 class="fw-bold text-secondary mb-3">目前沒有需要上傳的試卷</h4>
+                <p class="text-muted mb-0">當教務處開放您的科目上傳時，將會顯示於此處。</p>
+            </div>
+        `:`
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="h3 fw-bold mb-0">試卷上傳情形</h2>
+        </div>
+        <div class="row">
+            ${n.map(e=>{let t=e.status===`active`?`bg-success`:`bg-secondary`,n=e.status===`active`?`開放上傳中`:`非開放時段`,r=e.fileUrl?`<span class="badge bg-primary ms-2"><i class="bi bi-check-circle me-1"></i>已上傳</span>`:`<span class="badge border border-warning text-warning ms-2"><i class="bi bi-exclamation-circle me-1"></i>尚未上傳</span>`;return`
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 shadow-sm border-0 rounded-4 hover-elevate">
+                    <div class="card-header bg-white border-0 pt-4 pb-0 d-flex justify-content-between align-items-center">
+                        <span class="badge ${t}">${n}</span>
+                        <small class="text-muted">${e.academicYear}-${e.semester}</small>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold mb-1">${e.examName}</h5>
+                        <h6 class="card-subtitle mb-3 text-primary">${e.department} - ${e.subject}</h6>
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="text-muted small me-2">狀態:</span>
+                            ${r}
+                        </div>
+                        <p class="card-text small text-muted mb-1">
+                            <i class="bi bi-clock me-1"></i> 截止: ${new Date(e.uploadEnd).toLocaleString(`zh-TW`)}
+                        </p>
+                    </div>
+                    <div class="card-footer bg-white border-0 pb-4 pt-0">
+                        <button class="btn btn-primary w-100 rounded-pill ${e.status===`active`?``:`disabled`}">
+                            <i class="bi bi-cloud-arrow-up me-2"></i> 上傳試卷
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `}).join(``)}
+        </div>
+    `}}}));t((()=>{r(),l(),d(),document.getElementById(`user-display-name`).textContent=`系統管理員`,new n({"/":()=>u.render(),"/admin/exam-plans":()=>`
     <h2 class="h3 fw-bold mb-4">考試分項管理</h2>
     <div class="alert alert-info border-0 shadow-sm"><i class="bi bi-tools me-2"></i> 管理模組建置中...</div>
   `,"/admin/subjects":()=>`

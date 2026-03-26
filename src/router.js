@@ -10,15 +10,28 @@ export class Router {
     window.addEventListener('load', () => this.handleRoute());
   }
 
-  handleRoute() {
+  async handleRoute() {
     let path = window.location.hash.slice(1) || '/';
     
-    // Default fallback
     const viewRenderFn = this.routes[path] || this.routes['*'];
     
     if (viewRenderFn) {
-      this.outlet.innerHTML = viewRenderFn();
-      this.updateActiveLink(path);
+      // Show loading spinner
+      this.outlet.innerHTML = `
+        <div class="d-flex justify-content-center align-items-center py-5 mt-5">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">載入中...</span>
+          </div>
+        </div>`;
+        
+      try {
+        const html = await viewRenderFn();
+        this.outlet.innerHTML = html;
+        this.updateActiveLink(path);
+      } catch (err) {
+        console.error("View rendering failed:", err);
+        this.outlet.innerHTML = `<div class="alert alert-danger shadow-sm"><i class="bi bi-x-circle-fill me-2"></i> 頁面渲染失敗</div>`;
+      }
     } else {
       this.outlet.innerHTML = `
         <div class="alert alert-danger shadow-sm">

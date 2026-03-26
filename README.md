@@ -15,9 +15,9 @@
 2. 為了更佳的 Google 生態系整合，我們將前端重構為 **Vanilla JS SPA (Single Page Application)**。
 3. **前端建置**: 使用 **Vite** 搭配 `vite-plugin-singlefile`，將前端程式碼打包成單一的 `index.html` 供 GAS 伺服。
 4. **前端框架**: Vanilla JS + Bootstrap 5 + 客製化現代 CSS UI。包含動態 Hash Router 以無縫切換各個管理面板。
-5. **資料隔離與 Mock 架構**: 前端開發期全面採用 `MockApiService` 與本機 JSON 模擬 GAS 試算表行為，以確保開發高靈活度，後續再統一切換為真正的 `google.script.run` 呼叫。
-
-## 部署與設定指南
+### 開發進度與架構亮點：
+- **Teacher Dashboard (Vanilla SPA)**：實作高效的非同步視圖加載，精確過濾目前教師與所屬的考科上傳時間。
+- **資料隔離與 Mock 架構**: 前端開發期全面採用 `MockApiService` 與本機 JSON 模擬 GAS 試算表行為。
 
 ### 1. 建立 Google Cloud 專案與 OAuth Client ID
 
