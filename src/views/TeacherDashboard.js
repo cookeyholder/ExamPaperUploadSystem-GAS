@@ -135,7 +135,6 @@ export class TeacherDashboard {
                             ${uploadedSign}
                         </div>
                         <h3 class="fw-bold text-dark mt-2 mb-2">${ex.subject}</h3>
-                        <h5 class="text-primary fw-semibold mb-4">[${ex.department}] ${ex.grade}年級</h5>
                         
                         <div class="text-secondary mb-3 d-flex align-items-start">
                             <i class="bi bi-people fs-4 fw-bold text-secondary me-3 mt-1"></i>

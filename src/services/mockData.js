@@ -37,7 +37,9 @@ export const mockData = {
     { id: "301", name: "電子三甲" }
   ],
   exam1: [
-    { id: "e1_1", department: "一般科目", grade: 1, subject: "英語文", teacherEmail: "t1001@ksvs.kh.edu.tw", fileUrl: "", markingType: "", pageCount: 0, applicableClass: "機械一甲, 資訊一甲", hasListeningExam: false },
+    { id: "e1_1", department: "一般科目", grade: 1, subject: "英語文", teacherEmail: "t1001@ksvs.kh.edu.tw", fileUrl: "", markingType: "", pageCount: 0, applicableClass: "機械一甲, 資訊一甲, 電子一甲, 電機一乙", hasListeningExam: false },
+    { id: "e1_5", department: "一般科目", grade: 1, subject: "國語文", teacherEmail: "t1001@ksvs.kh.edu.tw", fileUrl: "", markingType: "人工閱卷+電腦閱卷", pageCount: 0, applicableClass: "全一年級" },
+    { id: "e1_6", department: "一般科目", grade: 2, subject: "歷史", teacherEmail: "t1001@ksvs.kh.edu.tw", fileUrl: "https://example.com/mock.pdf", markingType: "電腦閱卷", pageCount: 2, applicableClass: "二甲, 二乙, 二丙" },
     { id: "e1_2", department: "一般科目", grade: 1, subject: "數學", teacherEmail: "t1002@ksvs.kh.edu.tw", fileUrl: "", markingType: "", pageCount: 0, applicableClass: "電機一甲" },
     { id: "e1_3", department: "一般科目", grade: 1, subject: "健康與護理", teacherEmail: "t1004@ksvs.kh.edu.tw", fileUrl: "https://example.com/pdf", markingType: "電腦閱卷", pageCount: 2, applicableClass: "全一年級" },
     { id: "e1_4", department: "一般科目", grade: 1, subject: "物理", teacherEmail: "t1003@ksvs.kh.edu.tw", fileUrl: "", markingType: "", pageCount: 0, applicableClass: "電子一甲" }
