@@ -1,14 +1,25 @@
 // src/main.js
 import { Router } from './router.js';
 import { MockApiService } from './services/MockApiService.js';
+import { GasApiService } from './services/GasApiService.js';
 import { TeacherDashboard } from './views/TeacherDashboard.js';
 import { UserMgmt } from './views/admin/UserMgmt.js';
 import { ClassMgmt } from './views/admin/ClassMgmt.js';
 import { SubjectMgmt } from './views/admin/SubjectMgmt.js';
 import { ExamPlanMgmt } from './views/admin/ExamPlanMgmt.js';
 
-// Setup Mock User info temporarily
-document.getElementById('user-display-name').textContent = '系統管理員';
+// Setup Mock or Real User info temporarily
+document.getElementById('user-display-name').textContent = '載入中...';
+GasApiService.getUserInfo().then(user => {
+  document.getElementById('user-display-name').textContent = user.name + (user.role === 'admin' ? ' (管理員)' : '');
+}).catch(err => {
+  // Fallback to Mock
+  console.log("Using Mock API due to:", err.message);
+  MockApiService.getUserInfo().then(u => document.getElementById('user-display-name').textContent = u.name);
+  window.ApiService = MockApiService; // Fallback
+});
+
+window.ApiService = (typeof google !== 'undefined' && google.script) ? GasApiService : MockApiService;
 
 // Define Routes returning HTML strings or Promises
 const routes = {

@@ -1,14 +1,14 @@
-import { MockApiService } from '../../services/MockApiService.js';
+import { ApiService } from '../../services/api.js';
 
 export class SubjectMgmt {
   static async render() {
-    const settings = await MockApiService.getTableData('settings');
-    const users = await MockApiService.getTableData('users');
+    const settings = await ApiService.getTableData('settings');
+    const users = await ApiService.getTableData('users');
     const teachers = users.filter(u => u.role === 'teacher' || u.role === 'admin');
     
     // We'll just fetch exam1 for default view, or all exams combined. 
     // To keep it simple, let's fetch exam1 as default, but in real app there'd be an Exam switcher.
-    const examRows = await MockApiService.getTableData('exam1');
+    const examRows = await ApiService.getTableData('exam1');
     const activeSetting = settings.find(s => s.id === "1") || { examName: '第一次定期考' };
 
     // Task 1: Table Layout
@@ -142,7 +142,7 @@ export class SubjectMgmt {
         if (confirm(`確定要刪除該筆考科資料嗎？`)) {
           try {
             e.currentTarget.disabled = true;
-            await MockApiService.deleteTableRow('exam1', 'id', id);
+            await ApiService.deleteTableRow('exam1', 'id', id);
             window.location.reload();
           } catch (err) {
             alert('刪除失敗: ' + err.message);
@@ -163,7 +163,7 @@ export class SubjectMgmt {
       const teacherEmail = document.getElementById('s-teacher-email').value;
 
       try {
-        await MockApiService.updateTableRow('exam1', 'id', id, { teacherEmail });
+        await ApiService.updateTableRow('exam1', 'id', id, { teacherEmail });
         modal.hide();
         window.location.reload();
       } catch (err) {

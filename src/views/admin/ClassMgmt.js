@@ -1,8 +1,8 @@
-import { MockApiService } from '../../services/MockApiService.js';
+import { ApiService } from '../../services/api.js';
 
 export class ClassMgmt {
   static async render() {
-    const classes = await MockApiService.getTableData('classes');
+    const classes = await ApiService.getTableData('classes');
     
     // Task 1: Table Layout
     const rowsHtml = classes.map(c => `
@@ -129,7 +129,7 @@ export class ClassMgmt {
         if (confirm(`確定要刪除班級 ${id} 嗎？此操作無法還原。`)) {
           try {
             e.currentTarget.disabled = true;
-            await MockApiService.deleteTableRow('classes', 'id', id);
+            await ApiService.deleteTableRow('classes', 'id', id);
             window.location.reload();
           } catch (err) {
             alert('刪除失敗: ' + err.message);
@@ -157,10 +157,10 @@ export class ClassMgmt {
           if (classList.find(c => c.id === dataObj.id)) {
             throw new Error("此代碼已經存在！");
           }
-          await MockApiService.addTableRow('classes', dataObj);
+          await ApiService.addTableRow('classes', dataObj);
         } else {
           const originalId = document.getElementById('original-id').value;
-          await MockApiService.updateTableRow('classes', 'id', originalId, dataObj);
+          await ApiService.updateTableRow('classes', 'id', originalId, dataObj);
         }
         modal.hide();
         window.location.reload();

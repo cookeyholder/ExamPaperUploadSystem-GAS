@@ -16,12 +16,12 @@
 | 05 | `admin-account-mgmt` | 實作帳號管理頁面 (新增、編輯教師與權限) | ✅ 完成 |
 | 06 | `admin-class-mgmt` | 實作群科班級管理頁面 | ✅ 完成 |
 | 07 | `admin-subject-mgmt` | 實作科目管理與「設定命題教師」功能 | ✅ 完成 |
-| 08 | `admin-exam-plan-mgmt` | 實作考試分項管理 | 🔄 進行中 |
+| 08 | `admin-exam-plan-mgmt` | 實作考試分項管理 | ✅ 完成 |
 
 ## 🔌 階段三：GAS 後端真實串接
 | 順序 | 提案資料夾 | 說明 | 狀態 |
 |---|---|---|---|
-| 09 | `gas-api-read-endpoints` | 撰寫 GAS 後端讀取端點，替換掉前端的 GET Mock Data | ⏳ 未開始 |
+| 09 | `gas-api-read-endpoints` | 實作 `Code.gs` 後端，串接 Google Sheets 讀取 | 🔄 進行中 |
 | 10 | `gas-api-write-endpoints` | 撰寫 GAS 後端寫入/刪除端點，替換掉前端的 POST/DELETE Mock Data | ⏳ 未開始 |
 | 11 | `gas-drive-upload-flow` | 實作Base64 試卷轉 PDF，寫入 Drive 並更新試算表 | ⏳ 未開始 |
 

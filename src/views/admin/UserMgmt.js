@@ -1,8 +1,8 @@
-import { MockApiService } from '../../services/MockApiService.js';
+import { ApiService } from '../../services/api.js';
 
 export class UserMgmt {
   static async render() {
-    const users = await MockApiService.getTableData('users');
+    const users = await ApiService.getTableData('users');
     
     // Task 1: Table Layout
     const rowsHtml = users.map(u => `
@@ -150,7 +150,7 @@ export class UserMgmt {
         if (confirm(`確定要刪除帳號 ${email} 嗎？此操作無法還原。`)) {
           try {
             e.currentTarget.disabled = true;
-            await MockApiService.deleteTableRow('users', 'email', email);
+            await ApiService.deleteTableRow('users', 'email', email);
             window.location.reload();
           } catch (err) {
             alert('刪除失敗: ' + err.message);
@@ -181,10 +181,10 @@ export class UserMgmt {
           if (usersList.find(u => u.email === dataObj.email)) {
             throw new Error("此 Email 已經存在！");
           }
-          await MockApiService.addTableRow('users', dataObj);
+          await ApiService.addTableRow('users', dataObj);
         } else {
           const originalEmail = document.getElementById('original-email').value;
-          await MockApiService.updateTableRow('users', 'email', originalEmail, dataObj);
+          await ApiService.updateTableRow('users', 'email', originalEmail, dataObj);
         }
         modal.hide();
         window.location.reload();

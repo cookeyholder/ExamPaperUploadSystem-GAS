@@ -1,4 +1,4 @@
-import { MockApiService } from '../services/MockApiService.js';
+import { ApiService } from '../services/api.js';
 
 export class UploadModal {
   static init() {
@@ -122,7 +122,7 @@ export class UploadModal {
         const targetTable = document.getElementById('modal-exam-table').value;
         const examId = document.getElementById('modal-exam-id').value;
         
-        await MockApiService.updateTableRow(targetTable, 'id', examId, {
+        await ApiService.updateTableRow(targetTable, 'id', examId, {
             markingType: markingType.value,
             pageCount: parseInt(pageCount.value),
             fileUrl: `https://mock.drive.google.com/pdf/${file.name}` // Mock URL

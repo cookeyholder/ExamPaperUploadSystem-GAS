@@ -577,3 +577,104 @@ function testAuthScenarios() {
         Logger.log("❌ 權限檢查失敗: " + result.reason);
     }
 }
+
+// ==================== API Endpoints (SPA Frontend Bridge) ====================
+
+/**
+ * 取得指定工作表的所有資料 (轉為 JSON 陣列)
+ * @param {string} tableName - 工作表名稱
+ * @return {string} JSON 字串
+ */
+function apiGetTableData(tableName) {
+    try {
+        const email = Session.getActiveUser().getEmail();
+        if (!email) throw new Error("無效的使用者身分");
+
+        const ss = SpreadsheetApp.getActiveSpreadsheet();
+        let sheet = ss.getSheetByName(tableName);
+        
+        // 名稱對映
+        if (!sheet) {
+            const tableMap = {
+                'settings': '網站參數設定',
+                'users': '帳號管理',
+                'classes': '群科班級',
+                'exam1': '第一次定期考',
+                'exam2': '第二次定期考',
+                'exam3': '第三次定期考',
+                'exam4': '期末考'
+            };
+            const mappedName = tableMap[tableName];
+            if (mappedName) sheet = ss.getSheetByName(mappedName);
+        }
+
+        if (!sheet) {
+            return JSON.stringify([]);
+        }
+
+        const data = sheet.getDataRange().getValues();
+        if (data.length <= 1) return JSON.stringify([]);
+
+        const headers = data[0];
+        const result = [];
+        
+        for (let i = 1; i < data.length; i++) {
+            const rowObj = {};
+            headers.forEach((header, index) => {
+                rowObj[header] = data[i][index];
+            });
+            result.push(rowObj);
+        }
+
+        return JSON.stringify(result);
+    } catch (e) {
+        Logger.log(`API 讀取錯誤 [${tableName}]: ${e.message}`);
+        throw e;
+    }
+}
+
+/**
+ * 取得當前使用者資訊 (供 Frontend SPA 讀取)
+ */
+function apiGetUserInfo() {
+    try {
+        const email = Session.getActiveUser().getEmail();
+        if (!email) throw new Error("無法取得使用者 Email");
+
+        const sheet = getAccountSheet();
+        let role = "guest";
+        let name = "未知";
+        let teacherCode = "";
+        let department = "";
+
+        if (sheet) {
+            const data = sheet.getDataRange().getValues();
+            const headers = data[0];
+            const emailCol = headers.indexOf("Email");
+            
+            if (emailCol !== -1) {
+                for (let i = 1; i < data.length; i++) {
+                    if (data[i][emailCol].toString().trim().toLowerCase() === email.toLowerCase()) {
+                        name = headers.indexOf("姓名") !== -1 ? data[i][headers.indexOf("姓名")] : name;
+                        teacherCode = headers.indexOf("人員編號") !== -1 ? data[i][headers.indexOf("人員編號")] : teacherCode;
+                        department = headers.indexOf("部門單位") !== -1 ? data[i][headers.indexOf("部門單位")] : department;
+                        
+                        const groupStr = headers.indexOf("群組") !== -1 ? data[i][headers.indexOf("群組")] : "";
+                        role = (groupStr === "admin" || groupStr === "管理員" || groupStr === "系統管理員") ? "admin" : "teacher";
+                        break;
+                    }
+                }
+            }
+        }
+        
+        return JSON.stringify({
+            email: email,
+            name: name,
+            teacherCode: teacherCode,
+            department: department,
+            role: role
+        });
+    } catch (e) {
+        return JSON.stringify({ error: e.message });
+    }
+}

@@ -1,15 +1,15 @@
-import { MockApiService } from '../services/MockApiService.js';
+import { ApiService } from '../services/api.js';
 import { UploadModal } from '../components/UploadModal.js';
 
 export class TeacherDashboard {
   static async render() {
-    const user = await MockApiService.getUserInfo();
-    const settings = await MockApiService.getTableData('settings');
+    const user = await ApiService.getUserInfo();
+    const settings = await ApiService.getTableData('settings');
     let pendingUploads = [];
 
     // Filter across 4 tables: exam1, exam2, exam3, exam4
     for (let i = 1; i <= 4; i++) {
-        const examRows = await MockApiService.getTableData(`exam${i}`);
+        const examRows = await ApiService.getTableData(`exam${i}`);
         const setting = settings.find(s => s.id === i.toString());
         
         if (!setting) continue; // Skip if no setting

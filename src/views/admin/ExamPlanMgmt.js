@@ -1,8 +1,8 @@
-import { MockApiService } from '../../services/MockApiService.js';
+import { ApiService } from '../../services/api.js';
 
 export class ExamPlanMgmt {
   static async render() {
-    const settings = await MockApiService.getTableData('settings');
+    const settings = await ApiService.getTableData('settings');
     
     // Task 1: Table Layout
     const rowsHtml = settings.map(row => {
@@ -187,7 +187,7 @@ export class ExamPlanMgmt {
         const startStr = startInput.value + ':00';
         const endStr = endInput.value + ':00';
 
-        await MockApiService.updateTableRow('settings', 'id', id, { 
+        await ApiService.updateTableRow('settings', 'id', id, { 
           uploadStart: startStr, 
           uploadEnd: endStr 
         });
