@@ -10,12 +10,21 @@ import { ExamPlanMgmt } from './views/admin/ExamPlanMgmt.js';
 
 // Setup Mock or Real User info temporarily
 document.getElementById('user-display-name').textContent = '載入中...';
-GasApiService.getUserInfo().then(user => {
+const initUserNav = (user) => {
   document.getElementById('user-display-name').textContent = user.name + (user.role === 'admin' ? ' (管理員)' : '');
+  if (user.role === 'admin') {
+    document.querySelectorAll('.admin-menu-item').forEach(el => el.classList.remove('d-none'));
+  }
+};
+
+GasApiService.getUserInfo().then(user => {
+  initUserNav(user);
 }).catch(err => {
   // Fallback to Mock
   console.log("Using Mock API due to:", err.message);
-  MockApiService.getUserInfo().then(u => document.getElementById('user-display-name').textContent = u.name);
+  MockApiService.getUserInfo().then(u => {
+    initUserNav(u);
+  });
   window.ApiService = MockApiService; // Fallback
 });
 
