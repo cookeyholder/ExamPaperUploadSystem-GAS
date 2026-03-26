@@ -77,7 +77,7 @@ export class UploadModal {
                     </label>
                     <input type="number" class="form-control form-control-lg bg-light fw-bold fs-4 text-dark" id="pageCount" min="1" required placeholder="請填寫數字，例如：2">
                     <div class="form-text mt-2 fs-6 text-muted">
-                        <i class="bi bi-info-circle me-1"></i> 請合併計算試卷與答題卷總列印張數 (以 B4 雙面列印為單位，若單面即視為 1 張)。特殊需求請洽教學組 #2304。
+                        <i class="bi bi-info-circle me-1"></i> 請合併計算試卷與答題卷總列印張數 (以 B4 雙面列印為單位，若單面即視為 1 張)。<br><i class="bi bi-info-circle me-1"></i> 特殊需求請洽教學組 #2304。
                     </div>
                   </div>
 
@@ -98,7 +98,7 @@ export class UploadModal {
               </div>
 
               <div class="modal-footer border-top-0 px-4 pb-4 pt-0 d-flex justify-content-between align-items-center">
-                <div id="buttonDisabledMessage" class="text-danger fw-bold small"><i class="bi bi-shield-exclamation me-1"></i> 請完成所有必填欄位</div>
+                <div id="buttonDisabledMessage" class="text-danger fw-bold small"><i class="bi bi-shield-exclamation me-1"></i> 選擇「閱卷方式」、「試卷張數」並「選取檔案」後，才能點擊「確認上傳」按鈕。</div>
                 <div>
                   <button type="button" class="btn btn-light fw-bold px-4 rounded-pill" data-bs-dismiss="modal">取消</button>
                   <button type="button" id="submitUploadBtn" class="btn btn-primary fw-bold px-4 ms-2 rounded-pill shadow-sm" disabled>

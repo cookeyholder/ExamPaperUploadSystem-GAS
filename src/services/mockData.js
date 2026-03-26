@@ -7,16 +7,16 @@ export const mockData = {
             academicYear: "113",
             semester: "1",
             examName: "第三次定期考",
-            uploadStart: "2026-03-25T00:00:00",
-            uploadEnd: "2026-04-28T12:35:59",
+            uploadStart: "2026-03-25T00:00:00+08:00",
+            uploadEnd: "2026-04-28T12:35:00+08:00",
         },
         {
             id: "2",
             academicYear: "113",
             semester: "1",
             examName: "第二次定期考",
-            uploadStart: "2025-11-01T00:00:00",
-            uploadEnd: "2025-11-15T23:59:59",
+            uploadStart: "2025-11-01T00:00:00+08:00",
+            uploadEnd: "2025-11-15T23:59:59+08:00",
         },
     ],
     users: [
@@ -74,7 +74,7 @@ export const mockData = {
     exam1: [
         {
             id: "e1_1",
-            department: "一般科目",
+            department: "共同科目",
             grade: 1,
             subject: "英語文",
             teacherEmail: "t1001@ksvs.kh.edu.tw",
@@ -86,7 +86,7 @@ export const mockData = {
         },
         {
             id: "e1_5",
-            department: "一般科目",
+            department: "共同科目",
             grade: 1,
             subject: "國語文",
             teacherEmail: "t1001@ksvs.kh.edu.tw",
@@ -97,7 +97,7 @@ export const mockData = {
         },
         {
             id: "e1_6",
-            department: "一般科目",
+            department: "共同科目",
             grade: 2,
             subject: "歷史",
             teacherEmail: "t1001@ksvs.kh.edu.tw",
@@ -108,7 +108,7 @@ export const mockData = {
         },
         {
             id: "e1_2",
-            department: "一般科目",
+            department: "共同科目",
             grade: 1,
             subject: "數學",
             teacherEmail: "t1002@ksvs.kh.edu.tw",
@@ -119,7 +119,7 @@ export const mockData = {
         },
         {
             id: "e1_3",
-            department: "一般科目",
+            department: "共同科目",
             grade: 1,
             subject: "健康與護理",
             teacherEmail: "t1004@ksvs.kh.edu.tw",
@@ -130,7 +130,7 @@ export const mockData = {
         },
         {
             id: "e1_4",
-            department: "一般科目",
+            department: "共同科目",
             grade: 1,
             subject: "物理",
             teacherEmail: "t1003@ksvs.kh.edu.tw",
