@@ -1,5 +1,6 @@
 // src/main.js
 import { Router } from './router.js';
+import { MockApiService } from './services/MockApiService.js';
 
 // Setup Mock User info temporarily
 document.getElementById('user-display-name').textContent = '系統管理員';
@@ -50,4 +51,19 @@ document.getElementById('sidebar-toggle').addEventListener('click', () => {
   document.getElementById('sidebar').classList.toggle('show');
 });
 
-console.log('[App] SPA Routing Shell Initialized');
+// App Initialization
+async function initApp() {
+  try {
+    const user = await MockApiService.getUserInfo();
+    document.getElementById('user-display-name').textContent = `${user.name} (${user.role === 'admin' ? '管理員' : '教師'})`;
+    
+    const users = await MockApiService.getTableData('users');
+    const settings = await MockApiService.getTableData('settings');
+    
+    console.log(`[Mock API] System initialized with ${users.length} users and ${settings.length} active exam schedules.`);
+  } catch (error) {
+    console.error('App init failed:', error);
+  }
+}
+
+initApp();

@@ -5,8 +5,8 @@
 ## 🧱 階段一：底層路由與教師核心流程 (前端先行)
 | 順序 | 提案資料夾 | 說明 | 狀態 |
 |---|---|---|---|
-| 01 | `setup-spa-routing-shell` | 建立 Vite 前端架構、全局 Sidebar 側邊導覽列與 Router 機制 | 🔄 準備中 |
-| 02 | `base-schema-and-mock` | 建立 7 張工作表結構的完整 JSON Mock 資料引擎 | ⏳ 未開始 |
+| 01 | `setup-spa-routing-shell` | 建立 Vite 前端架構、全局 Sidebar 側邊導覽列與 Router 機制 | ✅ 完成 |
+| 02 | `base-schema-and-mock` | 建立 7 張工作表結構的完整 JSON Mock 資料引擎 | 🔄 進行中 |
 | 03 | `teacher-dashboard-view` | 實作教師登入後的儀表板空狀態與考試清單渲染 | ⏳ 未開始 |
 | 04 | `teacher-upload-modal` | 實作核心的上傳對話框（包含閱卷方式、張數寫寫與防呆機制） | ⏳ 未開始 |
 
