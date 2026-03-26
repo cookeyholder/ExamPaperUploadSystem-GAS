@@ -1,10 +1,10 @@
 import { ApiService } from "../services/api.js";
 
 export class UploadModal {
-  static init() {
-    // Inject modal HTML if not exists
-    if (!document.getElementById("uploadModal")) {
-      const modalHtml = `
+    static init() {
+        // Inject modal HTML if not exists
+        if (!document.getElementById("uploadModal")) {
+            const modalHtml = `
         <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true" data-bs-backdrop="static">
           <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content border-0 shadow-lg rounded-4">
@@ -110,174 +110,179 @@ export class UploadModal {
           </div>
         </div>
       `;
-      document.body.insertAdjacentHTML("beforeend", modalHtml);
-      this.bindEvents();
-    }
-  }
-
-  static bindEvents() {
-    const form = document.getElementById('uploadForm');
-    const markingRadios = document.querySelectorAll('input[name="markingType"]');
-    const pageCount = document.getElementById('pageCount');
-    const examFile = document.getElementById('examFile');
-    const uploadFileDisplay = document.getElementById('uploadFileDisplay');
-    const submitBtn = document.getElementById('submitUploadBtn');
-    const fileErrorMsg = document.getElementById('fileErrorMsg');
-    const buttonDisabledMessage = document.getElementById('buttonDisabledMessage');
-    const listeningRadios = document.querySelectorAll('input[name="hasListeningExam"]');
-    const listeningSection = document.getElementById('listeningExamSection');
-
-    const validateForm = () => {
-      let isValid = true;
-      let markingTypeSelected = Array.from(markingRadios).find(r => r.checked);
-      if (!markingTypeSelected) isValid = false;
-      if (pageCount.value === '' || parseInt(pageCount.value) < 1) isValid = false;
-      
-      const file = examFile.files[0];
-      if (file) {
-          uploadFileDisplay.value = file.name;
-      } else {
-          uploadFileDisplay.value = '';
-      }
-
-      if (!file) {
-        isValid = false;
-      } else {
-        if (file.type !== 'application/pdf') {
-          fileErrorMsg.textContent = "只允許上傳 PDF 檔案！";
-          fileErrorMsg.style.display = 'block';
-          isValid = false;
-        } else if (file.size > 10 * 1024 * 1024) {
-          fileErrorMsg.textContent = "檔案大小不可超過 10MB！";
-          fileErrorMsg.style.display = 'block';
-          isValid = false;
-        } else {
-          fileErrorMsg.style.display = 'none';
+            document.body.insertAdjacentHTML("beforeend", modalHtml);
+            this.bindEvents();
         }
-      }
-      
-      if (listeningSection.style.display !== 'none') {
-        const hasListeningSelected = Array.from(listeningRadios).find(r => r.checked);
-        if (!hasListeningSelected) isValid = false;
-      }
+    }
 
-      submitBtn.disabled = !isValid;
-      buttonDisabledMessage.style.display = isValid ? 'none' : 'block';
-    };
+    static bindEvents() {
+        const form = document.getElementById("uploadForm");
+        const markingRadios = document.querySelectorAll('input[name="markingType"]');
+        const pageCount = document.getElementById("pageCount");
+        const examFile = document.getElementById("examFile");
+        const uploadFileDisplay = document.getElementById("uploadFileDisplay");
+        const submitBtn = document.getElementById("submitUploadBtn");
+        const fileErrorMsg = document.getElementById("fileErrorMsg");
+        const buttonDisabledMessage = document.getElementById("buttonDisabledMessage");
+        const listeningRadios = document.querySelectorAll('input[name="hasListeningExam"]');
+        const listeningSection = document.getElementById("listeningExamSection");
 
-    markingRadios.forEach(r => r.addEventListener('change', validateForm));
-    listeningRadios.forEach(r => r.addEventListener('change', validateForm));
-    pageCount.addEventListener('input', validateForm);
-    examFile.addEventListener('change', validateForm);
+        const validateForm = () => {
+            let isValid = true;
+            let markingTypeSelected = Array.from(markingRadios).find((r) => r.checked);
+            if (!markingTypeSelected) isValid = false;
+            if (pageCount.value === "" || parseInt(pageCount.value) < 1) isValid = false;
 
-    submitBtn.addEventListener("click", async () => {
-      const eBtn = submitBtn;
-      const originalHtml = eBtn.innerHTML;
-      eBtn.disabled = true;
-      eBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>上傳中...`;
+            const file = examFile.files[0];
+            if (file) {
+                uploadFileDisplay.value = file.name;
+            } else {
+                uploadFileDisplay.value = "";
+            }
 
-      try {
-        const file = examFile.files[0];
+            if (!file) {
+                isValid = false;
+            } else {
+                if (file.type !== "application/pdf") {
+                    fileErrorMsg.textContent = "只允許上傳 PDF 檔案！";
+                    fileErrorMsg.style.display = "block";
+                    isValid = false;
+                } else if (file.size > 10 * 1024 * 1024) {
+                    fileErrorMsg.textContent = "檔案大小不可超過 10MB！";
+                    fileErrorMsg.style.display = "block";
+                    isValid = false;
+                } else {
+                    fileErrorMsg.style.display = "none";
+                }
+            }
 
-        // Task 3: Base64 Conversion Mock
-        const toBase64 = (file) =>
-          new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result.split(",")[1]);
-            reader.onerror = (error) => reject(error);
-          });
+            if (listeningSection.style.display !== "none") {
+                const hasListeningSelected = Array.from(listeningRadios).find((r) => r.checked);
+                if (!hasListeningSelected) isValid = false;
+            }
 
-        const b64String = await toBase64(file);
-
-        // Payload
-        const targetTable = document.getElementById('modal-exam-table').value;
-        const examId = document.getElementById('modal-exam-id').value;
-        const selectedMarkingType = Array.from(document.querySelectorAll('input[name="markingType"]')).find(r => r.checked)?.value;
-        const examNameVal = document.getElementById('modal-exam-name-hidden').value;
-
-        const payload = {
-            base64Data: b64String,
-            examTable: targetTable,
-            examId: examId,
-            examName: examNameVal,
-            department: window.__currentExamContext.department,
-            subject: window.__currentExamContext.subject,
-            markingType: selectedMarkingType,
-            pageCount: parseInt(pageCount.value)
+            submitBtn.disabled = !isValid;
+            buttonDisabledMessage.style.display = isValid ? "none" : "block";
         };
 
-        if (window.__currentExamContext.subject === '英語文') {
-            payload.hasListeningExam = document.getElementById('listening_yes').checked;
+        markingRadios.forEach((r) => r.addEventListener("change", validateForm));
+        listeningRadios.forEach((r) => r.addEventListener("change", validateForm));
+        pageCount.addEventListener("input", validateForm);
+        examFile.addEventListener("change", validateForm);
+
+        submitBtn.addEventListener("click", async () => {
+            const eBtn = submitBtn;
+            const originalHtml = eBtn.innerHTML;
+            eBtn.disabled = true;
+            eBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>上傳中...`;
+
+            try {
+                const file = examFile.files[0];
+
+                // Task 3: Base64 Conversion Mock
+                const toBase64 = (file) =>
+                    new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onload = () => resolve(reader.result.split(",")[1]);
+                        reader.onerror = (error) => reject(error);
+                    });
+
+                const b64String = await toBase64(file);
+
+                // Payload
+                const targetTable = document.getElementById("modal-exam-table").value;
+                const examId = document.getElementById("modal-exam-id").value;
+                const selectedMarkingType = Array.from(
+                    document.querySelectorAll('input[name="markingType"]'),
+                ).find((r) => r.checked)?.value;
+                const examNameVal = document.getElementById("modal-exam-name-hidden").value;
+
+                const payload = {
+                    base64Data: b64String,
+                    examTable: targetTable,
+                    examId: examId,
+                    examName: examNameVal,
+                    department: window.__currentExamContext.department,
+                    subject: window.__currentExamContext.subject,
+                    markingType: selectedMarkingType,
+                    pageCount: parseInt(pageCount.value),
+                };
+
+                if (window.__currentExamContext.subject === "英語文") {
+                    payload.hasListeningExam = document.getElementById("listening_yes").checked;
+                }
+
+                await ApiService.uploadExamPaper(payload);
+
+                const myModalEl = document.getElementById("uploadModal");
+                const modal = bootstrap.Modal.getInstance(myModalEl);
+                modal.hide();
+                window.location.reload(); // Refresh to update badge
+            } catch (err) {
+                console.error(err);
+                alert("上傳失敗：" + err.message);
+            } finally {
+                eBtn.innerHTML = originalHtml;
+                eBtn.disabled = false;
+            }
+        });
+
+        // Reset form on hidden
+        document.getElementById("uploadModal").addEventListener("hidden.bs.modal", function () {
+            form.reset();
+            submitBtn.disabled = true;
+            fileErrorMsg.style.display = "none";
+        });
+    }
+
+    static show(examData) {
+        this.init();
+
+        document.getElementById("modal-exam-subject").textContent =
+            `${examData.department} ${examData.grade}年級 ${examData.subject}`;
+        document.getElementById("modal-exam-class").textContent =
+            `${examData.applicableClass || "全體班級"}`;
+        document.getElementById("modal-exam-id").value = examData.id;
+        document.getElementById("modal-exam-table").value = examData.table;
+        document.getElementById("modal-exam-name-hidden").value = examData.examName;
+
+        document.querySelectorAll('input[name="markingType"]').forEach((r) => (r.checked = false));
+        if (examData.markingType) {
+            const target = Array.from(document.querySelectorAll('input[name="markingType"]')).find(
+                (r) => r.value === examData.markingType,
+            );
+            if (target) target.checked = true;
         }
 
-        await ApiService.uploadExamPaper(payload);
-
-        const myModalEl = document.getElementById("uploadModal");
-        const modal = bootstrap.Modal.getInstance(myModalEl);
-        modal.hide();
-        window.location.reload(); // Refresh to update badge
-      } catch (err) {
-        console.error(err);
-        alert("上傳失敗：" + err.message);
-      } finally {
-        eBtn.innerHTML = originalHtml;
-        eBtn.disabled = false;
-      }
-    });
-
-    // Reset form on hidden
-    document
-      .getElementById("uploadModal")
-      .addEventListener("hidden.bs.modal", function () {
-        form.reset();
-        submitBtn.disabled = true;
-        fileErrorMsg.style.display = "none";
-      });
-  }
-
-  static show(examData) {
-    this.init();
-
-    document.getElementById('modal-exam-subject').textContent = `${examData.department} ${examData.grade}年級 ${examData.subject}`;
-    document.getElementById('modal-exam-class').textContent = `${examData.applicableClass || '全體班級'}`;
-    document.getElementById('modal-exam-id').value = examData.id;
-    document.getElementById('modal-exam-table').value = examData.table; 
-    document.getElementById('modal-exam-name-hidden').value = examData.examName;
-
-    document.querySelectorAll('input[name="markingType"]').forEach(r => r.checked = false);
-    if (examData.markingType) {
-        const target = Array.from(document.querySelectorAll('input[name="markingType"]')).find(r => r.value === examData.markingType);
-        if (target) target.checked = true;
-    }
-    
-    const listeningSection = document.getElementById('listeningExamSection');
-    if (examData.subject === '英語文') {
-        listeningSection.style.display = 'block';
-        if (examData.hasListeningExam === true) {
-            document.getElementById('listening_yes').checked = true;
+        const listeningSection = document.getElementById("listeningExamSection");
+        if (examData.subject === "英語文") {
+            listeningSection.style.display = "block";
+            if (examData.hasListeningExam === true) {
+                document.getElementById("listening_yes").checked = true;
+            } else {
+                document.getElementById("listening_no").checked = true;
+            }
         } else {
-            document.getElementById('listening_no').checked = true;
+            listeningSection.style.display = "none";
+            document.getElementById("listening_yes").checked = false;
+            document.getElementById("listening_no").checked = false;
         }
-    } else {
-        listeningSection.style.display = 'none';
-        document.getElementById('listening_yes').checked = false;
-        document.getElementById('listening_no').checked = false;
+
+        if (examData.pageCount !== undefined && examData.pageCount !== "")
+            document.getElementById("pageCount").value = examData.pageCount;
+        else document.getElementById("pageCount").value = "";
+
+        document.getElementById("uploadFileDisplay").value = "";
+        document.getElementById("buttonDisabledMessage").style.display = "block";
+
+        window.__currentExamContext = {
+            examName: examData.examName,
+            department: examData.department,
+            subject: examData.subject,
+        };
+
+        const myModal = new bootstrap.Modal(document.getElementById("uploadModal"));
+        myModal.show();
     }
-
-    if (examData.pageCount !== undefined && examData.pageCount !== '') document.getElementById('pageCount').value = examData.pageCount;
-    else document.getElementById('pageCount').value = '';
-    
-    document.getElementById('uploadFileDisplay').value = '';
-    document.getElementById('buttonDisabledMessage').style.display = 'block';
-
-    window.__currentExamContext = {
-        examName: examData.examName,
-        department: examData.department,
-        subject: examData.subject
-    };
-
-    const myModal = new bootstrap.Modal(document.getElementById('uploadModal'));
-    myModal.show();
-  }
 }

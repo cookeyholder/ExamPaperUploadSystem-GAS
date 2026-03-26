@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>試卷上傳系統</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <!-- Google Fonts: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <script type="module" crossorigin>var e=(e,t)=>()=>(e&&(t=e(e=0)),t),t=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);(function(){let e=document.createElement(`link`).relList;if(e&&e.supports&&e.supports(`modulepreload`))return;for(let e of document.querySelectorAll(`link[rel="modulepreload"]`))n(e);new MutationObserver(e=>{for(let t of e)if(t.type===`childList`)for(let e of t.addedNodes)e.tagName===`LINK`&&e.rel===`modulepreload`&&n(e)}).observe(document,{childList:!0,subtree:!0});function t(e){let t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),e.crossOrigin===`use-credentials`?t.credentials=`include`:e.crossOrigin===`anonymous`?t.credentials=`omit`:t.credentials=`same-origin`,t}function n(e){if(e.ep)return;e.ep=!0;let n=t(e);fetch(e.href,n)}})();var n,r=e((()=>{n=class{constructor(e,t){this.routes=e,this.outlet=document.getElementById(t),window.addEventListener(`hashchange`,()=>this.handleRoute()),window.addEventListener(`load`,()=>this.handleRoute())}async handleRoute(){let e=window.location.hash.slice(1)||`/`,t=this.routes[e]||this.routes[`*`];if(t){this.outlet.innerHTML=`
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>試卷上傳系統</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <script type="module" crossorigin>var e=(e,t)=>()=>(e&&(t=e(e=0)),t),t=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);(function(){let e=document.createElement(`link`).relList;if(e&&e.supports&&e.supports(`modulepreload`))return;for(let e of document.querySelectorAll(`link[rel="modulepreload"]`))n(e);new MutationObserver(e=>{for(let t of e)if(t.type===`childList`)for(let e of t.addedNodes)e.tagName===`LINK`&&e.rel===`modulepreload`&&n(e)}).observe(document,{childList:!0,subtree:!0});function t(e){let t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),e.crossOrigin===`use-credentials`?t.credentials=`include`:e.crossOrigin===`anonymous`?t.credentials=`omit`:t.credentials=`same-origin`,t}function n(e){if(e.ep)return;e.ep=!0;let n=t(e);fetch(e.href,n)}})();var n,r=e((()=>{n=class{constructor(e,t){this.routes=e,this.outlet=document.getElementById(t),window.addEventListener(`hashchange`,()=>this.handleRoute()),window.addEventListener(`load`,()=>this.handleRoute())}async handleRoute(){let e=window.location.hash.slice(1)||`/`,t=this.routes[e]||this.routes[`*`];if(t){this.outlet.innerHTML=`
         <div class="d-flex justify-content-center align-items-center py-5 mt-5">
           <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">載入中...</span>
@@ -20,112 +22,112 @@
         </div>`;try{let n=await t();this.outlet.innerHTML=n,this.updateActiveLink(e)}catch(e){console.error(`View rendering failed:`,e),this.outlet.innerHTML=`<div class="alert alert-danger shadow-sm"><i class="bi bi-x-circle-fill me-2"></i> 頁面渲染失敗</div>`}}else this.outlet.innerHTML=`
         <div class="alert alert-danger shadow-sm">
           <i class="bi bi-exclamation-triangle-fill me-2"></i> 找不到該頁面 (404)
-        </div>`}updateActiveLink(e){document.querySelectorAll(`.sidebar-nav .nav-link`).forEach(t=>{t.dataset.path===e?t.classList.add(`active`):t.classList.remove(`active`)})}}})),i,a=e((()=>{i={settings:[{id:`1`,academicYear:`113`,semester:`1`,examName:`第三次定期考`,uploadStart:`2026-03-25T00:00:00`,uploadEnd:`2026-04-10T23:59:59`},{id:`2`,academicYear:`113`,semester:`1`,examName:`第二次定期考`,uploadStart:`2025-11-01T00:00:00`,uploadEnd:`2025-11-15T23:59:59`}],users:[{email:`admin@ksvs.kh.edu.tw`,teacherCode:`A001`,name:`王大明`,role:`admin`},{email:`director@ksvs.kh.edu.tw`,teacherCode:`A002`,name:`林主任`,role:`admin`},{email:`t1001@ksvs.kh.edu.tw`,teacherCode:`T1001`,name:`陳國文`,role:`teacher`},{email:`t1002@ksvs.kh.edu.tw`,teacherCode:`T1002`,name:`李數學`,role:`teacher`},{email:`t1003@ksvs.kh.edu.tw`,teacherCode:`T1003`,name:`張物理`,role:`teacher`},{email:`t1004@ksvs.kh.edu.tw`,teacherCode:`T1004`,name:`吳健康`,role:`teacher`},{email:`t2208@ksvs.kh.edu.tw`,teacherCode:`T2208`,name:`劉測試`,role:`teacher`}],classes:[{id:`101`,name:`機械一甲`},{id:`102`,name:`資訊一甲`},{id:`201`,name:`電機二甲`},{id:`301`,name:`電子三甲`}],exam1:[{id:`e1_1`,department:`一般科目`,grade:1,subject:`英語文`,teacherEmail:`t1001@ksvs.kh.edu.tw`,fileUrl:``,markingType:``,pageCount:0,applicableClass:`機械一甲, 資訊一甲`,hasListeningExam:!1},{id:`e1_2`,department:`一般科目`,grade:1,subject:`數學`,teacherEmail:`t1002@ksvs.kh.edu.tw`,fileUrl:``,markingType:``,pageCount:0,applicableClass:`電機一甲`},{id:`e1_3`,department:`一般科目`,grade:1,subject:`健康與護理`,teacherEmail:`t1004@ksvs.kh.edu.tw`,fileUrl:`https://example.com/pdf`,markingType:`電腦閱卷`,pageCount:2,applicableClass:`全一年級`},{id:`e1_4`,department:`一般科目`,grade:1,subject:`物理`,teacherEmail:`t1003@ksvs.kh.edu.tw`,fileUrl:``,markingType:``,pageCount:0,applicableClass:`電子一甲`}],exam2:[],exam3:[],exam4:[]}})),o,s,c,l=e((()=>{a(),o=JSON.parse(JSON.stringify(i)),s=(e=300)=>new Promise(t=>setTimeout(t,e)),c=class e{static async getUserInfo(){await s();let e=`t1001@ksvs.kh.edu.tw`;return o.users.find(t=>t.email===e)||{email:e,name:`測試無名氏`,role:`teacher`}}static async getTableData(e){if(await s(),!o[e])throw Error(`Table ${e} not found`);return JSON.parse(JSON.stringify(o[e]))}static async addTableRow(e,t){if(await s(),!o[e])throw Error(`Table ${e} not found`);return t.id=t.id||Math.random().toString(36).substr(2,9),o[e].push(t),!0}static async updateTableRow(e,t,n,r){if(await s(),!o[e])throw Error(`Table ${e} not found`);let i=o[e].findIndex(e=>e[t]===n);if(i===-1)throw Error(`Row with ${t}=${n} not found in ${e}`);return o[e][i]={...o[e][i],...r},!0}static async deleteTableRow(e,t,n){if(await s(),!o[e])throw Error(`Table ${e} not found`);return o[e]=o[e].filter(e=>e[t]!==n),!0}static async uploadExamPaper(t){await s(1500);let{examTable:n,examId:r,markingType:i,pageCount:a}=t;return await e.updateTableRow(n,`id`,r,{markingType:i,pageCount:a,fileUrl:`https://mock.drive.google.com/pdf/${t.examName}_${t.department}_${t.subject}.pdf`}),{success:!0,fileUrl:`https://mock.drive.google.com/`}}}})),u,d=e((()=>{u=class e{static async getUserInfo(){return new Promise((e,t)=>{typeof google<`u`&&google.script?google.script.run.withSuccessHandler(n=>{let r=JSON.parse(n);r.error?t(Error(r.error)):e(r)}).withFailureHandler(e=>t(e)).apiGetUserInfo():t(Error(`無 GAS 環境，請在 Google Apps Script 執行環境中開啟`))})}static async getTableData(t){return new Promise((n,r)=>{typeof google<`u`&&google.script?google.script.run.withSuccessHandler(r=>{let i=JSON.parse(r);n(e.mapDataToFrontend(t,i))}).withFailureHandler(e=>r(e)).apiGetTableData(t):r(Error(`無 GAS 環境，請在 Google Apps Script 執行環境中開啟`))})}static async addTableRow(t,n){return new Promise((r,i)=>{if(typeof google<`u`&&google.script){let a=e.mapDataToBackend(t,n);google.script.run.withSuccessHandler(e=>{let t=JSON.parse(e);t.error?i(Error(t.error)):r(t)}).withFailureHandler(e=>i(e)).apiAddTableRow(t,a)}else i(Error(`無 GAS 環境`))})}static async updateTableRow(t,n,r,i){return new Promise((a,o)=>{if(typeof google<`u`&&google.script){let s=e.mapDataToBackend(t,i),c=e.mapKeyToBackend(t,n);google.script.run.withSuccessHandler(e=>{let t=JSON.parse(e);t.error?o(Error(t.error)):a(t)}).withFailureHandler(e=>o(e)).apiUpdateTableRow(t,c,r,s)}else o(Error(`無 GAS 環境`))})}static async deleteTableRow(t,n,r){return new Promise((i,a)=>{if(typeof google<`u`&&google.script){let o=e.mapKeyToBackend(t,n);google.script.run.withSuccessHandler(e=>{let t=JSON.parse(e);t.error?a(Error(t.error)):i(t)}).withFailureHandler(e=>a(e)).apiDeleteTableRow(t,o,r)}else a(Error(`無 GAS 環境`))})}static async uploadExamPaper(e){return new Promise((t,n)=>{typeof google<`u`&&google.script?google.script.run.withSuccessHandler(e=>{let r=JSON.parse(e);r.error?n(Error(r.error)):t(r)}).withFailureHandler(e=>n(e)).apiUploadExamPaper(e):n(Error(`無 GAS 環境`))})}static mapKeyToBackend(e,t){return e===`users`&&t===`email`?`Email`:e===`classes`&&t===`id`?`班級代碼`:e===`settings`&&t===`id`||e.startsWith(`exam`)&&t===`id`?`ID`:t}static mapDataToBackend(e,t){let n={};return e===`users`?(t.email!==void 0&&(n.Email=t.email),t.name!==void 0&&(n.姓名=t.name),t.teacherCode!==void 0&&(n.人員編號=t.teacherCode),t.department!==void 0&&(n.部門單位=t.department),t.role!==void 0&&(n.群組=t.role)):e===`classes`?(t.id!==void 0&&(n.班級代碼=t.id),t.name!==void 0&&(n.班級名稱=t.name)):e===`settings`?(t.id!==void 0&&(n.ID=t.id),t.academicYear!==void 0&&(n.學年度=t.academicYear),t.semester!==void 0&&(n.學期=t.semester),t.examName!==void 0&&(n.考試名稱=t.examName),t.uploadStart!==void 0&&(n.開始時間=t.uploadStart),t.uploadEnd!==void 0&&(n.結束時間=t.uploadEnd)):e.startsWith(`exam`)&&(t.id!==void 0&&(n.ID=t.id),t.department!==void 0&&(n.類別=t.department),t.grade!==void 0&&(n.年級=t.grade),t.subject!==void 0&&(n.科目名稱=t.subject),t.teacherEmail!==void 0&&(n.命題教師=t.teacherEmail),t.markingType!==void 0&&(n.閱卷方式=t.markingType),t.pageCount!==void 0&&(n.試卷張數=t.pageCount),t.fileUrl!==void 0&&(n.檔案連結=t.fileUrl),t.hasListeningExam!==void 0&&(n.英聽加考=t.hasListeningExam?`是`:`否`)),Object.keys(n).length>0?n:t}static mapDataToFrontend(e,t){return!t||t.length===0?[]:e===`users`?t.map(e=>({email:e.Email,name:e.姓名,teacherCode:e.人員編號,department:e.部門單位,role:e.群組===`admin`||e.群組===`管理員`||e.角色===`admin`?`admin`:`teacher`})):e===`classes`?t.map(e=>({id:e.班級代碼,name:e.班級名稱})):e===`settings`?t.map(e=>({id:e.ID||e.考試代碼||`1`,academicYear:e.學年度,semester:e.學期,examName:e.考試名稱,uploadStart:e.開始時間,uploadEnd:e.結束時間})):e.startsWith(`exam`)?t.map(e=>({id:e.ID||e.科目代碼,department:e.類別||e.群科,grade:e.年級,subject:e.科目名稱,teacherEmail:e.命題教師||e.教師Email,markingType:e.閱卷方式,pageCount:e.試卷張數,fileUrl:e.檔案連結||e.FileUrl,applicableClass:e.適用班級||``,hasListeningExam:e.英聽加考===`是`})):t}}})),f,p=e((()=>{l(),d(),f=typeof google<`u`&&google.script?u:c})),m,h=e((()=>{p(),m=class{static init(){document.getElementById(`uploadModal`)||(document.body.insertAdjacentHTML(`beforeend`,`
+        </div>`}updateActiveLink(e){document.querySelectorAll(`.sidebar-nav .nav-link`).forEach(t=>{t.dataset.path===e?t.classList.add(`active`):t.classList.remove(`active`)})}}})),i,a=e((()=>{i={settings:[{id:`1`,academicYear:`113`,semester:`1`,examName:`第三次定期考`,uploadStart:`2026-03-25T00:00:00`,uploadEnd:`2026-04-28T12:35:59`},{id:`2`,academicYear:`113`,semester:`1`,examName:`第二次定期考`,uploadStart:`2025-11-01T00:00:00`,uploadEnd:`2025-11-15T23:59:59`}],users:[{email:`admin@ksvs.kh.edu.tw`,teacherCode:`A001`,name:`王大明`,role:`admin`},{email:`director@ksvs.kh.edu.tw`,teacherCode:`A002`,name:`林主任`,role:`admin`},{email:`t1001@ksvs.kh.edu.tw`,teacherCode:`T1001`,name:`陳國文`,role:`teacher`},{email:`t1002@ksvs.kh.edu.tw`,teacherCode:`T1002`,name:`李數學`,role:`teacher`},{email:`t1003@ksvs.kh.edu.tw`,teacherCode:`T1003`,name:`張物理`,role:`teacher`},{email:`t1004@ksvs.kh.edu.tw`,teacherCode:`T1004`,name:`吳健康`,role:`teacher`},{email:`t2208@ksvs.kh.edu.tw`,teacherCode:`T2208`,name:`劉測試`,role:`teacher`}],classes:[{id:`101`,name:`機械一甲`},{id:`102`,name:`資訊一甲`},{id:`201`,name:`電機二甲`},{id:`301`,name:`電子三甲`}],exam1:[{id:`e1_1`,department:`一般科目`,grade:1,subject:`英語文`,teacherEmail:`t1001@ksvs.kh.edu.tw`,fileUrl:``,markingType:``,pageCount:0,applicableClass:`機械一甲, 資訊一甲, 電子一甲, 電機一乙`,hasListeningExam:!1},{id:`e1_5`,department:`一般科目`,grade:1,subject:`國語文`,teacherEmail:`t1001@ksvs.kh.edu.tw`,fileUrl:``,markingType:`人工閱卷+電腦閱卷`,pageCount:0,applicableClass:`全一年級`},{id:`e1_6`,department:`一般科目`,grade:2,subject:`歷史`,teacherEmail:`t1001@ksvs.kh.edu.tw`,fileUrl:`https://example.com/mock.pdf`,markingType:`電腦閱卷`,pageCount:2,applicableClass:`二甲, 二乙, 二丙`},{id:`e1_2`,department:`一般科目`,grade:1,subject:`數學`,teacherEmail:`t1002@ksvs.kh.edu.tw`,fileUrl:``,markingType:``,pageCount:0,applicableClass:`電機一甲`},{id:`e1_3`,department:`一般科目`,grade:1,subject:`健康與護理`,teacherEmail:`t1004@ksvs.kh.edu.tw`,fileUrl:`https://example.com/pdf`,markingType:`電腦閱卷`,pageCount:2,applicableClass:`全一年級`},{id:`e1_4`,department:`一般科目`,grade:1,subject:`物理`,teacherEmail:`t1003@ksvs.kh.edu.tw`,fileUrl:``,markingType:``,pageCount:0,applicableClass:`電子一甲`}],exam2:[],exam3:[],exam4:[]}})),o,s,c,l=e((()=>{a(),o=JSON.parse(JSON.stringify(i)),s=(e=300)=>new Promise(t=>setTimeout(t,e)),c=class e{static async getUserInfo(){await s();let e=`t1001@ksvs.kh.edu.tw`;return o.users.find(t=>t.email===e)||{email:e,name:`測試無名氏`,role:`teacher`}}static async getTableData(e){if(await s(),!o[e])throw Error(`Table ${e} not found`);return JSON.parse(JSON.stringify(o[e]))}static async addTableRow(e,t){if(await s(),!o[e])throw Error(`Table ${e} not found`);return t.id=t.id||Math.random().toString(36).substr(2,9),o[e].push(t),!0}static async updateTableRow(e,t,n,r){if(await s(),!o[e])throw Error(`Table ${e} not found`);let i=o[e].findIndex(e=>e[t]===n);if(i===-1)throw Error(`Row with ${t}=${n} not found in ${e}`);return o[e][i]={...o[e][i],...r},!0}static async deleteTableRow(e,t,n){if(await s(),!o[e])throw Error(`Table ${e} not found`);return o[e]=o[e].filter(e=>e[t]!==n),!0}static async uploadExamPaper(t){await s(1500);let{examTable:n,examId:r,markingType:i,pageCount:a}=t;return await e.updateTableRow(n,`id`,r,{markingType:i,pageCount:a,fileUrl:`https://mock.drive.google.com/pdf/${t.examName}_${t.department}_${t.subject}.pdf`}),{success:!0,fileUrl:`https://mock.drive.google.com/`}}}})),u,d=e((()=>{u=class e{static async getUserInfo(){return new Promise((e,t)=>{typeof google<`u`&&google.script?google.script.run.withSuccessHandler(n=>{let r=JSON.parse(n);r.error?t(Error(r.error)):e(r)}).withFailureHandler(e=>t(e)).apiGetUserInfo():t(Error(`無 GAS 環境，請在 Google Apps Script 執行環境中開啟`))})}static async getTableData(t){return new Promise((n,r)=>{typeof google<`u`&&google.script?google.script.run.withSuccessHandler(r=>{let i=JSON.parse(r);n(e.mapDataToFrontend(t,i))}).withFailureHandler(e=>r(e)).apiGetTableData(t):r(Error(`無 GAS 環境，請在 Google Apps Script 執行環境中開啟`))})}static async addTableRow(t,n){return new Promise((r,i)=>{if(typeof google<`u`&&google.script){let a=e.mapDataToBackend(t,n);google.script.run.withSuccessHandler(e=>{let t=JSON.parse(e);t.error?i(Error(t.error)):r(t)}).withFailureHandler(e=>i(e)).apiAddTableRow(t,a)}else i(Error(`無 GAS 環境`))})}static async updateTableRow(t,n,r,i){return new Promise((a,o)=>{if(typeof google<`u`&&google.script){let s=e.mapDataToBackend(t,i),c=e.mapKeyToBackend(t,n);google.script.run.withSuccessHandler(e=>{let t=JSON.parse(e);t.error?o(Error(t.error)):a(t)}).withFailureHandler(e=>o(e)).apiUpdateTableRow(t,c,r,s)}else o(Error(`無 GAS 環境`))})}static async deleteTableRow(t,n,r){return new Promise((i,a)=>{if(typeof google<`u`&&google.script){let o=e.mapKeyToBackend(t,n);google.script.run.withSuccessHandler(e=>{let t=JSON.parse(e);t.error?a(Error(t.error)):i(t)}).withFailureHandler(e=>a(e)).apiDeleteTableRow(t,o,r)}else a(Error(`無 GAS 環境`))})}static async uploadExamPaper(e){return new Promise((t,n)=>{typeof google<`u`&&google.script?google.script.run.withSuccessHandler(e=>{let r=JSON.parse(e);r.error?n(Error(r.error)):t(r)}).withFailureHandler(e=>n(e)).apiUploadExamPaper(e):n(Error(`無 GAS 環境`))})}static mapKeyToBackend(e,t){return e===`users`&&t===`email`?`Email`:e===`classes`&&t===`id`?`班級代碼`:e===`settings`&&t===`id`||e.startsWith(`exam`)&&t===`id`?`ID`:t}static mapDataToBackend(e,t){let n={};return e===`users`?(t.email!==void 0&&(n.Email=t.email),t.name!==void 0&&(n.姓名=t.name),t.teacherCode!==void 0&&(n.人員編號=t.teacherCode),t.department!==void 0&&(n.部門單位=t.department),t.role!==void 0&&(n.群組=t.role)):e===`classes`?(t.id!==void 0&&(n.班級代碼=t.id),t.name!==void 0&&(n.班級名稱=t.name)):e===`settings`?(t.id!==void 0&&(n.ID=t.id),t.academicYear!==void 0&&(n.學年度=t.academicYear),t.semester!==void 0&&(n.學期=t.semester),t.examName!==void 0&&(n.考試名稱=t.examName),t.uploadStart!==void 0&&(n.開始時間=t.uploadStart),t.uploadEnd!==void 0&&(n.結束時間=t.uploadEnd)):e.startsWith(`exam`)&&(t.id!==void 0&&(n.ID=t.id),t.department!==void 0&&(n.類別=t.department),t.grade!==void 0&&(n.年級=t.grade),t.subject!==void 0&&(n.科目名稱=t.subject),t.teacherEmail!==void 0&&(n.命題教師=t.teacherEmail),t.markingType!==void 0&&(n.閱卷方式=t.markingType),t.pageCount!==void 0&&(n.試卷張數=t.pageCount),t.fileUrl!==void 0&&(n.檔案連結=t.fileUrl),t.hasListeningExam!==void 0&&(n.英聽加考=t.hasListeningExam?`是`:`否`)),Object.keys(n).length>0?n:t}static mapDataToFrontend(e,t){return!t||t.length===0?[]:e===`users`?t.map(e=>({email:e.Email,name:e.姓名,teacherCode:e.人員編號,department:e.部門單位,role:e.群組===`admin`||e.群組===`管理員`||e.角色===`admin`?`admin`:`teacher`})):e===`classes`?t.map(e=>({id:e.班級代碼,name:e.班級名稱})):e===`settings`?t.map(e=>({id:e.ID||e.考試代碼||`1`,academicYear:e.學年度,semester:e.學期,examName:e.考試名稱,uploadStart:e.開始時間,uploadEnd:e.結束時間})):e.startsWith(`exam`)?t.map(e=>({id:e.ID||e.科目代碼,department:e.類別||e.群科,grade:e.年級,subject:e.科目名稱,teacherEmail:e.命題教師||e.教師Email,markingType:e.閱卷方式,pageCount:e.試卷張數,fileUrl:e.檔案連結||e.FileUrl,applicableClass:e.適用班級||``,hasListeningExam:e.英聽加考===`是`})):t}}})),f,p=e((()=>{l(),d(),f=typeof google<`u`&&google.script?u:c})),m,h=e((()=>{p(),m=class{static init(){document.getElementById(`uploadModal`)||(document.body.insertAdjacentHTML(`beforeend`,`
         <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true" data-bs-backdrop="static">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title fw-bold" id="uploadModalLabel">上傳試卷</h5>
+          <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+              <div class="modal-header border-bottom-0 px-4 pt-4 pb-0">
+                <h4 class="modal-title fw-bold text-dark" id="uploadModalLabel"><i class="bi bi-cloud-arrow-up-fill text-primary me-2"></i>上傳試卷</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <div class="modal-body">
-                <div class="alert alert-info mb-3">
-                  <i class="bi bi-info-circle-fill me-2"></i>
-                  <strong>操作說明：</strong>請先選擇閱卷方式並上傳檔案，「確認上傳」按鈕才會啟用。
+              <div class="modal-body p-4">
+                
+                <div class="row mb-4 g-3">
+                  <div class="col-md-6">
+                    <div class="bg-light p-3 rounded-4 h-100 border border-secondary-subtle">
+                      <p class="mb-2 text-muted small fw-bold">目前的上傳科目</p>
+                      <h5 class="fw-bold text-dark mb-2" id="modal-exam-subject">載入中...</h5>
+                      <div class="d-flex align-items-center text-primary fw-medium">
+                        <i class="bi bi-people me-2"></i> <span id="modal-exam-class">載入中...</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="bg-danger-subtle text-danger-emphasis p-3 rounded-4 h-100 border border-danger-subtle">
+                      <p class="mb-2 text-danger fw-bold small"><i class="bi bi-exclamation-triangle-fill me-1"></i> 注意事項</p>
+                      <ul class="mb-0 ps-3 small fw-medium">
+                        <li class="mb-1">請將題目與答案卷合併為單一 PDF</li>
+                        <li class="text-danger fw-bold">絕對請勿上傳解答！</li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
 
-                <div class="mb-3">
-                  <p class="mb-1">
-                    <strong>科目: </strong>
-                    <span id="modal-exam-subject"></span>
-                  </p>
-                  <p class="mb-1">
-                    <strong>適用班級: </strong>
-                    <span id="modal-exam-class"></span>
-                  </p>
-                  <p class="mb-1"><strong>注意事項:</strong></p>
-                  <ul>
-                    <li>請將題目卷與答案卷合併在同一個 PDF 檔案</li>
-                    <li class="text-danger">請勿上傳解答！請勿上傳解答！請勿上傳解答！</li>
-                  </ul>
-                </div>
-
-                <form id="uploadForm">
+                <form id="uploadForm" class="px-2">
                   <input type="hidden" id="modal-exam-id">
                   <input type="hidden" id="modal-exam-table">
                   <input type="hidden" id="modal-exam-name-hidden">
 
-                  <div class="mb-3">
-                    <label class="form-label"><span class="text-danger">*</span> 請選擇閱卷方式：</label>
-                    <div class="form-check form-switch">
-                      <input class="form-check-input border-dark border-1" type="radio" role="switch" name="markingType" id="marking_human" value="人工閱卷" required>
-                      <label class="form-check-label" for="marking_human">人工閱卷</label>
-                    </div>
-                    <div class="form-check form-switch">
-                      <input class="form-check-input border-dark border-1" type="radio" role="switch" name="markingType" id="marking_computer" value="電腦閱卷">
-                      <label class="form-check-label" for="marking_computer">電腦閱卷</label>
-                    </div>
-                    <div class="form-check form-switch">
-                      <input class="form-check-input border-dark border-1" type="radio" role="switch" name="markingType" id="marking_both" value="人工閱卷+電腦閱卷">
-                      <label class="form-check-label" for="marking_both">人工閱卷+電腦閱卷</label>
+                  <div class="mb-4">
+                    <label class="form-label fw-bold text-dark"><span class="text-danger me-1">*</span>閱卷方式：</label>
+                    <div class="d-flex flex-wrap gap-3 mt-2">
+                        <div class="form-check form-check-inline bg-light border border-secondary-subtle px-4 py-3 rounded-3 m-0 flex-grow-1" style="cursor:pointer;" onclick="document.getElementById('marking_human').click()">
+                            <input class="form-check-input ms-0 me-2" type="radio" name="markingType" id="marking_human" value="人工閱卷" required>
+                            <label class="form-check-label fw-medium stretched-link" for="marking_human">人工閱卷</label>
+                        </div>
+                        <div class="form-check form-check-inline bg-light border border-secondary-subtle px-4 py-3 rounded-3 m-0 flex-grow-1" style="cursor:pointer;" onclick="document.getElementById('marking_computer').click()">
+                            <input class="form-check-input ms-0 me-2" type="radio" name="markingType" id="marking_computer" value="電腦閱卷">
+                            <label class="form-check-label fw-medium stretched-link" for="marking_computer">電腦閱卷</label>
+                        </div>
+                        <div class="form-check form-check-inline bg-light border border-secondary-subtle px-4 py-3 rounded-3 m-0 flex-grow-1" style="cursor:pointer;" onclick="document.getElementById('marking_both').click()">
+                            <input class="form-check-input ms-0 me-2" type="radio" name="markingType" id="marking_both" value="人工閱卷+電腦閱卷">
+                            <label class="form-check-label fw-medium stretched-link" for="marking_both">人工 + 電腦閱卷</label>
+                        </div>
                     </div>
                   </div>
 
-                  <div class="mb-3">
-                    <label class="form-label"><span class="text-danger">*</span> 請選擇要上傳的 PDF 檔案：</label>
+                  <div class="mb-4">
+                    <label class="form-label fw-bold text-dark"><span class="text-danger me-1">*</span>試卷 PDF 檔案：</label>
                     <input type="file" id="examFile" accept=".pdf" class="d-none">
-                    <div class="input-group">
-                        <label class="btn btn-outline-secondary" for="examFile">瀏覽檔案</label>
-                        <input type="text" class="form-control border-dark" placeholder="未選擇任何檔案" aria-label="檔案名稱" readonly id="uploadFileDisplay">
+                    <div class="input-group input-group-lg shadow-sm">
+                        <label class="btn btn-primary px-4 fw-bold" for="examFile"><i class="bi bi-folder2-open me-2"></i>瀏覽檔案</label>
+                        <input type="text" class="form-control bg-white" placeholder="未選擇任何檔案" aria-label="檔案名稱" readonly id="uploadFileDisplay" style="cursor: pointer;" onclick="document.getElementById('examFile').click()">
                     </div>
-                    <div class="form-text mt-1">
-                        <i class="bi bi-info-circle me-1"></i>檔案大小限制為 10MB
+                    <div class="form-text mt-2 text-muted fw-medium">
+                        <i class="bi bi-file-earmark-pdf text-danger me-1"></i> 檔案格式限 PDF，大小限制 10MB
                     </div>
-                    <div class="form-text text-danger mt-1" id="fileErrorMsg" style="display:none;"></div>
+                    <div class="form-text text-danger mt-1 fw-bold" id="fileErrorMsg" style="display:none;"></div>
                   </div>
 
-                  <div class="mb-3">
-                    <label class="form-label" for="pageCount">
-                        <span class="text-danger">*</span> 試卷張數：
+                  <div class="mb-4">
+                    <label class="form-label fw-bold text-dark" for="pageCount">
+                        <span class="text-danger me-1">*</span>試卷張數：
                     </label>
-                    <input type="number" class="form-control border-dark" id="pageCount" min="1" required placeholder="請輸入試卷張數">
-                    <div class="form-text mt-2">
-                        <i class="bi bi-info-circle me-1"></i>試卷總張數（必填，最小值為 1）
-                        <ul>
-                            <li>試卷與答題卷請一起計算</li>
-                            <li>一律採 B4 雙面列印，如需單面列印或其他需求請轉告教學組 #2304。</li>
-                            <li>(EX: 4 頁試卷 = 2 張，2 頁試卷 + 1 頁答題卷 = 2 張。假如 5 頁試卷打 5 張，皆認定為單面列印之意)</li>
-                        </ul>
+                    <input type="number" class="form-control form-control-lg bg-light" id="pageCount" min="1" required placeholder="請輸入需要的列印張數（單面為 1 張）">
+                    <div class="form-text mt-2 small text-muted">
+                        <i class="bi bi-info-circle me-1"></i> 請合併計算試卷與答題卷總列印張數 (以 B4 雙面列印為單位，若單面即視為 1 張)。特殊需求請洽教學組 #2304。
                     </div>
                   </div>
 
-                  <div class="mb-3" id="listeningExamSection" style="display: none;">
-                    <label class="form-label"><span class="text-danger">*</span> 是否包含英聽加考：</label>
-                    <div class="form-check">
-                      <input class="form-check-input border-dark" type="radio" name="hasListeningExam" id="listening_yes" value="true">
-                      <label class="form-check-label" for="listening_yes">是</label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input border-dark" type="radio" name="hasListeningExam" id="listening_no" value="false">
-                      <label class="form-check-label" for="listening_no">否</label>
+                  <div class="mb-4 bg-warning-subtle p-3 rounded-3 border border-warning-subtle" id="listeningExamSection" style="display: none;">
+                    <label class="form-label fw-bold text-dark mb-3"><span class="text-danger me-1">*</span>此份英語文試卷是否包含「英聽加考」？</label>
+                    <div class="d-flex gap-4">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="hasListeningExam" id="listening_yes" value="true">
+                            <label class="form-check-label fw-medium" for="listening_yes">是，含英聽</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="hasListeningExam" id="listening_no" value="false">
+                            <label class="form-check-label fw-medium" for="listening_no">否，無英聽</label>
+                        </div>
                     </div>
                   </div>
                 </form>
               </div>
 
-              <div class="modal-footer d-flex justify-content-between">
-                <div id="buttonDisabledMessage" class="text-danger fw-bold small">請選擇 閱卷方式、檔案、張數</div>
+              <div class="modal-footer border-top-0 px-4 pb-4 pt-0 d-flex justify-content-between align-items-center">
+                <div id="buttonDisabledMessage" class="text-danger fw-bold small"><i class="bi bi-shield-exclamation me-1"></i> 請完成所有必填欄位</div>
                 <div>
-                  <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">取消</button>
-                  <button type="button" id="submitUploadBtn" class="btn btn-primary text-white ms-2" disabled>
-                    <i class="bi bi-upload me-1"></i> 確認上傳
+                  <button type="button" class="btn btn-light fw-bold px-4 rounded-pill" data-bs-dismiss="modal">取消</button>
+                  <button type="button" id="submitUploadBtn" class="btn btn-primary fw-bold px-4 ms-2 rounded-pill shadow-sm" disabled>
+                    <i class="bi bi-send me-2"></i>確認上傳
                   </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      `),this.bindEvents())}static bindEvents(){let e=document.getElementById(`uploadForm`),t=document.querySelectorAll(`input[name="markingType"]`),n=document.getElementById(`pageCount`),r=document.getElementById(`examFile`),i=document.getElementById(`uploadFileDisplay`),a=document.getElementById(`submitUploadBtn`),o=document.getElementById(`fileErrorMsg`),s=document.getElementById(`buttonDisabledMessage`),c=document.querySelectorAll(`input[name="hasListeningExam"]`),l=document.getElementById(`listeningExamSection`),u=()=>{let e=!0;Array.from(t).find(e=>e.checked)||(e=!1),(n.value===``||parseInt(n.value)<1)&&(e=!1);let u=r.files[0];u?i.value=u.name:i.value=``,u?u.type===`application/pdf`?u.size>10*1024*1024?(o.textContent=`檔案大小不可超過 10MB！`,o.style.display=`block`,e=!1):o.style.display=`none`:(o.textContent=`只允許上傳 PDF 檔案！`,o.style.display=`block`,e=!1):e=!1,l.style.display!==`none`&&(Array.from(c).find(e=>e.checked)||(e=!1)),a.disabled=!e,s.style.display=e?`none`:`block`};t.forEach(e=>e.addEventListener(`change`,u)),c.forEach(e=>e.addEventListener(`change`,u)),n.addEventListener(`input`,u),r.addEventListener(`change`,u),a.addEventListener(`click`,async()=>{let e=a,t=e.innerHTML;e.disabled=!0,e.innerHTML=`<span class="spinner-border spinner-border-sm me-2"></span>上傳中...`;try{let e=await(e=>new Promise((t,n)=>{let r=new FileReader;r.readAsDataURL(e),r.onload=()=>t(r.result.split(`,`)[1]),r.onerror=e=>n(e)}))(r.files[0]),t=document.getElementById(`modal-exam-table`).value,i=document.getElementById(`modal-exam-id`).value,a=Array.from(document.querySelectorAll(`input[name="markingType"]`)).find(e=>e.checked)?.value,o={base64Data:e,examTable:t,examId:i,examName:document.getElementById(`modal-exam-name-hidden`).value,department:window.__currentExamContext.department,subject:window.__currentExamContext.subject,markingType:a,pageCount:parseInt(n.value)};window.__currentExamContext.subject===`英語文`&&(o.hasListeningExam=document.getElementById(`listening_yes`).checked),await f.uploadExamPaper(o);let s=document.getElementById(`uploadModal`);bootstrap.Modal.getInstance(s).hide(),window.location.reload()}catch(e){console.error(e),alert(`上傳失敗：`+e.message)}finally{e.innerHTML=t,e.disabled=!1}}),document.getElementById(`uploadModal`).addEventListener(`hidden.bs.modal`,function(){e.reset(),a.disabled=!0,o.style.display=`none`})}static show(e){if(this.init(),document.getElementById(`modal-exam-subject`).textContent=`${e.department} ${e.grade}年級 ${e.subject}`,document.getElementById(`modal-exam-class`).textContent=`${e.applicableClass||`全體班級`}`,document.getElementById(`modal-exam-id`).value=e.id,document.getElementById(`modal-exam-table`).value=e.table,document.getElementById(`modal-exam-name-hidden`).value=e.examName,document.querySelectorAll(`input[name="markingType"]`).forEach(e=>e.checked=!1),e.markingType){let t=Array.from(document.querySelectorAll(`input[name="markingType"]`)).find(t=>t.value===e.markingType);t&&(t.checked=!0)}let t=document.getElementById(`listeningExamSection`);e.subject===`英語文`?(t.style.display=`block`,e.hasListeningExam===!0?document.getElementById(`listening_yes`).checked=!0:document.getElementById(`listening_no`).checked=!0):(t.style.display=`none`,document.getElementById(`listening_yes`).checked=!1,document.getElementById(`listening_no`).checked=!1),e.pageCount!==void 0&&e.pageCount!==``?document.getElementById(`pageCount`).value=e.pageCount:document.getElementById(`pageCount`).value=``,document.getElementById(`uploadFileDisplay`).value=``,document.getElementById(`buttonDisabledMessage`).style.display=`block`,window.__currentExamContext={examName:e.examName,department:e.department,subject:e.subject},new bootstrap.Modal(document.getElementById(`uploadModal`)).show()}}})),g,_=e((()=>{p(),h(),g=class e{static async render(){let t=await f.getUserInfo(),n=await f.getTableData(`settings`),r=[];window.__exams1=await f.getTableData(`exam1`),window.__exams2=await f.getTableData(`exam2`);for(let e=1;e<=4;e++){let i=e===1?window.__exams1:e===2?window.__exams2:await f.getTableData(`exam${e}`),a=n.find(t=>t.id===e.toString());if(!a)continue;let o=new Date,s=new Date(a.uploadStart),c=new Date(a.uploadEnd),l=o>=s&&o<=c,u=i.filter(e=>e.teacherEmail===t.email);for(let t of u)r.push({...t,table:`exam${e}`,settingId:a.id,academicYear:a.academicYear,semester:a.semester,examName:a.examName,uploadStart:a.uploadStart,uploadEnd:a.uploadEnd,status:l?`active`:`expired`})}if(r.length===0)return`
+      `),this.bindEvents())}static bindEvents(){let e=document.getElementById(`uploadForm`),t=document.querySelectorAll(`input[name="markingType"]`),n=document.getElementById(`pageCount`),r=document.getElementById(`examFile`),i=document.getElementById(`uploadFileDisplay`),a=document.getElementById(`submitUploadBtn`),o=document.getElementById(`fileErrorMsg`),s=document.getElementById(`buttonDisabledMessage`),c=document.querySelectorAll(`input[name="hasListeningExam"]`),l=document.getElementById(`listeningExamSection`),u=()=>{let e=!0;Array.from(t).find(e=>e.checked)||(e=!1),(n.value===``||parseInt(n.value)<1)&&(e=!1);let u=r.files[0];u?i.value=u.name:i.value=``,u?u.type===`application/pdf`?u.size>10*1024*1024?(o.textContent=`檔案大小不可超過 10MB！`,o.style.display=`block`,e=!1):o.style.display=`none`:(o.textContent=`只允許上傳 PDF 檔案！`,o.style.display=`block`,e=!1):e=!1,l.style.display!==`none`&&(Array.from(c).find(e=>e.checked)||(e=!1)),a.disabled=!e,s.style.display=e?`none`:`block`};t.forEach(e=>e.addEventListener(`change`,u)),c.forEach(e=>e.addEventListener(`change`,u)),n.addEventListener(`input`,u),r.addEventListener(`change`,u),a.addEventListener(`click`,async()=>{let e=a,t=e.innerHTML;e.disabled=!0,e.innerHTML=`<span class="spinner-border spinner-border-sm me-2"></span>上傳中...`;try{let e=await(e=>new Promise((t,n)=>{let r=new FileReader;r.readAsDataURL(e),r.onload=()=>t(r.result.split(`,`)[1]),r.onerror=e=>n(e)}))(r.files[0]),t=document.getElementById(`modal-exam-table`).value,i=document.getElementById(`modal-exam-id`).value,a=Array.from(document.querySelectorAll(`input[name="markingType"]`)).find(e=>e.checked)?.value,o={base64Data:e,examTable:t,examId:i,examName:document.getElementById(`modal-exam-name-hidden`).value,department:window.__currentExamContext.department,subject:window.__currentExamContext.subject,markingType:a,pageCount:parseInt(n.value)};window.__currentExamContext.subject===`英語文`&&(o.hasListeningExam=document.getElementById(`listening_yes`).checked),await f.uploadExamPaper(o);let s=document.getElementById(`uploadModal`);bootstrap.Modal.getInstance(s).hide(),window.location.reload()}catch(e){console.error(e),alert(`上傳失敗：`+e.message)}finally{e.innerHTML=t,e.disabled=!1}}),document.getElementById(`uploadModal`).addEventListener(`hidden.bs.modal`,function(){e.reset(),a.disabled=!0,o.style.display=`none`})}static show(e){if(this.init(),document.getElementById(`modal-exam-subject`).textContent=`${e.department} ${e.grade}年級 ${e.subject}`,document.getElementById(`modal-exam-class`).textContent=`${e.applicableClass||`全體班級`}`,document.getElementById(`modal-exam-id`).value=e.id,document.getElementById(`modal-exam-table`).value=e.table,document.getElementById(`modal-exam-name-hidden`).value=e.examName,document.querySelectorAll(`input[name="markingType"]`).forEach(e=>e.checked=!1),e.markingType){let t=Array.from(document.querySelectorAll(`input[name="markingType"]`)).find(t=>t.value===e.markingType);t&&(t.checked=!0)}let t=document.getElementById(`listeningExamSection`);e.subject===`英語文`?(t.style.display=`block`,e.hasListeningExam===!0?document.getElementById(`listening_yes`).checked=!0:document.getElementById(`listening_no`).checked=!0):(t.style.display=`none`,document.getElementById(`listening_yes`).checked=!1,document.getElementById(`listening_no`).checked=!1),e.pageCount!==void 0&&e.pageCount!==``?document.getElementById(`pageCount`).value=e.pageCount:document.getElementById(`pageCount`).value=``,document.getElementById(`uploadFileDisplay`).value=``,document.getElementById(`buttonDisabledMessage`).style.display=`block`,window.__currentExamContext={examName:e.examName,department:e.department,subject:e.subject},new bootstrap.Modal(document.getElementById(`uploadModal`)).show()}}})),g,_=e((()=>{p(),h(),g=class e{static async render(){let t=document.getElementById(`global-page-title-container`);t&&(t.innerHTML=`<h3 class="fw-bold mb-0 text-dark" style="pointer-events: auto;"><i class="bi bi-list-task text-primary me-2"></i>試卷上傳情形</h3>`);let n=e=>e?new Date(e.includes(`+`)||e.endsWith(`Z`)||e.includes(`-0`)?e:`${e}+08:00`):new Date(0),r=await f.getUserInfo(),i=await f.getTableData(`settings`),a=[];window.__exams1=await f.getTableData(`exam1`),window.__exams2=await f.getTableData(`exam2`);for(let e=1;e<=4;e++){let t=e===1?window.__exams1:e===2?window.__exams2:await f.getTableData(`exam${e}`),o=i.find(t=>t.id===e.toString());if(!o)continue;let s=new Date,c=n(o.uploadStart),l=n(o.uploadEnd),u=s>=c&&s<=l,d=t.filter(e=>e.teacherEmail===r.email);for(let t of d)a.push({...t,table:`exam${e}`,settingId:o.id,academicYear:o.academicYear,semester:o.semester,examName:o.examName,uploadStart:o.uploadStart,uploadEnd:o.uploadEnd,status:u?`active`:`expired`})}if(a.length===0)return`
             <div class="d-flex justify-content-between align-items-center mb-4 mt-2">
               <h3 class="fw-bold mb-0 text-dark"><i class="bi bi-list-task text-success me-2"></i>試卷上傳情形</h3>
             </div>
@@ -135,79 +137,83 @@
                 </div>
                 <h4 class="fw-bold text-secondary mb-3">目前沒有需要上傳的試卷</h4>
             </div>
-        `;let i=r.length,a=r.filter(e=>e.fileUrl).length,o=i-a,s=r.map(e=>new Date(e.uploadEnd).getTime()).filter(e=>e>new Date().getTime()),c=s.length>0?Math.min(...s):null,l=c?new Date(c).toISOString():``,u=r.map(e=>{let t=new Date>new Date(e.uploadEnd),n=new Date>=new Date(e.uploadStart),r=!!e.fileUrl,i=``;i=r?`<span class="badge bg-success-subtle text-success border border-success border-opacity-25 px-3 py-2 fs-6 rounded-pill"><i class="bi bi-check-circle-fill me-1"></i>已上傳</span>`:t?`<span class="badge bg-danger-subtle text-danger border border-danger border-opacity-25 px-3 py-2 fs-6 rounded-pill"><i class="bi bi-x-circle-fill me-1"></i>已逾期</span>`:n?`<span class="badge bg-warning-subtle text-warning-emphasis border border-warning border-opacity-25 px-3 py-2 fs-6 rounded-pill"><i class="bi bi-exclamation-circle-fill me-1"></i>未上傳</span>`:`<span class="badge bg-secondary-subtle text-secondary border border-secondary border-opacity-25 px-3 py-2 fs-6 rounded-pill"><i class="bi bi-clock me-1"></i>未開放</span>`;let a=e.academicYear?`${e.academicYear}-${e.semester}${e.examName}`:e.examName,o={id:e.id,table:e.table,examName:a,department:e.department,subject:e.subject,applicableClass:e.applicableClass,grade:e.grade,markingType:e.markingType,pageCount:e.pageCount,hasListeningExam:e.hasListeningExam},s=r?`<button class="btn btn-outline-success btn-lg w-100 fw-bold upload-btn rounded-pill border-2" data-exam='${JSON.stringify(o).replace(/'/g,`&#39;`)}'>
+        `;let o=a.length,s=a.filter(e=>e.fileUrl).length,c=o-s,l=a.map(e=>n(e.uploadEnd).getTime()).filter(e=>e>new Date().getTime()),u=l.length>0?Math.min(...l):null,d=u?new Date(u).toISOString():`EXPIRED`,p=a.map(e=>{let t=new Date>n(e.uploadEnd),r=new Date>=n(e.uploadStart),i=!!e.fileUrl,a=``;a=i?`<span class="badge bg-success-subtle text-success border border-success border-opacity-25 px-3 py-2 fs-6 rounded-pill"><i class="bi bi-check-circle-fill me-1"></i>已上傳</span>`:t?`<span class="badge bg-danger-subtle text-danger border border-danger border-opacity-25 px-3 py-2 fs-6 rounded-pill"><i class="bi bi-x-circle-fill me-1"></i>已截止</span>`:r?`<span class="badge bg-warning-subtle text-warning-emphasis border border-warning border-opacity-25 px-3 py-2 fs-6 rounded-pill"><i class="bi bi-exclamation-circle-fill me-1"></i>未上傳</span>`:`<span class="badge bg-secondary-subtle text-secondary border border-secondary border-opacity-25 px-3 py-2 fs-6 rounded-pill"><i class="bi bi-clock me-1"></i>未開放</span>`;let o=e.academicYear?`${e.academicYear}-${e.semester}${e.examName}`:e.examName,s={id:e.id,table:e.table,examName:o,department:e.department,subject:e.subject,applicableClass:e.applicableClass,grade:e.grade,markingType:e.markingType,pageCount:e.pageCount,hasListeningExam:e.hasListeningExam},c=i?`<button class="btn btn-outline-success btn-lg w-100 fw-bold upload-btn rounded-pill border-2" data-exam='${JSON.stringify(s).replace(/'/g,`&#39;`)}'>
                  <i class="bi bi-check2-circle me-1"></i> 重新上傳
-               </button>`:!n||t?`<button class="btn btn-secondary btn-lg w-100 fw-bold disabled rounded-pill">
-                 <i class="bi bi-lock me-1"></i> ${n?`已截止`:`未開放`}
-               </button>`:`<button class="btn btn-primary btn-lg w-100 fw-bold upload-btn rounded-pill shadow-sm" data-exam='${JSON.stringify(o).replace(/'/g,`&#39;`)}'>
+               </button>`:!r||t?`<button class="btn btn-secondary btn-lg w-100 fw-bold disabled rounded-pill">
+                 <i class="bi bi-lock me-1"></i> ${r?`已截止`:`未開放`}
+               </button>`:`<button class="btn btn-primary btn-lg w-100 fw-bold upload-btn rounded-pill shadow-sm" data-exam='${JSON.stringify(s).replace(/'/g,`&#39;`)}'>
                  <i class="bi bi-cloud-arrow-up me-1"></i> 上傳試卷
                </button>`;return`
             <div class="col-md-6 col-lg-6 d-flex align-items-stretch mb-4">
-                <div class="card w-100 shadow-sm border-0 rounded-4 hover-lift ${r?`border-start border-success border-4`:`border-start border-warning border-4`}">
+                <div class="card w-100 shadow-sm border-0 rounded-4 hover-lift ${i?`border-start border-success border-4`:`border-start border-warning border-4`}">
                     <div class="card-body d-flex flex-column p-4 p-md-5">
                         <div class="d-flex justify-content-between align-items-start mb-4">
-                            <span class="badge bg-light text-secondary border border-secondary-subtle px-3 py-2 fs-6 rounded-pill">${a}</span>
-                            ${i}
+                            <span class="badge bg-light text-secondary border border-secondary-subtle px-3 py-2 fs-6 rounded-pill">${o}</span>
+                            ${a}
                         </div>
                         <h3 class="fw-bold text-dark mt-2 mb-2">${e.subject}</h3>
-                        <h5 class="text-primary fw-semibold mb-4">[${e.department}] ${e.grade}年級</h5>
                         
-                        <div class="text-secondary fs-6 mb-3 d-flex align-items-start">
-                            <i class="bi bi-people fs-5 fw-bold text-secondary me-3 mt-1"></i>
+                        <div class="text-secondary mb-3 d-flex align-items-start">
+                            <i class="bi bi-people fs-4 fw-bold text-secondary me-3 mt-1"></i>
                             <div>
-                                <strong class="d-block text-dark fs-5 mb-1">適用班級</strong>
-                                <span style="line-height: 1.5;">${e.applicableClass||`全體班級`}</span>
+                                <strong class="d-block text-muted fs-6 mb-1">適用班級</strong>
+                                <span class="fs-5 text-dark fw-medium" style="line-height: 1.5;">${e.applicableClass||`全體班級`}</span>
                             </div>
                         </div>
 
-                        <div class="text-secondary fs-6 mb-5 d-flex align-items-start">
-                            <i class="bi bi-file-earmark-check fs-5 fw-bold text-secondary me-3 mt-1"></i>
-                            <div>
-                                <strong class="d-block text-dark fs-5 mb-1">閱卷方式</strong>
-                                <span>${e.markingType||`未填寫`}</span>
+                        <div class="row text-secondary mb-5">
+                            <div class="col-7 d-flex align-items-start pe-0">
+                                <i class="bi bi-file-earmark-check fs-4 fw-bold text-secondary me-2 align-self-start mt-1"></i>
+                                <div>
+                                    <strong class="d-block text-muted fs-6 mb-1">閱卷方式</strong>
+                                    <span class="fs-5 text-dark fw-medium">${e.markingType||`未填寫`}</span>
+                                </div>
+                            </div>
+                            <div class="col-5 d-flex align-items-start ps-0">
+                                <i class="bi bi-files fs-4 fw-bold text-secondary me-2 align-self-start mt-1"></i>
+                                <div>
+                                    <strong class="d-block text-muted fs-6 mb-1">試卷張數</strong>
+                                    <span class="fs-5 text-dark fw-medium">${e.pageCount>0?e.pageCount+` 頁`:`未填寫`}</span>
+                                </div>
                             </div>
                         </div>
 
                         <div class="mt-auto">
-                            ${s}
+                            ${c}
                         </div>
                     </div>
                 </div>
             </div>
-        `}).join(``);return setTimeout(()=>{document.querySelectorAll(`.upload-btn`).forEach(e=>{e.addEventListener(`click`,e=>{let t=JSON.parse(e.currentTarget.dataset.exam);m.show(t)})}),e.countdownInterval&&clearInterval(e.countdownInterval),e.countdownInterval=setInterval(()=>{document.querySelectorAll(`.unified-countdown-cell`).forEach(e=>{let t=e.dataset.deadline;if(!t){e.innerHTML=`<span class="text-secondary fw-bold">無截止時間</span>`;return}let n=new Date(t).getTime()-new Date().getTime();if(n<0){e.innerHTML=`<span class="text-danger fw-bold">試卷上傳已截止</span>`;return}e.textContent=`${Math.floor(n/(1e3*60*60*24))}天 ${Math.floor(n%(1e3*60*60*24)/(1e3*60*60))}小時 ${Math.floor(n%(1e3*60*60)/(1e3*60))}分 ${Math.floor(n%(1e3*60)/1e3)}秒`})},1e3)},0),`
-        <div class="d-flex justify-content-center align-items-center mb-5 mt-4">
-            <h2 class="fw-bold mb-0 text-dark"><i class="bi bi-list-task text-primary me-2"></i>試卷上傳情形</h2>
-        </div>
-        
-        <div class="row mb-5 justify-content-center g-4">
+        `}).join(``);return setTimeout(()=>{document.querySelectorAll(`.upload-btn`).forEach(e=>{e.addEventListener(`click`,e=>{let t=JSON.parse(e.currentTarget.dataset.exam);m.show(t)})}),e.countdownInterval&&clearInterval(e.countdownInterval),e.countdownInterval=setInterval(()=>{document.querySelectorAll(`.unified-countdown-cell`).forEach(e=>{let t=e.dataset.deadline;if(t===`EXPIRED`){e.innerHTML=`<span class="text-danger fw-bold">上傳已截止</span>`;return}if(!t){e.innerHTML=`<span class="text-secondary fw-bold">無截止時間</span>`;return}let n=(e=>new Date(e.includes(`+`)||e.endsWith(`Z`)||e.includes(`-0`)?e:`${e}+08:00`))(t).getTime()-new Date().getTime();if(n<0){e.innerHTML=`<span class="text-danger fw-bold">試卷上傳已截止</span>`;return}let r=Math.floor(n/(1e3*60*60*24)),i=Math.floor(n%(1e3*60*60*24)/(1e3*60*60)),a=Math.floor(n%(1e3*60*60)/(1e3*60)),o=Math.floor(n%(1e3*60)/1e3);r===0&&i===0&&a<10?e.textContent=`${a}分 ${o.toString().padStart(2,`0`)}秒`:e.textContent=`${r}天 ${i}小時 ${a}分`})},1e3)},0),`
+        <div class="row mb-5 justify-content-center g-4 mt-1">
             <div class="col-6 col-md-3">
                 <div class="card p-4 shadow-sm border-0 text-center rounded-4 h-100 bg-white">
                     <h5 class="text-muted mb-3 fw-semibold">需上傳考卷數</h5>
-                    <h1 class="fw-bold text-dark mb-0 display-5">${i}</h1>
+                    <h1 class="fw-bold text-dark mb-0 display-5">${o}</h1>
                 </div>
             </div>
             <div class="col-6 col-md-3">
                 <div class="card p-4 shadow-sm border-0 text-center rounded-4 h-100 bg-white">
                     <h5 class="text-muted mb-3 fw-semibold">待上傳</h5>
-                    <h1 class="fw-bold text-warning mb-0 display-5">${o}</h1>
+                    <h1 class="fw-bold text-warning mb-0 display-5">${c}</h1>
                 </div>
             </div>
             <div class="col-6 col-md-3">
                 <div class="card p-4 shadow-sm border-0 text-center rounded-4 h-100 bg-white">
                     <h5 class="text-muted mb-3 fw-semibold">已上傳</h5>
-                    <h1 class="fw-bold text-success mb-0 display-5">${a}</h1>
+                    <h1 class="fw-bold text-success mb-0 display-5">${s}</h1>
                 </div>
             </div>
             <div class="col-6 col-md-3">
                 <div class="card p-4 shadow-sm text-center rounded-4 h-100 bg-danger-subtle border-0 border-start border-danger border-5">
                     <h5 class="text-danger-emphasis mb-3 fw-bold"><i class="bi bi-alarm me-1"></i>剩餘時間</h5>
-                    <h3 class="fw-bold text-danger mb-0 unified-countdown-cell" data-deadline="${l}">--</h3>
+                    <h3 class="fw-bold text-danger mb-0 unified-countdown-cell" data-deadline="${d}">--</h3>
                 </div>
             </div>
         </div>
 
         <div class="row">
-            ${u}
+            ${p}
         </div>
     `}}})),v,y=e((()=>{p(),v=class{static async render(){let e=await f.getTableData(`users`),t=e.map(e=>`
       <tr>
@@ -533,89 +539,98 @@
         </div>
       </div>
     
-    `}static bindEvents(e){let t=document.getElementById(`examPlanModal`);if(!t)return;let n=new bootstrap.Modal(t),r=document.getElementById(`examPlanForm`),i=document.getElementById(`ep-start`),a=document.getElementById(`ep-end`),o=document.getElementById(`ep-error`),s=document.getElementById(`ep-submit-btn`),c=()=>{let e=new Date(i.value),t=new Date(a.value);e&&t&&e>=t?(o.style.display=`block`,s.disabled=!0):(o.style.display=`none`,s.disabled=!1)};i.addEventListener(`change`,c),a.addEventListener(`change`,c),document.querySelectorAll(`.edit-plan-btn`).forEach(t=>{t.addEventListener(`click`,t=>{let o=t.currentTarget.getAttribute(`data-id`),s=e.find(e=>e.id===o);s&&(r.reset(),document.getElementById(`ep-id`).value=o,document.getElementById(`ep-name`).textContent=`${s.academicYear}-${s.semester} ${s.examName}`,s.uploadStart&&(i.value=s.uploadStart.slice(0,16)),s.uploadEnd&&(a.value=s.uploadEnd.slice(0,16)),c(),n.show())})}),r.addEventListener(`submit`,async e=>{if(e.preventDefault(),new Date(i.value)>=new Date(a.value))return;s.disabled=!0,s.innerHTML=`<span class="spinner-border spinner-border-sm me-2"></span>儲存中...`;let t=document.getElementById(`ep-id`).value;try{let e=i.value+`:00`,r=a.value+`:00`;await f.updateTableRow(`settings`,`id`,t,{uploadStart:e,uploadEnd:r}),n.hide(),window.location.reload()}catch(e){alert(`儲存失敗: `+e.message),s.disabled=!1,s.innerHTML=`儲存設定`}})}}}));t((()=>{r(),l(),d(),_(),y(),x(),C(),T(),document.getElementById(`user-display-name`).textContent=`載入中...`;var e=e=>{document.getElementById(`user-display-name`).textContent=e.name+(e.role===`admin`?` (管理員)`:``),e.role===`admin`&&document.querySelectorAll(`.admin-menu-item`).forEach(e=>e.classList.remove(`d-none`))};u.getUserInfo().then(t=>{e(t)}).catch(t=>{console.log(`Using Mock API due to:`,t.message),c.getUserInfo().then(t=>{e(t)}),window.ApiService=c}),window.ApiService=typeof google<`u`&&google.script?u:c,new n({"/":()=>g.render(),"/admin/exam-plans":()=>w.render(),"/admin/subjects":()=>S.render(),"/admin/classes":()=>b.render(),"/admin/users":()=>v.render(),"*":()=>`
+    `}static bindEvents(e){let t=document.getElementById(`examPlanModal`);if(!t)return;let n=new bootstrap.Modal(t),r=document.getElementById(`examPlanForm`),i=document.getElementById(`ep-start`),a=document.getElementById(`ep-end`),o=document.getElementById(`ep-error`),s=document.getElementById(`ep-submit-btn`),c=()=>{let e=new Date(i.value),t=new Date(a.value);e&&t&&e>=t?(o.style.display=`block`,s.disabled=!0):(o.style.display=`none`,s.disabled=!1)};i.addEventListener(`change`,c),a.addEventListener(`change`,c),document.querySelectorAll(`.edit-plan-btn`).forEach(t=>{t.addEventListener(`click`,t=>{let o=t.currentTarget.getAttribute(`data-id`),s=e.find(e=>e.id===o);s&&(r.reset(),document.getElementById(`ep-id`).value=o,document.getElementById(`ep-name`).textContent=`${s.academicYear}-${s.semester} ${s.examName}`,s.uploadStart&&(i.value=s.uploadStart.slice(0,16)),s.uploadEnd&&(a.value=s.uploadEnd.slice(0,16)),c(),n.show())})}),r.addEventListener(`submit`,async e=>{if(e.preventDefault(),new Date(i.value)>=new Date(a.value))return;s.disabled=!0,s.innerHTML=`<span class="spinner-border spinner-border-sm me-2"></span>儲存中...`;let t=document.getElementById(`ep-id`).value;try{let e=i.value+`:00`,r=a.value+`:00`;await f.updateTableRow(`settings`,`id`,t,{uploadStart:e,uploadEnd:r}),n.hide(),window.location.reload()}catch(e){alert(`儲存失敗: `+e.message),s.disabled=!1,s.innerHTML=`儲存設定`}})}}}));t((()=>{r(),l(),d(),_(),y(),x(),C(),T(),document.getElementById(`user-display-name`).textContent=`載入中...`;var e=e=>{document.getElementById(`user-display-name`).textContent=e.name+(e.role===`admin`?` (管理員)`:``),e.role===`admin`?(document.querySelectorAll(`.admin-menu-item`).forEach(e=>e.classList.remove(`d-none`)),document.body.classList.remove(`teacher-mode`)):document.body.classList.add(`teacher-mode`)};u.getUserInfo().then(t=>{e(t)}).catch(t=>{console.log(`Using Mock API due to:`,t.message),c.getUserInfo().then(t=>{e(t)}),window.ApiService=c}),window.ApiService=typeof google<`u`&&google.script?u:c,new n({"/":()=>g.render(),"/admin/exam-plans":()=>w.render(),"/admin/subjects":()=>S.render(),"/admin/classes":()=>b.render(),"/admin/users":()=>v.render(),"*":()=>`
     <div class="text-center py-5">
       <h1 class="display-4 text-secondary">404</h1>
       <p class="lead">頁面不存在</p>
     </div>
   `},`app-content`),document.getElementById(`sidebar-toggle`).addEventListener(`click`,()=>{document.getElementById(`sidebar`).classList.toggle(`show`)});async function t(){try{let e=await c.getUserInfo();document.getElementById(`user-display-name`).textContent=`${e.name} (${e.role===`admin`?`管理員`:`教師`})`;let t=await c.getTableData(`users`),n=await c.getTableData(`settings`);console.log(`[Mock API] System initialized with ${t.length} users and ${n.length} active exam schedules.`)}catch(e){console.error(`App init failed:`,e)}}t()}))();</script>
-    <style rel="stylesheet" crossorigin>:root{--primary-color:#4361ee;--primary-hover:#3f37c9;--secondary-bg:#f8f9fa;--sidebar-width:260px;--text-dark:#212529;--text-muted:#6c757d;--font-family-base:"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;--transition-speed:.3s}body{font-family:var(--font-family-base);color:var(--text-dark);overflow-x:hidden;background-color:#f0f4f8!important}.app-layout{min-height:100vh;display:flex}.sidebar{width:var(--sidebar-width);z-index:1000;height:100vh;transition:transform var(--transition-speed) cubic-bezier(.4, 0, .2, 1);background:#fff;flex-direction:column;display:flex;position:fixed;top:0;left:0;box-shadow:4px 0 15px #00000008}.sidebar-header{border-bottom:1px solid #0000000d;align-items:center;padding:1.5rem;display:flex}.sidebar-heading{letter-spacing:1px;color:var(--text-muted);font-size:.75rem}.sidebar-nav .nav-item{margin-bottom:.2rem;padding:0 .8rem}.sidebar-nav .nav-link{color:var(--text-muted);border-radius:8px;align-items:center;padding:.75rem 1rem;font-weight:500;transition:all .2s ease-in-out;display:flex}.sidebar-nav .nav-link.active,.sidebar-nav .nav-link:hover{color:var(--primary-color);background-color:#4361ee14}.sidebar-nav .nav-link i{transition:transform .2s}.sidebar-nav .nav-link:hover i{transform:scale(1.1)}#main-wrapper{margin-left:var(--sidebar-width);min-height:100vh;transition:margin-left var(--transition-speed) cubic-bezier(.4, 0, .2, 1);flex-direction:column;flex-grow:1;display:flex}.topnav{-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);margin-top:1rem;margin-left:1rem;margin-right:1rem;background:#fff!important;border-radius:12px!important}.user-profile{border-radius:50px;align-items:center;padding:.5rem 1rem;transition:background .2s;display:flex}.user-profile:hover{background:var(--secondary-bg)}@media (width<=768px){.sidebar{transform:translate(-100%)}.sidebar.show{transform:translate(0)}#main-wrapper{margin-left:0}}
+  <style rel="stylesheet" crossorigin>:root{--primary-color:#4361ee;--primary-hover:#3f37c9;--secondary-bg:#f8f9fa;--sidebar-width:260px;--text-dark:#212529;--text-muted:#6c757d;--font-family-base:"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;--transition-speed:.3s}body{font-family:var(--font-family-base);color:var(--text-dark);overflow-x:hidden;background-color:#f0f4f8!important}.app-layout{min-height:100vh;display:flex}.sidebar{width:var(--sidebar-width);z-index:1000;height:100vh;transition:transform var(--transition-speed) cubic-bezier(.4, 0, .2, 1);background:#fff;flex-direction:column;display:flex;position:fixed;top:0;left:0;box-shadow:4px 0 15px #00000008}.sidebar-header{border-bottom:1px solid #0000000d;align-items:center;padding:1.5rem;display:flex}.sidebar-heading{letter-spacing:1px;color:var(--text-muted);font-size:.75rem}.sidebar-nav .nav-item{margin-bottom:.2rem;padding:0 .8rem}.sidebar-nav .nav-link{color:var(--text-muted);border-radius:8px;align-items:center;padding:.75rem 1rem;font-weight:500;transition:all .2s ease-in-out;display:flex}.sidebar-nav .nav-link.active,.sidebar-nav .nav-link:hover{color:var(--primary-color);background-color:#4361ee14}.sidebar-nav .nav-link i{transition:transform .2s}.sidebar-nav .nav-link:hover i{transform:scale(1.1)}#main-wrapper{margin-left:var(--sidebar-width);min-height:100vh;transition:margin-left var(--transition-speed) cubic-bezier(.4, 0, .2, 1);flex-direction:column;flex-grow:1;display:flex}.topnav{-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);margin-top:1rem;margin-left:1rem;margin-right:1rem;background:#fff!important;border-radius:12px!important}body:not(.teacher-mode) .topnav-brand{display:none!important}.user-profile{border-radius:50px;align-items:center;padding:.5rem 1rem;transition:background .2s;display:flex}.user-profile:hover{background:var(--secondary-bg)}@media (width<=768px){.sidebar{transform:translate(-100%)}.sidebar.show{transform:translate(0)}#main-wrapper{margin-left:0}body:not(.teacher-mode) .topnav-brand{display:flex!important}}body.teacher-mode .sidebar{display:none!important}body.teacher-mode #main-wrapper{margin-left:0!important}body.teacher-mode #sidebar-toggle{display:none!important}
 /*$vite$:1*/</style>
-  </head>
-  <body class="bg-body-tertiary">
-    <div class="app-layout">
-      
-      <!-- Sidebar Navigation -->
-      <nav id="sidebar" class="sidebar">
-        <div class="sidebar-header">
-          <i class="bi bi-cloud-arrow-up-fill fs-3 text-primary"></i>
-          <span class="fs-5 fw-bold ms-2 mt-1">試卷上傳系統</span>
-        </div>
-        
-        <ul class="nav flex-column sidebar-nav mt-4" id="nav-links">
-          <li class="nav-item">
-            <a href="#/" class="nav-link active" data-path="/">
-              <i class="bi bi-speedometer2 me-2"></i> 試卷上傳情形
-            </a>
-          </li>
-          
-          <h6 class="sidebar-heading px-3 mt-4 mb-2 text-primary-emphasis text-uppercase fw-bold admin-menu-item d-none">
-            <span>行政管理</span>
-          </h6>
-          <li class="nav-item admin-menu-item d-none">
-            <a href="#/admin/exam-plans" class="nav-link" data-path="/admin/exam-plans">
-              <i class="bi bi-calendar3 me-2"></i> 考試分項管理
-            </a>
-          </li>
-          <li class="nav-item admin-menu-item d-none">
-            <a href="#/admin/subjects" class="nav-link" data-path="/admin/subjects">
-              <i class="bi bi-book me-2"></i> 科目管理
-            </a>
-          </li>
-          <li class="nav-item admin-menu-item d-none">
-            <a href="#/admin/classes" class="nav-link" data-path="/admin/classes">
-              <i class="bi bi-diagram-3 me-2"></i> 群科班級管理
-            </a>
-          </li>
-          <li class="nav-item admin-menu-item d-none">
-            <a href="#/admin/users" class="nav-link" data-path="/admin/users">
-              <i class="bi bi-people me-2"></i> 帳號管理
-            </a>
-          </li>
-        </ul>
-      </nav>
+</head>
 
-      <!-- Main Content Wrapper -->
-      <div id="main-wrapper">
-        
-        <!-- Top Navigation -->
-        <header id="topnav" class="topnav shadow-sm p-3 mb-4 bg-white rounded flex-shrink-0">
-          <div class="d-flex justify-content-between align-items-center w-100">
-            <button class="btn btn-light d-md-none me-3" id="sidebar-toggle">
-              <i class="bi bi-list fs-4"></i>
-            </button>
-            
-            <div class="ms-auto d-flex align-items-center dropdown">
-              <div class="user-profile me-2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-person-circle fs-4 text-primary me-2"></i>
-                <span class="fw-semibold text-secondary" id="user-display-name">載入中...</span>
-              </div>
-              <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2">
-                <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-box-arrow-right me-2"></i>登出</a></li>
-              </ul>
-            </div>
-          </div>
-        </header>
+<body class="bg-body-tertiary">
+  <div class="app-layout">
 
-        <!-- Router Outlet -->
-        <main id="app-content" class="container-fluid px-md-4 pb-5 flex-grow-1">
-          <!-- Views will be injected here -->
-        </main>
+    <!-- Sidebar Navigation -->
+    <nav id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <i class="bi bi-cloud-arrow-up-fill fs-3 text-primary"></i>
+        <span class="fs-5 fw-bold ms-2 mt-1">試卷上傳系統</span>
       </div>
 
+      <ul class="nav flex-column sidebar-nav mt-4" id="nav-links">
+        <li class="nav-item">
+          <a href="#/" class="nav-link active" data-path="/">
+            <i class="bi bi-speedometer2 me-2"></i> 試卷上傳情形
+          </a>
+        </li>
+
+        <h6 class="sidebar-heading px-3 mt-4 mb-2 text-primary-emphasis text-uppercase fw-bold admin-menu-item d-none">
+          <span>行政管理</span>
+        </h6>
+        <li class="nav-item admin-menu-item d-none">
+          <a href="#/admin/exam-plans" class="nav-link" data-path="/admin/exam-plans">
+            <i class="bi bi-calendar3 me-2"></i> 考試分項管理
+          </a>
+        </li>
+        <li class="nav-item admin-menu-item d-none">
+          <a href="#/admin/subjects" class="nav-link" data-path="/admin/subjects">
+            <i class="bi bi-book me-2"></i> 科目管理
+          </a>
+        </li>
+        <li class="nav-item admin-menu-item d-none">
+          <a href="#/admin/classes" class="nav-link" data-path="/admin/classes">
+            <i class="bi bi-diagram-3 me-2"></i> 群科班級管理
+          </a>
+        </li>
+        <li class="nav-item admin-menu-item d-none">
+          <a href="#/admin/users" class="nav-link" data-path="/admin/users">
+            <i class="bi bi-people me-2"></i> 帳號管理
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Main Content Wrapper -->
+    <div id="main-wrapper">
+
+      <!-- Top Navigation -->
+      <header id="topnav" class="topnav shadow-sm p-3 mb-4 bg-white rounded flex-shrink-0">
+        <div class="d-flex align-items-center position-relative w-100">
+          <button class="btn btn-light d-md-none me-3 z-2" id="sidebar-toggle">
+            <i class="bi bi-list fs-4"></i>
+          </button>
+
+          <div class="d-flex align-items-center z-2 topnav-brand">
+            <i class="bi bi-cloud-arrow-up-fill fs-3 text-primary me-2"></i>
+            <span class="fs-5 fw-bold text-dark mt-1">試卷上傳系統</span>
+          </div>
+
+          <div class="position-absolute start-50 translate-middle-x z-1 text-center w-100 d-none d-md-block"
+            id="global-page-title-container" style="pointer-events: none;">
+            <!-- View titles will be injected here -->
+          </div>
+
+          <div class="ms-auto d-flex align-items-center z-2">
+            <div class="user-profile me-2">
+              <i class="bi bi-person-circle fs-3 text-primary me-2"></i>
+              <span class="fw-bold text-dark fs-5" id="user-display-name">載入中...</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Router Outlet -->
+      <main id="app-content" class="container-fluid px-md-4 pb-5 flex-grow-1">
+        <!-- Views will be injected here -->
+      </main>
     </div>
 
-    <!-- Bootstrap 5 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+  </div>
+
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
 </html>
