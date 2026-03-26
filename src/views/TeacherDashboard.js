@@ -3,6 +3,12 @@ import { UploadModal } from "../components/UploadModal.js";
 
 export class TeacherDashboard {
   static async render() {
+    // Inject page title into TopNav
+    const pageTitleContainer = document.getElementById('global-page-title-container');
+    if (pageTitleContainer) {
+        pageTitleContainer.innerHTML = '<h3 class="fw-bold mb-0 text-dark" style="pointer-events: auto;"><i class="bi bi-list-task text-primary me-2"></i>試卷上傳情形</h3>';
+    }
+
     const user = await ApiService.getUserInfo();
     const settings = await ApiService.getTableData("settings");
     let pendingUploads = [];
@@ -210,11 +216,7 @@ export class TeacherDashboard {
     }, 0);
 
     return `
-        <div class="d-flex justify-content-center align-items-center mb-5 mt-4">
-            <h2 class="fw-bold mb-0 text-dark"><i class="bi bi-list-task text-primary me-2"></i>試卷上傳情形</h2>
-        </div>
-        
-        <div class="row mb-5 justify-content-center g-4">
+        <div class="row mb-5 justify-content-center g-4 mt-1">
             <div class="col-6 col-md-3">
                 <div class="card p-4 shadow-sm border-0 text-center rounded-4 h-100 bg-white">
                     <h5 class="text-muted mb-3 fw-semibold">需上傳考卷數</h5>

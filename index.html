@@ -62,12 +62,16 @@
         
         <!-- Top Navigation -->
         <header id="topnav" class="topnav shadow-sm p-3 mb-4 bg-white rounded flex-shrink-0">
-          <div class="d-flex justify-content-between align-items-center w-100">
-            <button class="btn btn-light d-md-none me-3" id="sidebar-toggle">
+          <div class="d-flex align-items-center position-relative w-100">
+            <button class="btn btn-light d-md-none me-3 z-2" id="sidebar-toggle">
               <i class="bi bi-list fs-4"></i>
             </button>
             
-            <div class="ms-auto d-flex align-items-center dropdown">
+            <div class="position-absolute start-50 translate-middle-x z-1 text-center w-100 d-none d-md-block" id="global-page-title-container" style="pointer-events: none;">
+              <!-- View titles will be injected here -->
+            </div>
+
+            <div class="ms-auto d-flex align-items-center dropdown z-2">
               <div class="user-profile me-2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-person-circle fs-3 text-primary me-2"></i>
                 <span class="fw-bold text-dark fs-5" id="user-display-name">載入中...</span>
