@@ -174,8 +174,8 @@ export class TeacherDashboard {
                             <div class="col-5 d-flex align-items-start ps-0">
                                 <i class="bi bi-files fs-4 fw-bold text-secondary me-2 align-self-start mt-1"></i>
                                 <div>
-                                    <strong class="d-block text-muted fs-6 mb-1">試卷頁數</strong>
-                                    <span class="fs-5 text-dark fw-medium">${ex.pageCount > 0 ? ex.pageCount + ' 頁' : "未填寫"}</span>
+                                    <strong class="d-block text-muted fs-6 mb-1">試卷張數</strong>
+                                    <span class="fs-5 text-dark fw-medium">${ex.pageCount > 0 ? ex.pageCount + " 頁" : "未填寫"}</span>
                                 </div>
                             </div>
                         </div>

@@ -6,103 +6,103 @@ export class UploadModal {
     if (!document.getElementById("uploadModal")) {
       const modalHtml = `
         <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true" data-bs-backdrop="static">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title fw-bold" id="uploadModalLabel">上傳試卷</h5>
+          <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+              <div class="modal-header border-bottom-0 px-4 pt-4 pb-0">
+                <h4 class="modal-title fw-bold text-dark" id="uploadModalLabel"><i class="bi bi-cloud-arrow-up-fill text-primary me-2"></i>上傳試卷</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <div class="modal-body">
-                <div class="alert alert-info mb-3">
-                  <i class="bi bi-info-circle-fill me-2"></i>
-                  <strong>操作說明：</strong>請先選擇閱卷方式並上傳檔案，「確認上傳」按鈕才會啟用。
+              <div class="modal-body p-4">
+                
+                <div class="row mb-4 g-3">
+                  <div class="col-md-6">
+                    <div class="bg-light p-3 rounded-4 h-100 border border-secondary-subtle">
+                      <p class="mb-2 text-muted small fw-bold">目前的上傳科目</p>
+                      <h5 class="fw-bold text-dark mb-2" id="modal-exam-subject">載入中...</h5>
+                      <div class="d-flex align-items-center text-primary fw-medium">
+                        <i class="bi bi-people me-2"></i> <span id="modal-exam-class">載入中...</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="bg-danger-subtle text-danger-emphasis p-3 rounded-4 h-100 border border-danger-subtle">
+                      <p class="mb-2 text-danger fw-bold small"><i class="bi bi-exclamation-triangle-fill me-1"></i> 注意事項</p>
+                      <ul class="mb-0 ps-3 small fw-medium">
+                        <li class="mb-1">請將題目與答案卷合併為單一 PDF</li>
+                        <li class="text-danger fw-bold">絕對請勿上傳解答！</li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
 
-                <div class="mb-3">
-                  <p class="mb-1">
-                    <strong>科目: </strong>
-                    <span id="modal-exam-subject"></span>
-                  </p>
-                  <p class="mb-1">
-                    <strong>適用班級: </strong>
-                    <span id="modal-exam-class"></span>
-                  </p>
-                  <p class="mb-1"><strong>注意事項:</strong></p>
-                  <ul>
-                    <li>請將題目卷與答案卷合併在同一個 PDF 檔案</li>
-                    <li class="text-danger">請勿上傳解答！請勿上傳解答！請勿上傳解答！</li>
-                  </ul>
-                </div>
-
-                <form id="uploadForm">
+                <form id="uploadForm" class="px-2">
                   <input type="hidden" id="modal-exam-id">
                   <input type="hidden" id="modal-exam-table">
                   <input type="hidden" id="modal-exam-name-hidden">
 
-                  <div class="mb-3">
-                    <label class="form-label"><span class="text-danger">*</span> 請選擇閱卷方式：</label>
-                    <div class="form-check form-switch">
-                      <input class="form-check-input border-dark border-1" type="radio" role="switch" name="markingType" id="marking_human" value="人工閱卷" required>
-                      <label class="form-check-label" for="marking_human">人工閱卷</label>
-                    </div>
-                    <div class="form-check form-switch">
-                      <input class="form-check-input border-dark border-1" type="radio" role="switch" name="markingType" id="marking_computer" value="電腦閱卷">
-                      <label class="form-check-label" for="marking_computer">電腦閱卷</label>
-                    </div>
-                    <div class="form-check form-switch">
-                      <input class="form-check-input border-dark border-1" type="radio" role="switch" name="markingType" id="marking_both" value="人工閱卷+電腦閱卷">
-                      <label class="form-check-label" for="marking_both">人工閱卷+電腦閱卷</label>
+                  <div class="mb-4">
+                    <label class="form-label fw-bold text-dark"><span class="text-danger me-1">*</span>閱卷方式：</label>
+                    <div class="d-flex flex-wrap gap-3 mt-2">
+                        <div class="form-check form-check-inline bg-light border border-secondary-subtle px-4 py-3 rounded-3 m-0 flex-grow-1" style="cursor:pointer;" onclick="document.getElementById('marking_human').click()">
+                            <input class="form-check-input ms-0 me-2" type="radio" name="markingType" id="marking_human" value="人工閱卷" required>
+                            <label class="form-check-label fw-medium stretched-link" for="marking_human">人工閱卷</label>
+                        </div>
+                        <div class="form-check form-check-inline bg-light border border-secondary-subtle px-4 py-3 rounded-3 m-0 flex-grow-1" style="cursor:pointer;" onclick="document.getElementById('marking_computer').click()">
+                            <input class="form-check-input ms-0 me-2" type="radio" name="markingType" id="marking_computer" value="電腦閱卷">
+                            <label class="form-check-label fw-medium stretched-link" for="marking_computer">電腦閱卷</label>
+                        </div>
+                        <div class="form-check form-check-inline bg-light border border-secondary-subtle px-4 py-3 rounded-3 m-0 flex-grow-1" style="cursor:pointer;" onclick="document.getElementById('marking_both').click()">
+                            <input class="form-check-input ms-0 me-2" type="radio" name="markingType" id="marking_both" value="人工閱卷+電腦閱卷">
+                            <label class="form-check-label fw-medium stretched-link" for="marking_both">人工 + 電腦閱卷</label>
+                        </div>
                     </div>
                   </div>
 
-                  <div class="mb-3">
-                    <label class="form-label"><span class="text-danger">*</span> 請選擇要上傳的 PDF 檔案：</label>
+                  <div class="mb-4">
+                    <label class="form-label fw-bold text-dark"><span class="text-danger me-1">*</span>試卷 PDF 檔案：</label>
                     <input type="file" id="examFile" accept=".pdf" class="d-none">
-                    <div class="input-group">
-                        <label class="btn btn-outline-secondary" for="examFile">瀏覽檔案</label>
-                        <input type="text" class="form-control border-dark" placeholder="未選擇任何檔案" aria-label="檔案名稱" readonly id="uploadFileDisplay">
+                    <div class="input-group input-group-lg shadow-sm">
+                        <label class="btn btn-primary px-4 fw-bold" for="examFile"><i class="bi bi-folder2-open me-2"></i>瀏覽檔案</label>
+                        <input type="text" class="form-control bg-white" placeholder="未選擇任何檔案" aria-label="檔案名稱" readonly id="uploadFileDisplay" style="cursor: pointer;" onclick="document.getElementById('examFile').click()">
                     </div>
-                    <div class="form-text mt-1">
-                        <i class="bi bi-info-circle me-1"></i>檔案大小限制為 10MB
+                    <div class="form-text mt-2 text-muted fw-medium">
+                        <i class="bi bi-file-earmark-pdf text-danger me-1"></i> 檔案格式限 PDF，大小限制 10MB
                     </div>
-                    <div class="form-text text-danger mt-1" id="fileErrorMsg" style="display:none;"></div>
+                    <div class="form-text text-danger mt-1 fw-bold" id="fileErrorMsg" style="display:none;"></div>
                   </div>
 
-                  <div class="mb-3">
-                    <label class="form-label" for="pageCount">
-                        <span class="text-danger">*</span> 試卷張數：
+                  <div class="mb-4">
+                    <label class="form-label fw-bold text-dark" for="pageCount">
+                        <span class="text-danger me-1">*</span>試卷張數：
                     </label>
-                    <input type="number" class="form-control border-dark" id="pageCount" min="1" required placeholder="請輸入試卷張數">
-                    <div class="form-text mt-2">
-                        <i class="bi bi-info-circle me-1"></i>試卷總張數（必填，最小值為 1）
-                        <ul>
-                            <li>試卷與答題卷請一起計算</li>
-                            <li>一律採 B4 雙面列印，如需單面列印或其他需求請轉告教學組 #2304。</li>
-                            <li>(EX: 4 頁試卷 = 2 張，2 頁試卷 + 1 頁答題卷 = 2 張。假如 5 頁試卷打 5 張，皆認定為單面列印之意)</li>
-                        </ul>
+                    <input type="number" class="form-control form-control-lg bg-light" id="pageCount" min="1" required placeholder="請輸入需要的列印張數（單面為 1 張）">
+                    <div class="form-text mt-2 small text-muted">
+                        <i class="bi bi-info-circle me-1"></i> 請合併計算試卷與答題卷總列印張數 (以 B4 雙面列印為單位，若單面即視為 1 張)。特殊需求請洽教學組 #2304。
                     </div>
                   </div>
 
-                  <div class="mb-3" id="listeningExamSection" style="display: none;">
-                    <label class="form-label"><span class="text-danger">*</span> 是否包含英聽加考：</label>
-                    <div class="form-check">
-                      <input class="form-check-input border-dark" type="radio" name="hasListeningExam" id="listening_yes" value="true">
-                      <label class="form-check-label" for="listening_yes">是</label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input border-dark" type="radio" name="hasListeningExam" id="listening_no" value="false">
-                      <label class="form-check-label" for="listening_no">否</label>
+                  <div class="mb-4 bg-warning-subtle p-3 rounded-3 border border-warning-subtle" id="listeningExamSection" style="display: none;">
+                    <label class="form-label fw-bold text-dark mb-3"><span class="text-danger me-1">*</span>此份英語文試卷是否包含「英聽加考」？</label>
+                    <div class="d-flex gap-4">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="hasListeningExam" id="listening_yes" value="true">
+                            <label class="form-check-label fw-medium" for="listening_yes">是，含英聽</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="hasListeningExam" id="listening_no" value="false">
+                            <label class="form-check-label fw-medium" for="listening_no">否，無英聽</label>
+                        </div>
                     </div>
                   </div>
                 </form>
               </div>
 
-              <div class="modal-footer d-flex justify-content-between">
-                <div id="buttonDisabledMessage" class="text-danger fw-bold small">請選擇 閱卷方式、檔案、張數</div>
+              <div class="modal-footer border-top-0 px-4 pb-4 pt-0 d-flex justify-content-between align-items-center">
+                <div id="buttonDisabledMessage" class="text-danger fw-bold small"><i class="bi bi-shield-exclamation me-1"></i> 請完成所有必填欄位</div>
                 <div>
-                  <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">取消</button>
-                  <button type="button" id="submitUploadBtn" class="btn btn-primary text-white ms-2" disabled>
-                    <i class="bi bi-upload me-1"></i> 確認上傳
+                  <button type="button" class="btn btn-light fw-bold px-4 rounded-pill" data-bs-dismiss="modal">取消</button>
+                  <button type="button" id="submitUploadBtn" class="btn btn-primary fw-bold px-4 ms-2 rounded-pill shadow-sm" disabled>
+                    <i class="bi bi-send me-2"></i>確認上傳
                   </button>
                 </div>
               </div>
