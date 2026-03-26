@@ -125,7 +125,7 @@
             </div>
           </div>
         </div>
-      `),this.bindEvents())}static bindEvents(){let e=document.getElementById(`uploadForm`),t=document.querySelectorAll(`input[name="markingType"]`),n=document.getElementById(`pageCount`),r=document.getElementById(`examFile`),i=document.getElementById(`uploadFileDisplay`),a=document.getElementById(`submitUploadBtn`),o=document.getElementById(`fileErrorMsg`),s=document.getElementById(`buttonDisabledMessage`),c=document.querySelectorAll(`input[name="hasListeningExam"]`),l=document.getElementById(`listeningExamSection`),u=()=>{let e=!0;Array.from(t).find(e=>e.checked)||(e=!1),(n.value===``||parseInt(n.value)<1)&&(e=!1);let u=r.files[0];u?i.value=u.name:i.value=``,u?u.type===`application/pdf`?u.size>10*1024*1024?(o.textContent=`檔案大小不可超過 10MB！`,o.style.display=`block`,e=!1):o.style.display=`none`:(o.textContent=`只允許上傳 PDF 檔案！`,o.style.display=`block`,e=!1):e=!1,l.style.display!==`none`&&(Array.from(c).find(e=>e.checked)||(e=!1)),a.disabled=!e,s.style.display=e?`none`:`block`};t.forEach(e=>e.addEventListener(`change`,u)),c.forEach(e=>e.addEventListener(`change`,u)),n.addEventListener(`input`,u),r.addEventListener(`change`,u),a.addEventListener(`click`,async()=>{let e=a,t=e.innerHTML;e.disabled=!0,e.innerHTML=`<span class="spinner-border spinner-border-sm me-2"></span>上傳中...`;try{let e=await(e=>new Promise((t,n)=>{let r=new FileReader;r.readAsDataURL(e),r.onload=()=>t(r.result.split(`,`)[1]),r.onerror=e=>n(e)}))(r.files[0]),t=document.getElementById(`modal-exam-table`).value,i=document.getElementById(`modal-exam-id`).value,a=Array.from(document.querySelectorAll(`input[name="markingType"]`)).find(e=>e.checked)?.value,o={base64Data:e,examTable:t,examId:i,examName:document.getElementById(`modal-exam-name-hidden`).value,department:window.__currentExamContext.department,subject:window.__currentExamContext.subject,markingType:a,pageCount:parseInt(n.value)};window.__currentExamContext.subject===`英語文`&&(o.hasListeningExam=document.getElementById(`listening_yes`).checked),await f.uploadExamPaper(o);let s=document.getElementById(`uploadModal`);bootstrap.Modal.getInstance(s).hide(),window.location.reload()}catch(e){console.error(e),alert(`上傳失敗：`+e.message)}finally{e.innerHTML=t,e.disabled=!1}}),document.getElementById(`uploadModal`).addEventListener(`hidden.bs.modal`,function(){e.reset(),a.disabled=!0,o.style.display=`none`})}static show(e){if(this.init(),document.getElementById(`modal-exam-subject`).textContent=`${e.department} ${e.grade}年級 ${e.subject}`,document.getElementById(`modal-exam-class`).textContent=`${e.applicableClass||`全體班級`}`,document.getElementById(`modal-exam-id`).value=e.id,document.getElementById(`modal-exam-table`).value=e.table,document.getElementById(`modal-exam-name-hidden`).value=e.examName,document.querySelectorAll(`input[name="markingType"]`).forEach(e=>e.checked=!1),e.markingType){let t=Array.from(document.querySelectorAll(`input[name="markingType"]`)).find(t=>t.value===e.markingType);t&&(t.checked=!0)}let t=document.getElementById(`listeningExamSection`);e.subject===`英語文`?(t.style.display=`block`,e.hasListeningExam===!0?document.getElementById(`listening_yes`).checked=!0:document.getElementById(`listening_no`).checked=!0):(t.style.display=`none`,document.getElementById(`listening_yes`).checked=!1,document.getElementById(`listening_no`).checked=!1),e.pageCount!==void 0&&e.pageCount!==``?document.getElementById(`pageCount`).value=e.pageCount:document.getElementById(`pageCount`).value=``,document.getElementById(`uploadFileDisplay`).value=``,document.getElementById(`buttonDisabledMessage`).style.display=`block`,window.__currentExamContext={examName:e.examName,department:e.department,subject:e.subject},new bootstrap.Modal(document.getElementById(`uploadModal`)).show()}}})),g,_=e((()=>{p(),h(),g=class{static async render(){let e=await f.getUserInfo(),t=await f.getTableData(`settings`),n=[];window.__exams1=await f.getTableData(`exam1`),window.__exams2=await f.getTableData(`exam2`);for(let r=1;r<=4;r++){let i=r===1?window.__exams1:r===2?window.__exams2:await f.getTableData(`exam${r}`),a=t.find(e=>e.id===r.toString());if(!a)continue;let o=new Date,s=new Date(a.uploadStart),c=new Date(a.uploadEnd),l=o>=s&&o<=c,u=i.filter(t=>t.teacherEmail===e.email);for(let e of u)n.push({...e,table:`exam${r}`,settingId:a.id,academicYear:a.academicYear,semester:a.semester,examName:a.examName,uploadStart:a.uploadStart,uploadEnd:a.uploadEnd,status:l?`active`:`expired`})}if(n.length===0)return`
+      `),this.bindEvents())}static bindEvents(){let e=document.getElementById(`uploadForm`),t=document.querySelectorAll(`input[name="markingType"]`),n=document.getElementById(`pageCount`),r=document.getElementById(`examFile`),i=document.getElementById(`uploadFileDisplay`),a=document.getElementById(`submitUploadBtn`),o=document.getElementById(`fileErrorMsg`),s=document.getElementById(`buttonDisabledMessage`),c=document.querySelectorAll(`input[name="hasListeningExam"]`),l=document.getElementById(`listeningExamSection`),u=()=>{let e=!0;Array.from(t).find(e=>e.checked)||(e=!1),(n.value===``||parseInt(n.value)<1)&&(e=!1);let u=r.files[0];u?i.value=u.name:i.value=``,u?u.type===`application/pdf`?u.size>10*1024*1024?(o.textContent=`檔案大小不可超過 10MB！`,o.style.display=`block`,e=!1):o.style.display=`none`:(o.textContent=`只允許上傳 PDF 檔案！`,o.style.display=`block`,e=!1):e=!1,l.style.display!==`none`&&(Array.from(c).find(e=>e.checked)||(e=!1)),a.disabled=!e,s.style.display=e?`none`:`block`};t.forEach(e=>e.addEventListener(`change`,u)),c.forEach(e=>e.addEventListener(`change`,u)),n.addEventListener(`input`,u),r.addEventListener(`change`,u),a.addEventListener(`click`,async()=>{let e=a,t=e.innerHTML;e.disabled=!0,e.innerHTML=`<span class="spinner-border spinner-border-sm me-2"></span>上傳中...`;try{let e=await(e=>new Promise((t,n)=>{let r=new FileReader;r.readAsDataURL(e),r.onload=()=>t(r.result.split(`,`)[1]),r.onerror=e=>n(e)}))(r.files[0]),t=document.getElementById(`modal-exam-table`).value,i=document.getElementById(`modal-exam-id`).value,a=Array.from(document.querySelectorAll(`input[name="markingType"]`)).find(e=>e.checked)?.value,o={base64Data:e,examTable:t,examId:i,examName:document.getElementById(`modal-exam-name-hidden`).value,department:window.__currentExamContext.department,subject:window.__currentExamContext.subject,markingType:a,pageCount:parseInt(n.value)};window.__currentExamContext.subject===`英語文`&&(o.hasListeningExam=document.getElementById(`listening_yes`).checked),await f.uploadExamPaper(o);let s=document.getElementById(`uploadModal`);bootstrap.Modal.getInstance(s).hide(),window.location.reload()}catch(e){console.error(e),alert(`上傳失敗：`+e.message)}finally{e.innerHTML=t,e.disabled=!1}}),document.getElementById(`uploadModal`).addEventListener(`hidden.bs.modal`,function(){e.reset(),a.disabled=!0,o.style.display=`none`})}static show(e){if(this.init(),document.getElementById(`modal-exam-subject`).textContent=`${e.department} ${e.grade}年級 ${e.subject}`,document.getElementById(`modal-exam-class`).textContent=`${e.applicableClass||`全體班級`}`,document.getElementById(`modal-exam-id`).value=e.id,document.getElementById(`modal-exam-table`).value=e.table,document.getElementById(`modal-exam-name-hidden`).value=e.examName,document.querySelectorAll(`input[name="markingType"]`).forEach(e=>e.checked=!1),e.markingType){let t=Array.from(document.querySelectorAll(`input[name="markingType"]`)).find(t=>t.value===e.markingType);t&&(t.checked=!0)}let t=document.getElementById(`listeningExamSection`);e.subject===`英語文`?(t.style.display=`block`,e.hasListeningExam===!0?document.getElementById(`listening_yes`).checked=!0:document.getElementById(`listening_no`).checked=!0):(t.style.display=`none`,document.getElementById(`listening_yes`).checked=!1,document.getElementById(`listening_no`).checked=!1),e.pageCount!==void 0&&e.pageCount!==``?document.getElementById(`pageCount`).value=e.pageCount:document.getElementById(`pageCount`).value=``,document.getElementById(`uploadFileDisplay`).value=``,document.getElementById(`buttonDisabledMessage`).style.display=`block`,window.__currentExamContext={examName:e.examName,department:e.department,subject:e.subject},new bootstrap.Modal(document.getElementById(`uploadModal`)).show()}}})),g,_=e((()=>{p(),h(),g=class e{static async render(){let t=await f.getUserInfo(),n=await f.getTableData(`settings`),r=[];window.__exams1=await f.getTableData(`exam1`),window.__exams2=await f.getTableData(`exam2`);for(let e=1;e<=4;e++){let i=e===1?window.__exams1:e===2?window.__exams2:await f.getTableData(`exam${e}`),a=n.find(t=>t.id===e.toString());if(!a)continue;let o=new Date,s=new Date(a.uploadStart),c=new Date(a.uploadEnd),l=o>=s&&o<=c,u=i.filter(e=>e.teacherEmail===t.email);for(let t of u)r.push({...t,table:`exam${e}`,settingId:a.id,academicYear:a.academicYear,semester:a.semester,examName:a.examName,uploadStart:a.uploadStart,uploadEnd:a.uploadEnd,status:l?`active`:`expired`})}if(r.length===0)return`
             <div class="d-flex justify-content-between align-items-center mb-4">
               <h2 class="h3 fw-bold mb-0">試卷上傳情形</h2>
             </div>
@@ -136,40 +136,59 @@
                 <h4 class="fw-bold text-secondary mb-3">目前沒有需要上傳的試卷</h4>
                 <p class="text-muted mb-0">當教務處開放您的科目上傳時，將會顯示於此處。</p>
             </div>
-        `;let r=n.map(e=>{let t=e.status===`active`?`bg-success`:`bg-secondary`,n=e.status===`active`?`開放上傳中`:`非開放時段`,r=e.fileUrl?`<span class="badge bg-primary ms-2"><i class="bi bi-check-circle me-1"></i>已上傳</span>`:`<span class="badge border border-warning text-warning ms-2"><i class="bi bi-exclamation-circle me-1"></i>尚未上傳</span>`;return`
-            <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card h-100 shadow-sm border-0 rounded-4 hover-elevate">
-                    <div class="card-header bg-white border-0 pt-4 pb-0 d-flex justify-content-between align-items-center">
-                        <span class="badge ${t}">${n}</span>
-                        <small class="text-muted">${e.academicYear}-${e.semester}</small>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title fw-bold mb-1">${e.examName}</h5>
-                        <h6 class="card-subtitle mb-2 text-primary">[${e.department}] ${e.grade}年級 ${e.subject}</h6>
-                        <div class="text-muted small mb-3">
-                            <i class="bi bi-people me-1"></i>適用班級：${e.applicableClass||`未指定`}
-                        </div>
-                        <div class="d-flex align-items-center mb-3">
-                            <span class="text-muted small me-2">狀態:</span>
-                            ${r}
-                        </div>
-                        <p class="card-text small text-muted mb-1">
-                            <i class="bi bi-clock me-1"></i> 截止: ${new Date(e.uploadEnd).toLocaleString(`zh-TW`)}
-                        </p>
-                    </div>
-                    <div class="card-footer bg-white border-0 pb-4 pt-0">
-                        <button class="btn btn-primary w-100 rounded-pill upload-btn ${e.status===`active`?``:`disabled`}" data-table="${e.table}" data-id="${e.id}" data-settingid="${e.settingId}">
-                            <i class="bi bi-cloud-arrow-up me-2"></i> 上傳試卷
-                        </button>
-                    </div>
+        `;let i=document.createElement(`div`);return i.innerHTML=`
+        <div class="d-flex justify-content-center align-items-center mb-4 mt-2">
+            <h3 class="fw-bold mb-0 text-dark"><i class="bi bi-list-task text-success me-2"></i>試卷上傳情形</h3>
+        </div>
+        
+        <div class="row mb-4 justify-content-center">
+            <div class="col-md-3">
+                <div class="card p-3 shadow-sm border-0 text-center rounded-4">
+                    <h6 class="text-muted mb-1">總分配科目</h6>
+                    <h3 class="fw-bold text-primary mb-0">${totalExams}</h3>
                 </div>
             </div>
-        `}).join(``);return setTimeout(()=>{document.querySelectorAll(`.upload-btn`).forEach(e=>{e.addEventListener(`click`,e=>{if(e.currentTarget.classList.contains(`disabled`))return;let t=e.currentTarget.getAttribute(`data-table`),r=e.currentTarget.getAttribute(`data-id`),i=n.find(e=>e.id===r&&e.table===t);i&&m.show(i)})})},0),`
+            <div class="col-md-3">
+                <div class="card p-3 shadow-sm border-0 text-center rounded-4">
+                    <h6 class="text-muted mb-1">待上傳</h6>
+                    <h3 class="fw-bold text-warning mb-0">${pendingUploadsArr.length}</h3>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3 shadow-sm border-0 text-center rounded-4">
+                    <h6 class="text-muted mb-1">已上傳</h6>
+                    <h3 class="fw-bold text-success mb-0">${completedUploads}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <thead class="table-light text-muted">
+                        <tr>
+                            <th class="py-3" style="min-width: 120px;">考試分項</th>
+                            <th class="py-3">科目</th>
+                            <th class="py-3" style="min-width: 200px;">適用班級</th>
+                            <th class="py-3">閱卷方式</th>
+                            <th class="py-3 text-center">上傳狀態</th>
+                            <th class="py-3" style="min-width: 140px;">上傳截止時間</th>
+                            <th class="py-3" style="min-width: 150px;">剩餘時間</th>
+                            <th class="py-3 text-center" style="min-width: 120px;">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        ${e.generateExamRows(allExams,n)}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `,setTimeout(()=>{i.querySelectorAll(`.upload-btn`).forEach(e=>{e.addEventListener(`click`,e=>{let t=JSON.parse(e.currentTarget.dataset.exam);m.show(t)})}),e.countdownInterval&&clearInterval(e.countdownInterval),e.countdownInterval=setInterval(()=>{document.querySelectorAll(`.countdown-cell`).forEach(e=>{let t=e.dataset.deadline;if(!t)return;let n=new Date(t).getTime()-new Date().getTime();if(n<0){e.innerHTML=`<span class="text-danger fw-bold">已截止</span>`;return}e.textContent=`${Math.floor(n/(1e3*60*60*24))}天 ${Math.floor(n%(1e3*60*60*24)/(1e3*60*60))}小時 ${Math.floor(n%(1e3*60*60)/(1e3*60))}分 ${Math.floor(n%(1e3*60)/1e3)}秒`})},1e3)},0),`
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="h3 fw-bold mb-0">試卷上傳情形</h2>
         </div>
         <div class="row">
-            ${r}
+            ${cardsHtml}
         </div>
     `}}})),v,y=e((()=>{p(),v=class{static async render(){let e=await f.getTableData(`users`),t=e.map(e=>`
       <tr>

@@ -62,59 +62,91 @@ export class TeacherDashboard {
         `;
     }
 
-    // Task 3: Render Cards
-    const cardsHtml = pendingUploads.map(exam => {
-        const badgeColor = exam.status === 'active' ? 'bg-success' : 'bg-secondary';
-        const badgeText = exam.status === 'active' ? '開放上傳中' : '非開放時段';
-        const uploadedSign = exam.fileUrl ? 
-            `<span class="badge bg-primary ms-2"><i class="bi bi-check-circle me-1"></i>已上傳</span>` : 
-            `<span class="badge border border-warning text-warning ms-2"><i class="bi bi-exclamation-circle me-1"></i>尚未上傳</span>`;
-
-        return `
-            <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card h-100 shadow-sm border-0 rounded-4 hover-elevate">
-                    <div class="card-header bg-white border-0 pt-4 pb-0 d-flex justify-content-between align-items-center">
-                        <span class="badge ${badgeColor}">${badgeText}</span>
-                        <small class="text-muted">${exam.academicYear}-${exam.semester}</small>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title fw-bold mb-1">${exam.examName}</h5>
-                        <h6 class="card-subtitle mb-2 text-primary">[${exam.department}] ${exam.grade}年級 ${exam.subject}</h6>
-                        <div class="text-muted small mb-3">
-                            <i class="bi bi-people me-1"></i>適用班級：${exam.applicableClass || '未指定'}
-                        </div>
-                        <div class="d-flex align-items-center mb-3">
-                            <span class="text-muted small me-2">狀態:</span>
-                            ${uploadedSign}
-                        </div>
-                        <p class="card-text small text-muted mb-1">
-                            <i class="bi bi-clock me-1"></i> 截止: ${new Date(exam.uploadEnd).toLocaleString('zh-TW')}
-                        </p>
-                    </div>
-                    <div class="card-footer bg-white border-0 pb-4 pt-0">
-                        <button class="btn btn-primary w-100 rounded-pill upload-btn ${exam.status !== 'active' ? 'disabled' : ''}" data-table="${exam.table}" data-id="${exam.id}" data-settingid="${exam.settingId}">
-                            <i class="bi bi-cloud-arrow-up me-2"></i> 上傳試卷
-                        </button>
-                    </div>
+    const container = document.createElement('div');
+    container.innerHTML = `
+        <div class="d-flex justify-content-center align-items-center mb-4 mt-2">
+            <h3 class="fw-bold mb-0 text-dark"><i class="bi bi-list-task text-success me-2"></i>試卷上傳情形</h3>
+        </div>
+        
+        <div class="row mb-4 justify-content-center">
+            <div class="col-md-3">
+                <div class="card p-3 shadow-sm border-0 text-center rounded-4">
+                    <h6 class="text-muted mb-1">總分配科目</h6>
+                    <h3 class="fw-bold text-primary mb-0">${totalExams}</h3>
                 </div>
             </div>
-        `;
-    }).join('');
+            <div class="col-md-3">
+                <div class="card p-3 shadow-sm border-0 text-center rounded-4">
+                    <h6 class="text-muted mb-1">待上傳</h6>
+                    <h3 class="fw-bold text-warning mb-0">${pendingUploadsArr.length}</h3>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3 shadow-sm border-0 text-center rounded-4">
+                    <h6 class="text-muted mb-1">已上傳</h6>
+                    <h3 class="fw-bold text-success mb-0">${completedUploads}</h3>
+                </div>
+            </div>
+        </div>
 
-    // Hacky way in Vanilla JS SPA to bind events after returning string
-    // Usually you'd use lit-html or similar. We attach to a global window event or a setTimeout
+        <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <thead class="table-light text-muted">
+                        <tr>
+                            <th class="py-3" style="min-width: 120px;">考試分項</th>
+                            <th class="py-3">科目</th>
+                            <th class="py-3" style="min-width: 200px;">適用班級</th>
+                            <th class="py-3">閱卷方式</th>
+                            <th class="py-3 text-center">上傳狀態</th>
+                            <th class="py-3" style="min-width: 140px;">上傳截止時間</th>
+                            <th class="py-3" style="min-width: 150px;">剩餘時間</th>
+                            <th class="py-3 text-center" style="min-width: 120px;">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        ${TeacherDashboard.generateExamRows(allExams, settings)}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+
     setTimeout(() => {
-        document.querySelectorAll('.upload-btn').forEach(btn => {
+        const uploadBtns = container.querySelectorAll('.upload-btn');
+        uploadBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
-                if (e.currentTarget.classList.contains('disabled')) return;
-                
-                const table = e.currentTarget.getAttribute('data-table');
-                const id = e.currentTarget.getAttribute('data-id');
-                
-                const examData = pendingUploads.find(ex => ex.id === id && ex.table === table);
-                if (examData) UploadModal.show(examData);
+                const examData = JSON.parse(e.currentTarget.dataset.exam);
+                UploadModal.show(examData);
             });
         });
+
+        // Initialize Countdown Timer
+        if (TeacherDashboard.countdownInterval) clearInterval(TeacherDashboard.countdownInterval);
+        
+        TeacherDashboard.countdownInterval = setInterval(() => {
+            const cells = document.querySelectorAll('.countdown-cell');
+            cells.forEach(cell => {
+                const deadlineStr = cell.dataset.deadline;
+                if (!deadlineStr) return;
+                
+                const deadline = new Date(deadlineStr).getTime();
+                const now = new Date().getTime();
+                const distance = deadline - now;
+                
+                if (distance < 0) {
+                    cell.innerHTML = '<span class="text-danger fw-bold">已截止</span>';
+                    return;
+                }
+                
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                cell.textContent = `${days}天 ${hours}小時 ${minutes}分 ${seconds}秒`;
+            });
+        }, 1000);
     }, 0);
 
     return `
