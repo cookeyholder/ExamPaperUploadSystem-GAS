@@ -180,6 +180,8 @@ export class GasApiService {
         map["試卷張數"] = frontendData.pageCount;
       if (frontendData.fileUrl !== undefined)
         map["檔案連結"] = frontendData.fileUrl;
+      if (frontendData.hasListeningExam !== undefined)
+        map["英聽加考"] = frontendData.hasListeningExam ? "是" : "否";
     }
     return Object.keys(map).length > 0 ? map : frontendData;
   }
@@ -225,6 +227,7 @@ export class GasApiService {
         pageCount: r["試卷張數"],
         fileUrl: r["檔案連結"] || r["FileUrl"],
         applicableClass: r["適用班級"] || "",
+        hasListeningExam: r["英聽加考"] === "是",
       }));
     }
     return rawData;

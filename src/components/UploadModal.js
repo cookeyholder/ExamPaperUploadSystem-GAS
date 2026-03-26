@@ -82,6 +82,18 @@ export class UploadModal {
                         </ul>
                     </div>
                   </div>
+
+                  <div class="mb-3" id="listeningExamSection" style="display: none;">
+                    <label class="form-label"><span class="text-danger">*</span> 是否包含英聽加考：</label>
+                    <div class="form-check">
+                      <input class="form-check-input border-dark" type="radio" name="hasListeningExam" id="listening_yes" value="true">
+                      <label class="form-check-label" for="listening_yes">是</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input border-dark" type="radio" name="hasListeningExam" id="listening_no" value="false">
+                      <label class="form-check-label" for="listening_no">否</label>
+                    </div>
+                  </div>
                 </form>
               </div>
 
@@ -112,6 +124,8 @@ export class UploadModal {
     const submitBtn = document.getElementById('submitUploadBtn');
     const fileErrorMsg = document.getElementById('fileErrorMsg');
     const buttonDisabledMessage = document.getElementById('buttonDisabledMessage');
+    const listeningRadios = document.querySelectorAll('input[name="hasListeningExam"]');
+    const listeningSection = document.getElementById('listeningExamSection');
 
     const validateForm = () => {
       let isValid = true;
@@ -141,12 +155,18 @@ export class UploadModal {
           fileErrorMsg.style.display = 'none';
         }
       }
+      
+      if (listeningSection.style.display !== 'none') {
+        const hasListeningSelected = Array.from(listeningRadios).find(r => r.checked);
+        if (!hasListeningSelected) isValid = false;
+      }
 
       submitBtn.disabled = !isValid;
       buttonDisabledMessage.style.display = isValid ? 'none' : 'block';
     };
 
     markingRadios.forEach(r => r.addEventListener('change', validateForm));
+    listeningRadios.forEach(r => r.addEventListener('change', validateForm));
     pageCount.addEventListener('input', validateForm);
     examFile.addEventListener('change', validateForm);
 
@@ -186,6 +206,10 @@ export class UploadModal {
             markingType: selectedMarkingType,
             pageCount: parseInt(pageCount.value)
         };
+
+        if (window.__currentExamContext.subject === '英語文') {
+            payload.hasListeningExam = document.getElementById('listening_yes').checked;
+        }
 
         await ApiService.uploadExamPaper(payload);
 
@@ -227,6 +251,20 @@ export class UploadModal {
         if (target) target.checked = true;
     }
     
+    const listeningSection = document.getElementById('listeningExamSection');
+    if (examData.subject === '英語文') {
+        listeningSection.style.display = 'block';
+        if (examData.hasListeningExam === true) {
+            document.getElementById('listening_yes').checked = true;
+        } else {
+            document.getElementById('listening_no').checked = true;
+        }
+    } else {
+        listeningSection.style.display = 'none';
+        document.getElementById('listening_yes').checked = false;
+        document.getElementById('listening_no').checked = false;
+    }
+
     if (examData.pageCount !== undefined && examData.pageCount !== '') document.getElementById('pageCount').value = examData.pageCount;
     else document.getElementById('pageCount').value = '';
     
