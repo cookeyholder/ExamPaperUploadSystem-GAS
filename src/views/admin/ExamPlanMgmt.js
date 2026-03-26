@@ -42,15 +42,15 @@ export class ExamPlanMgmt {
       <tr>
         <td class="align-middle fw-semibold">${row.academicYear}-${row.semester}</td>
         <td class="align-middle fw-bold text-primary">${row.examName}</td>
-        <td class="align-middle small">
-          <div class="mb-1"><span class="text-muted d-inline-block" style="width:40px;">開始:</span> ${formatDt(row.uploadStart)}</div>
-          <div><span class="text-muted d-inline-block" style="width:40px;">結束:</span> ${formatDt(row.uploadEnd)}</div>
+        <td class="align-middle">
+          <div class="mb-1 fs-6"><span class="text-muted d-inline-block" style="width:44px;">開始:</span> ${formatDt(row.uploadStart)}</div>
+          <div class="fs-6"><span class="text-muted d-inline-block" style="width:44px;">結束:</span> ${formatDt(row.uploadEnd)}</div>
         </td>
         <td class="align-middle">
           ${statusHtml}
         </td>
-        <td class="align-middle text-end">
-          <button class="btn btn-sm btn-light text-primary me-2 edit-plan-btn" data-id="${row.id}">
+        <td class="align-middle text-end pe-4">
+          <button class="btn btn-sm btn-light text-primary me-2 edit-plan-btn fs-6 fw-medium" data-id="${row.id}">
             <i class="bi bi-calendar-range me-1"></i>設定時間
           </button>
         </td>
@@ -109,12 +109,12 @@ export class ExamPlanMgmt {
 
       <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
         <div class="table-responsive">
-          <table class="table table-hover mb-0 align-middle">
-            <thead class="table-light text-muted small text-uppercase">
+          <table class="table table-hover mb-0 align-middle fs-6">
+            <thead class="table-light text-muted text-uppercase">
               <tr>
                 <th class="ps-4">學年度學期</th>
                 <th>考試名稱</th>
-                <th>上傳時間窗</th>
+                <th>上傳時間起迄</th>
                 <th>狀態</th>
                 <th class="text-end pe-4">操作</th>
               </tr>
