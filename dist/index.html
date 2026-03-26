@@ -278,13 +278,91 @@
         </div>
       </div>
     
-    `}static bindEvents(e){let t=document.getElementById(`classFormModal`);if(!t)return;let n=new bootstrap.Modal(t),r=document.getElementById(`classForm`);document.getElementById(`add-class-btn`).addEventListener(`click`,()=>{r.reset(),document.getElementById(`form-mode`).value=`create`,document.getElementById(`classFormModalLabel`).textContent=`新增班級`,document.getElementById(`c-id`).readOnly=!1,n.show()}),document.querySelectorAll(`.edit-class-btn`).forEach(t=>{t.addEventListener(`click`,t=>{let i=t.currentTarget.getAttribute(`data-id`),a=e.find(e=>e.id===i);a&&(r.reset(),document.getElementById(`form-mode`).value=`edit`,document.getElementById(`original-id`).value=a.id,document.getElementById(`classFormModalLabel`).textContent=`編輯班級`,document.getElementById(`c-id`).value=a.id,document.getElementById(`c-id`).readOnly=!0,document.getElementById(`c-name`).value=a.name,n.show())})}),document.querySelectorAll(`.delete-class-btn`).forEach(e=>{e.addEventListener(`click`,async e=>{let t=e.currentTarget.getAttribute(`data-id`);if(confirm(`確定要刪除班級 ${t} 嗎？此操作無法還原。`))try{e.currentTarget.disabled=!0,await c.deleteTableRow(`classes`,`id`,t),window.location.reload()}catch(t){alert(`刪除失敗: `+t.message),e.currentTarget.disabled=!1}})}),r.addEventListener(`submit`,async t=>{t.preventDefault();let i=r.querySelector(`button[type="submit"]`);i.disabled=!0,i.innerHTML=`<span class="spinner-border spinner-border-sm me-2"></span>儲存中...`;let a=document.getElementById(`form-mode`).value,o={id:document.getElementById(`c-id`).value,name:document.getElementById(`c-name`).value};try{if(a===`create`){if(e.find(e=>e.id===o.id))throw Error(`此代碼已經存在！`);await c.addTableRow(`classes`,o)}else{let e=document.getElementById(`original-id`).value;await c.updateTableRow(`classes`,`id`,e,o)}n.hide(),window.location.reload()}catch(e){alert(`儲存失敗: `+e.message),i.disabled=!1,i.innerHTML=`儲存`}})}}}));t((()=>{r(),l(),p(),h(),_(),document.getElementById(`user-display-name`).textContent=`系統管理員`,new n({"/":()=>f.render(),"/admin/exam-plans":()=>`
+    `}static bindEvents(e){let t=document.getElementById(`classFormModal`);if(!t)return;let n=new bootstrap.Modal(t),r=document.getElementById(`classForm`);document.getElementById(`add-class-btn`).addEventListener(`click`,()=>{r.reset(),document.getElementById(`form-mode`).value=`create`,document.getElementById(`classFormModalLabel`).textContent=`新增班級`,document.getElementById(`c-id`).readOnly=!1,n.show()}),document.querySelectorAll(`.edit-class-btn`).forEach(t=>{t.addEventListener(`click`,t=>{let i=t.currentTarget.getAttribute(`data-id`),a=e.find(e=>e.id===i);a&&(r.reset(),document.getElementById(`form-mode`).value=`edit`,document.getElementById(`original-id`).value=a.id,document.getElementById(`classFormModalLabel`).textContent=`編輯班級`,document.getElementById(`c-id`).value=a.id,document.getElementById(`c-id`).readOnly=!0,document.getElementById(`c-name`).value=a.name,n.show())})}),document.querySelectorAll(`.delete-class-btn`).forEach(e=>{e.addEventListener(`click`,async e=>{let t=e.currentTarget.getAttribute(`data-id`);if(confirm(`確定要刪除班級 ${t} 嗎？此操作無法還原。`))try{e.currentTarget.disabled=!0,await c.deleteTableRow(`classes`,`id`,t),window.location.reload()}catch(t){alert(`刪除失敗: `+t.message),e.currentTarget.disabled=!1}})}),r.addEventListener(`submit`,async t=>{t.preventDefault();let i=r.querySelector(`button[type="submit"]`);i.disabled=!0,i.innerHTML=`<span class="spinner-border spinner-border-sm me-2"></span>儲存中...`;let a=document.getElementById(`form-mode`).value,o={id:document.getElementById(`c-id`).value,name:document.getElementById(`c-name`).value};try{if(a===`create`){if(e.find(e=>e.id===o.id))throw Error(`此代碼已經存在！`);await c.addTableRow(`classes`,o)}else{let e=document.getElementById(`original-id`).value;await c.updateTableRow(`classes`,`id`,e,o)}n.hide(),window.location.reload()}catch(e){alert(`儲存失敗: `+e.message),i.disabled=!1,i.innerHTML=`儲存`}})}}})),v,y=e((()=>{l(),v=class{static async render(){let e=await c.getTableData(`settings`),t=(await c.getTableData(`users`)).filter(e=>e.role===`teacher`||e.role===`admin`),n=await c.getTableData(`exam1`),r=e.find(e=>e.id===`1`)||{examName:`第一次定期考`},i=n.map(e=>{let n=t.find(t=>t.email===e.teacherEmail),r=n?n.name:`<span class="text-danger"><i class="bi bi-exclamation-circle me-1"></i>尚未指派</span>`;return`
+      <tr>
+        <td class="align-middle">${e.department}</td>
+        <td class="align-middle text-center">${e.grade}</td>
+        <td class="align-middle fw-semibold text-primary">${e.subject}</td>
+        <td class="align-middle">${r} <small class="text-muted d-block">${e.teacherEmail||``}</small></td>
+        <td class="align-middle text-end">
+          <button class="btn btn-sm btn-light text-primary me-2 edit-subject-btn" data-id="${e.id}" data-subject="${e.subject}">
+            <i class="bi bi-person-fill-add me-1"></i>指派教師
+          </button>
+          <button class="btn btn-sm btn-light text-danger delete-subject-btn" data-id="${e.id}">
+            <i class="bi bi-trash"></i>
+          </button>
+        </td>
+      </tr>
+      `}).join(``),a=`
+      <div class="modal fade" id="assignTeacherModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-light border-0">
+              <h5 class="modal-title fw-bold">設定命題教師</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+              <form id="assignTeacherForm">
+                <input type="hidden" id="s-id">
+                <div class="alert alert-info border-0 mb-4">
+                  正在為 <strong id="s-subject-name" class="text-primary"></strong> 指派命題教師
+                </div>
+                <div class="mb-4">
+                  <label class="form-label fw-semibold">選擇教師</label>
+                  <select class="form-select" id="s-teacher-email" required>
+                    <option value="" selected disabled>請選擇...</option>
+                    ${t.map(e=>`<option value="${e.email}">${e.name} (${e.email})</option>`).join(``)}
+                  </select>
+                </div>
+                <div class="d-flex justify-content-end">
+                  <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">取消</button>
+                  <button type="submit" class="btn btn-primary px-4 fw-bold">儲存設定</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;return setTimeout(()=>this.bindEvents(n),0),`
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h2 class="h3 fw-bold mb-1">科目與命題教師管理</h2>
+          <p class="text-muted mb-0">目前顯示：<span class="badge bg-primary bg-opacity-10 text-primary">${r.academicYear}-${r.semester} ${r.examName}</span></p>
+        </div>
+        <div>
+          <button class="btn btn-light shadow-sm text-primary fw-semibold me-2" id="import-subject-btn">
+            <i class="bi bi-file-earmark-excel me-1"></i> 匯入名單
+          </button>
+          <button class="btn btn-primary shadow-sm fw-semibold" id="add-subject-btn">
+            <i class="bi bi-plus-lg me-1"></i> 新增科目
+          </button>
+        </div>
+      </div>
+
+      <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0 align-middle">
+            <thead class="table-light text-muted small text-uppercase">
+              <tr>
+                <th class="ps-4">類別(群科)</th>
+                <th class="text-center">年級</th>
+                <th>科目名稱</th>
+                <th>命題教師</th>
+                <th class="text-end pe-4">操作</th>
+              </tr>
+            </thead>
+            <tbody class="border-top-0">
+              ${i}
+            </tbody>
+          </table>
+          ${n.length===0?`<div class="text-center py-5 text-muted">目前沒有資料</div>`:``}
+        </div>
+      </div>
+      ${a}
+    `}static bindEvents(e){let t=document.getElementById(`assignTeacherModal`);if(!t)return;let n=new bootstrap.Modal(t),r=document.getElementById(`assignTeacherForm`);document.querySelectorAll(`.edit-subject-btn`).forEach(t=>{t.addEventListener(`click`,t=>{let i=t.currentTarget.getAttribute(`data-id`),a=t.currentTarget.getAttribute(`data-subject`),o=e.find(e=>e.id===i);o&&(r.reset(),document.getElementById(`s-id`).value=i,document.getElementById(`s-subject-name`).textContent=a,o.teacherEmail&&(document.getElementById(`s-teacher-email`).value=o.teacherEmail),n.show())})}),document.querySelectorAll(`.delete-subject-btn`).forEach(e=>{e.addEventListener(`click`,async e=>{let t=e.currentTarget.getAttribute(`data-id`);if(confirm(`確定要刪除該筆考科資料嗎？`))try{e.currentTarget.disabled=!0,await c.deleteTableRow(`exam1`,`id`,t),window.location.reload()}catch(t){alert(`刪除失敗: `+t.message),e.currentTarget.disabled=!1}})}),r.addEventListener(`submit`,async e=>{e.preventDefault();let t=r.querySelector(`button[type="submit"]`);t.disabled=!0,t.innerHTML=`<span class="spinner-border spinner-border-sm me-2"></span>儲存中...`;let i=document.getElementById(`s-id`).value,a=document.getElementById(`s-teacher-email`).value;try{await c.updateTableRow(`exam1`,`id`,i,{teacherEmail:a}),n.hide(),window.location.reload()}catch(e){alert(`儲存失敗: `+e.message),t.disabled=!1,t.innerHTML=`儲存設定`}})}}}));t((()=>{r(),l(),p(),h(),_(),y(),document.getElementById(`user-display-name`).textContent=`系統管理員`,new n({"/":()=>f.render(),"/admin/exam-plans":()=>`
     <h2 class="h3 fw-bold mb-4">考試分項管理</h2>
     <div class="alert alert-info border-0 shadow-sm"><i class="bi bi-tools me-2"></i> 管理模組建置中...</div>
-  `,"/admin/subjects":()=>`
-    <h2 class="h3 fw-bold mb-4">科目管理</h2>
-    <div class="alert alert-info border-0 shadow-sm"><i class="bi bi-tools me-2"></i> 管理模組建置中...</div>
-  `,"/admin/classes":()=>g.render(),"/admin/users":()=>m.render(),"*":()=>`
+  `,"/admin/subjects":()=>v.render(),"/admin/classes":()=>g.render(),"/admin/users":()=>m.render(),"*":()=>`
     <div class="text-center py-5">
       <h1 class="display-4 text-secondary">404</h1>
       <p class="lead">頁面不存在</p>
