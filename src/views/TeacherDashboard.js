@@ -90,7 +90,7 @@ export class TeacherDashboard {
       validDeadlines.length > 0 ? Math.min(...validDeadlines) : null;
     const nearestDeadlineStr = nearestDeadlineMs
       ? new Date(nearestDeadlineMs).toISOString()
-      : "";
+      : "EXPIRED";
 
     const cardsHtml = pendingUploads
       .map((ex) => {
@@ -191,6 +191,10 @@ export class TeacherDashboard {
         const cells = document.querySelectorAll(".unified-countdown-cell");
         cells.forEach((cell) => {
           const deadlineStr = cell.dataset.deadline;
+          if (deadlineStr === "EXPIRED") {
+            cell.innerHTML = '<span class="text-danger fw-bold">上傳已截止</span>';
+            return;
+          }
           if (!deadlineStr) {
             cell.innerHTML =
               '<span class="text-secondary fw-bold">無截止時間</span>';

@@ -8,7 +8,7 @@ export const mockData = {
       semester: "1",
       examName: "第三次定期考",
       uploadStart: "2026-03-25T00:00:00",
-      uploadEnd: "2026-03-27T02:59:59",
+      uploadEnd: "2026-03-27T02:25:59",
     },
     {
       id: "2",
