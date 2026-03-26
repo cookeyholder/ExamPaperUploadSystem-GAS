@@ -10,6 +10,12 @@
 - ✅ **帳號白名單管理**：透過 Google 試算表直接控制可存取的使用者及其角色。
 - ✅ **本地開發支援**：使用 clasp 進行本地開發和版本控制。
 
+## 開發技術：
+1. 本專案原為基於 Django 5.2 與 Bootstrap 5 所建構，作為前端行為與規格的參考藍圖。
+2. 為了更佳的 Google 生態系整合，我們將前端重構為 **Vanilla JS SPA (Single Page Application)**。
+3. **前端建置**: 使用 **Vite** 搭配 `vite-plugin-singlefile`，將前端程式碼打包成單一的 `index.html` 供 GAS 伺服。
+4. **前端框架**: Vanilla JS + Bootstrap 5 + 客製化現代 CSS UI。包含動態 Hash Router 以無縫切換各個管理面板。
+
 ## 部署與設定指南
 
 ### 1. 建立 Google Cloud 專案與 OAuth Client ID

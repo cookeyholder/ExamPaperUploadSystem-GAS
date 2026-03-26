@@ -1,0 +1,29 @@
+{
+  "name": "exampaperuploadsystem-gas",
+  "version": "1.0.0",
+  "description": "這是一個基於 Google Apps Script 的 Web 應用程式範本，採用 Google Identity Services (GIS) 認證與 SPA (Single Page Application) 架構，具備強大的跨網域權限管理功能。",
+  "main": "Code.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cookeyholder/ExamPaperUploadSystem-GAS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/cookeyholder/ExamPaperUploadSystem-GAS/issues"
+  },
+  "homepage": "https://github.com/cookeyholder/ExamPaperUploadSystem-GAS#readme",
+  "devDependencies": {
+    "vite": "^8.0.3",
+    "vite-plugin-singlefile": "^2.3.2"
+  }
+}
