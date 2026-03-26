@@ -1,10 +1,11 @@
 import { ApiService } from "../../services/api.js";
+import { updatePageHeader } from "../../utils/ui.js";
 
 export class UserMgmt {
     static async render() {
+        updatePageHeader("帳號管理", "管理系統管理員與教師的名單、權限以及登入帳號");
         const users = await ApiService.getTableData("users");
 
-        // Task 1: Table Layout
         const rowsHtml = users
             .map(
                 (u) => `
@@ -30,7 +31,6 @@ export class UserMgmt {
             )
             .join("");
 
-        // Task 2: Create/Edit Modal Form
         const modalHtml = `
       <div class="modal fade" id="userFormModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -77,11 +77,7 @@ export class UserMgmt {
         setTimeout(() => this.bindEvents(users), 0);
 
         return `
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-          <h2 class="h3 fw-bold mb-1">帳號管理</h2>
-          <p class="text-muted mb-0">管理系統管理員與教師的名單與權限</p>
-        </div>
+      <div class="d-flex justify-content-end mb-4">
         <button class="btn btn-primary shadow-sm fw-semibold" id="add-user-btn">
           <i class="bi bi-plus-lg me-1"></i> 新增帳號
         </button>
@@ -116,7 +112,6 @@ export class UserMgmt {
         const modal = new bootstrap.Modal(modalEl);
         const form = document.getElementById("userForm");
 
-        // Add Button
         document.getElementById("add-user-btn").addEventListener("click", () => {
             form.reset();
             document.getElementById("form-mode").value = "create";
@@ -125,7 +120,6 @@ export class UserMgmt {
             modal.show();
         });
 
-        // Edit Buttons (Task 3)
         document.querySelectorAll(".edit-user-btn").forEach((btn) => {
             btn.addEventListener("click", (e) => {
                 const email = e.currentTarget.getAttribute("data-email");
@@ -135,19 +129,16 @@ export class UserMgmt {
                     document.getElementById("form-mode").value = "edit";
                     document.getElementById("original-email").value = user.email;
                     document.getElementById("userFormModalLabel").textContent = "編輯帳號";
-
                     document.getElementById("u-name").value = user.name;
                     document.getElementById("u-email").value = user.email;
-                    document.getElementById("u-email").readOnly = true; // Email 視為主鍵不建議修改
+                    document.getElementById("u-email").readOnly = true;
                     document.getElementById("u-code").value = user.teacherCode || "";
                     document.getElementById("u-role").value = user.role;
-
                     modal.show();
                 }
             });
         });
 
-        // Delete Buttons (Task 3)
         document.querySelectorAll(".delete-user-btn").forEach((btn) => {
             btn.addEventListener("click", async (e) => {
                 const email = e.currentTarget.getAttribute("data-email");
@@ -164,13 +155,11 @@ export class UserMgmt {
             });
         });
 
-        // Form Submit (Create / Update)
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
             const submitBtn = form.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
-            submitBtn.innerHTML =
-                '<span class="spinner-border spinner-border-sm me-2"></span>儲存中...';
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>儲存中...';
 
             const mode = document.getElementById("form-mode").value;
             const dataObj = {
@@ -182,7 +171,6 @@ export class UserMgmt {
 
             try {
                 if (mode === "create") {
-                    // Check if exists
                     if (usersList.find((u) => u.email === dataObj.email)) {
                         throw new Error("此 Email 已經存在！");
                     }

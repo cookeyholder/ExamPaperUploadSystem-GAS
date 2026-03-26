@@ -1,14 +1,11 @@
 import { ApiService } from "../services/api.js";
 import { UploadModal } from "../components/UploadModal.js";
+import { updatePageHeader } from "../utils/ui.js";
 
 export class TeacherDashboard {
     static async render() {
-        // Inject page title into TopNav
-        const pageTitleContainer = document.getElementById("global-page-title-container");
-        if (pageTitleContainer) {
-            pageTitleContainer.innerHTML =
-                '<h3 class="fw-bold mb-0 text-dark" style="pointer-events: auto;"><i class="bi bi-list-task text-primary me-2"></i>試卷上傳情形</h3>';
-        }
+        // 更新頂部導覽列
+        updatePageHeader("試卷上傳情形", "查看目前需上傳的試卷列表與截止時間");
 
         // Helper to always treat plain date strings as +08:00 (Asia/Taipei)
         const parseTpeTime = (dateStr) => {

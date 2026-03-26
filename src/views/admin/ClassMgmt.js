@@ -1,10 +1,11 @@
 import { ApiService } from "../../services/api.js";
+import { updatePageHeader } from "../../utils/ui.js";
 
 export class ClassMgmt {
     static async render() {
+        updatePageHeader("群科班級管理", "管理學校所有群科與年級的班級代碼與名稱");
         const classes = await ApiService.getTableData("classes");
 
-        // Task 1: Table Layout
         const rowsHtml = classes
             .map(
                 (c) => `
@@ -24,7 +25,6 @@ export class ClassMgmt {
             )
             .join("");
 
-        // Task 2: Create/Edit Modal Form
         const modalHtml = `
       <div class="modal fade" id="classFormModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -60,11 +60,7 @@ export class ClassMgmt {
         setTimeout(() => this.bindEvents(classes), 0);
 
         return `
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-          <h2 class="h3 fw-bold mb-1">群科班級管理</h2>
-          <p class="text-muted mb-0">管理學校所有班級名單</p>
-        </div>
+      <div class="d-flex justify-content-end mb-4">
         <button class="btn btn-primary shadow-sm fw-semibold" id="add-class-btn">
           <i class="bi bi-plus-lg me-1"></i> 新增班級
         </button>
@@ -97,7 +93,6 @@ export class ClassMgmt {
         const modal = new bootstrap.Modal(modalEl);
         const form = document.getElementById("classForm");
 
-        // Add Button
         document.getElementById("add-class-btn").addEventListener("click", () => {
             form.reset();
             document.getElementById("form-mode").value = "create";
@@ -106,7 +101,6 @@ export class ClassMgmt {
             modal.show();
         });
 
-        // Edit Buttons
         document.querySelectorAll(".edit-class-btn").forEach((btn) => {
             btn.addEventListener("click", (e) => {
                 const id = e.currentTarget.getAttribute("data-id");
@@ -116,17 +110,14 @@ export class ClassMgmt {
                     document.getElementById("form-mode").value = "edit";
                     document.getElementById("original-id").value = cls.id;
                     document.getElementById("classFormModalLabel").textContent = "編輯班級";
-
                     document.getElementById("c-id").value = cls.id;
-                    document.getElementById("c-id").readOnly = true; // 代碼視為主鍵
+                    document.getElementById("c-id").readOnly = true;
                     document.getElementById("c-name").value = cls.name;
-
                     modal.show();
                 }
             });
         });
 
-        // Delete Buttons
         document.querySelectorAll(".delete-class-btn").forEach((btn) => {
             btn.addEventListener("click", async (e) => {
                 const id = e.currentTarget.getAttribute("data-id");
@@ -143,13 +134,11 @@ export class ClassMgmt {
             });
         });
 
-        // Form Submit (Create / Update)
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
             const submitBtn = form.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
-            submitBtn.innerHTML =
-                '<span class="spinner-border spinner-border-sm me-2"></span>儲存中...';
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>儲存中...';
 
             const mode = document.getElementById("form-mode").value;
             const dataObj = {

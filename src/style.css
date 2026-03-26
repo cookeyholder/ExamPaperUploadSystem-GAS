@@ -121,8 +121,27 @@ body:not(.teacher-mode) .topnav-brand {
     background: var(--secondary-bg);
 }
 
+/* Page Header in Topnav */
+#page-header {
+    transition: all 0.3s ease;
+}
+
+#page-title {
+    letter-spacing: 0.5px;
+    color: var(--dark-text);
+}
+
+#page-desc {
+    opacity: 0.8;
+    font-weight: 400;
+}
+
 /* Responsive Rules */
 @media (max-width: 768px) {
+    #page-header {
+        display: none !important;
+    }
+
     .sidebar {
         transform: translateX(-100%);
     }
