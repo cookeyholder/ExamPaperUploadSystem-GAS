@@ -23,64 +23,97 @@
         </div>`}updateActiveLink(e){document.querySelectorAll(`.sidebar-nav .nav-link`).forEach(t=>{t.dataset.path===e?t.classList.add(`active`):t.classList.remove(`active`)})}}})),i,a=e((()=>{i={settings:[{id:`1`,academicYear:`113`,semester:`1`,examName:`第三次定期考`,uploadStart:`2026-03-25T00:00:00`,uploadEnd:`2026-04-10T23:59:59`},{id:`2`,academicYear:`113`,semester:`1`,examName:`第二次定期考`,uploadStart:`2025-11-01T00:00:00`,uploadEnd:`2025-11-15T23:59:59`}],users:[{email:`admin@ksvs.kh.edu.tw`,teacherCode:`A001`,name:`王大明`,role:`admin`},{email:`director@ksvs.kh.edu.tw`,teacherCode:`A002`,name:`林主任`,role:`admin`},{email:`t1001@ksvs.kh.edu.tw`,teacherCode:`T1001`,name:`陳國文`,role:`teacher`},{email:`t1002@ksvs.kh.edu.tw`,teacherCode:`T1002`,name:`李數學`,role:`teacher`},{email:`t1003@ksvs.kh.edu.tw`,teacherCode:`T1003`,name:`張物理`,role:`teacher`},{email:`t1004@ksvs.kh.edu.tw`,teacherCode:`T1004`,name:`吳健康`,role:`teacher`},{email:`t2208@ksvs.kh.edu.tw`,teacherCode:`T2208`,name:`劉測試`,role:`teacher`}],classes:[{id:`101`,name:`機械一甲`},{id:`102`,name:`資訊一甲`},{id:`201`,name:`電機二甲`},{id:`301`,name:`電子三甲`}],exam1:[{id:`e1_1`,department:`一般科目`,grade:1,subject:`國語文`,teacherEmail:`t1001@ksvs.kh.edu.tw`,fileUrl:``,markingType:``,pageCount:0,applicableClass:`機械一甲, 資訊一甲`},{id:`e1_2`,department:`一般科目`,grade:1,subject:`數學`,teacherEmail:`t1002@ksvs.kh.edu.tw`,fileUrl:``,markingType:``,pageCount:0,applicableClass:`電機一甲`},{id:`e1_3`,department:`一般科目`,grade:1,subject:`健康與護理`,teacherEmail:`t1004@ksvs.kh.edu.tw`,fileUrl:`https://example.com/pdf`,markingType:`電腦閱卷`,pageCount:2,applicableClass:`全一年級`},{id:`e1_4`,department:`一般科目`,grade:1,subject:`物理`,teacherEmail:`t1003@ksvs.kh.edu.tw`,fileUrl:``,markingType:``,pageCount:0,applicableClass:`電子一甲`}],exam2:[],exam3:[],exam4:[]}})),o,s,c,l=e((()=>{a(),o=JSON.parse(JSON.stringify(i)),s=(e=300)=>new Promise(t=>setTimeout(t,e)),c=class e{static async getUserInfo(){await s();let e=`t1001@ksvs.kh.edu.tw`;return o.users.find(t=>t.email===e)||{email:e,name:`測試無名氏`,role:`teacher`}}static async getTableData(e){if(await s(),!o[e])throw Error(`Table ${e} not found`);return JSON.parse(JSON.stringify(o[e]))}static async addTableRow(e,t){if(await s(),!o[e])throw Error(`Table ${e} not found`);return t.id=t.id||Math.random().toString(36).substr(2,9),o[e].push(t),!0}static async updateTableRow(e,t,n,r){if(await s(),!o[e])throw Error(`Table ${e} not found`);let i=o[e].findIndex(e=>e[t]===n);if(i===-1)throw Error(`Row with ${t}=${n} not found in ${e}`);return o[e][i]={...o[e][i],...r},!0}static async deleteTableRow(e,t,n){if(await s(),!o[e])throw Error(`Table ${e} not found`);return o[e]=o[e].filter(e=>e[t]!==n),!0}static async uploadExamPaper(t){await s(1500);let{examTable:n,examId:r,markingType:i,pageCount:a}=t;return await e.updateTableRow(n,`id`,r,{markingType:i,pageCount:a,fileUrl:`https://mock.drive.google.com/pdf/${t.examName}_${t.department}_${t.subject}.pdf`}),{success:!0,fileUrl:`https://mock.drive.google.com/`}}}})),u,d=e((()=>{u=class e{static async getUserInfo(){return new Promise((e,t)=>{typeof google<`u`&&google.script?google.script.run.withSuccessHandler(n=>{let r=JSON.parse(n);r.error?t(Error(r.error)):e(r)}).withFailureHandler(e=>t(e)).apiGetUserInfo():t(Error(`無 GAS 環境，請在 Google Apps Script 執行環境中開啟`))})}static async getTableData(t){return new Promise((n,r)=>{typeof google<`u`&&google.script?google.script.run.withSuccessHandler(r=>{let i=JSON.parse(r);n(e.mapDataToFrontend(t,i))}).withFailureHandler(e=>r(e)).apiGetTableData(t):r(Error(`無 GAS 環境，請在 Google Apps Script 執行環境中開啟`))})}static async addTableRow(t,n){return new Promise((r,i)=>{if(typeof google<`u`&&google.script){let a=e.mapDataToBackend(t,n);google.script.run.withSuccessHandler(e=>{let t=JSON.parse(e);t.error?i(Error(t.error)):r(t)}).withFailureHandler(e=>i(e)).apiAddTableRow(t,a)}else i(Error(`無 GAS 環境`))})}static async updateTableRow(t,n,r,i){return new Promise((a,o)=>{if(typeof google<`u`&&google.script){let s=e.mapDataToBackend(t,i),c=e.mapKeyToBackend(t,n);google.script.run.withSuccessHandler(e=>{let t=JSON.parse(e);t.error?o(Error(t.error)):a(t)}).withFailureHandler(e=>o(e)).apiUpdateTableRow(t,c,r,s)}else o(Error(`無 GAS 環境`))})}static async deleteTableRow(t,n,r){return new Promise((i,a)=>{if(typeof google<`u`&&google.script){let o=e.mapKeyToBackend(t,n);google.script.run.withSuccessHandler(e=>{let t=JSON.parse(e);t.error?a(Error(t.error)):i(t)}).withFailureHandler(e=>a(e)).apiDeleteTableRow(t,o,r)}else a(Error(`無 GAS 環境`))})}static async uploadExamPaper(e){return new Promise((t,n)=>{typeof google<`u`&&google.script?google.script.run.withSuccessHandler(e=>{let r=JSON.parse(e);r.error?n(Error(r.error)):t(r)}).withFailureHandler(e=>n(e)).apiUploadExamPaper(e):n(Error(`無 GAS 環境`))})}static mapKeyToBackend(e,t){return e===`users`&&t===`email`?`Email`:e===`classes`&&t===`id`?`班級代碼`:e===`settings`&&t===`id`||e.startsWith(`exam`)&&t===`id`?`ID`:t}static mapDataToBackend(e,t){let n={};return e===`users`?(t.email!==void 0&&(n.Email=t.email),t.name!==void 0&&(n.姓名=t.name),t.teacherCode!==void 0&&(n.人員編號=t.teacherCode),t.department!==void 0&&(n.部門單位=t.department),t.role!==void 0&&(n.群組=t.role)):e===`classes`?(t.id!==void 0&&(n.班級代碼=t.id),t.name!==void 0&&(n.班級名稱=t.name)):e===`settings`?(t.id!==void 0&&(n.ID=t.id),t.academicYear!==void 0&&(n.學年度=t.academicYear),t.semester!==void 0&&(n.學期=t.semester),t.examName!==void 0&&(n.考試名稱=t.examName),t.uploadStart!==void 0&&(n.開始時間=t.uploadStart),t.uploadEnd!==void 0&&(n.結束時間=t.uploadEnd)):e.startsWith(`exam`)&&(t.id!==void 0&&(n.ID=t.id),t.department!==void 0&&(n.類別=t.department),t.grade!==void 0&&(n.年級=t.grade),t.subject!==void 0&&(n.科目名稱=t.subject),t.teacherEmail!==void 0&&(n.命題教師=t.teacherEmail),t.markingType!==void 0&&(n.閱卷方式=t.markingType),t.pageCount!==void 0&&(n.試卷張數=t.pageCount),t.fileUrl!==void 0&&(n.檔案連結=t.fileUrl)),Object.keys(n).length>0?n:t}static mapDataToFrontend(e,t){return!t||t.length===0?[]:e===`users`?t.map(e=>({email:e.Email,name:e.姓名,teacherCode:e.人員編號,department:e.部門單位,role:e.群組===`admin`||e.群組===`管理員`||e.角色===`admin`?`admin`:`teacher`})):e===`classes`?t.map(e=>({id:e.班級代碼,name:e.班級名稱})):e===`settings`?t.map(e=>({id:e.ID||e.考試代碼||`1`,academicYear:e.學年度,semester:e.學期,examName:e.考試名稱,uploadStart:e.開始時間,uploadEnd:e.結束時間})):e.startsWith(`exam`)?t.map(e=>({id:e.ID||e.科目代碼,department:e.類別||e.群科,grade:e.年級,subject:e.科目名稱,teacherEmail:e.命題教師||e.教師Email,markingType:e.閱卷方式,pageCount:e.試卷張數,fileUrl:e.檔案連結||e.FileUrl,applicableClass:e.適用班級||``})):t}}})),f,p=e((()=>{l(),d(),f=typeof google<`u`&&google.script?u:c})),m,h=e((()=>{p(),m=class{static init(){document.getElementById(`uploadModal`)||(document.body.insertAdjacentHTML(`beforeend`,`
         <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true" data-bs-backdrop="static">
           <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow-lg rounded-4">
-              <div class="modal-header bg-light border-0 rounded-top-4">
-                <h5 class="modal-title fw-bold" id="uploadModalLabel">
-                  <i class="bi bi-cloud-arrow-up text-primary me-2"></i>上傳試卷
-                </h5>
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="uploadModalLabel">上傳試卷</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <div class="modal-body p-4">
-                <div class="alert alert-info border-0 rounded-3 mb-4">
-                  <h6 class="fw-bold mb-1" id="modal-exam-name">考試名稱</h6>
-                  <p class="mb-1 text-primary fw-semibold" id="modal-exam-subject">科目名稱</p>
-                  <p class="mb-0 text-muted small" id="modal-exam-class">適用班級</p>
+              <div class="modal-body">
+                <div class="alert alert-info mb-3">
+                  <i class="bi bi-info-circle-fill me-2"></i>
+                  <strong>操作說明：</strong>請先選擇閱卷方式並上傳檔案，「確認上傳」按鈕才會啟用。
+                </div>
+
+                <div class="mb-3">
+                  <p class="mb-1">
+                    <strong>科目: </strong>
+                    <span id="modal-exam-subject"></span>
+                  </p>
+                  <p class="mb-1">
+                    <strong>適用班級: </strong>
+                    <span id="modal-exam-class"></span>
+                  </p>
+                  <p class="mb-1"><strong>注意事項:</strong></p>
+                  <ul>
+                    <li>請將題目卷與答案卷合併在同一個 PDF 檔案</li>
+                    <li class="text-danger">請勿上傳解答！請勿上傳解答！請勿上傳解答！</li>
+                  </ul>
                 </div>
 
                 <form id="uploadForm">
                   <input type="hidden" id="modal-exam-id">
                   <input type="hidden" id="modal-exam-table">
+                  <input type="hidden" id="modal-exam-name-hidden">
 
                   <div class="mb-3">
-                    <label class="form-label fw-semibold">閱卷方式</label>
-                    <select class="form-select" id="markingType" required>
-                      <option value="" selected disabled>請選擇閱卷方式...</option>
-                      <option value="人工閱卷">人工閱卷</option>
-                      <option value="電腦閱卷">電腦閱卷</option>
-                      <option value="人工閱卷+電腦閱卷">人工閱卷+電腦閱卷</option>
-                    </select>
+                    <label class="form-label"><span class="text-danger">*</span> 請選擇閱卷方式：</label>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input border-dark border-1" type="radio" role="switch" name="markingType" id="marking_human" value="人工閱卷" required>
+                      <label class="form-check-label" for="marking_human">人工閱卷</label>
+                    </div>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input border-dark border-1" type="radio" role="switch" name="markingType" id="marking_computer" value="電腦閱卷">
+                      <label class="form-check-label" for="marking_computer">電腦閱卷</label>
+                    </div>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input border-dark border-1" type="radio" role="switch" name="markingType" id="marking_both" value="人工閱卷+電腦閱卷">
+                      <label class="form-check-label" for="marking_both">人工閱卷+電腦閱卷</label>
+                    </div>
                   </div>
 
                   <div class="mb-3">
-                    <label class="form-label fw-semibold">試卷張數 (必填)</label>
-                    <input type="number" class="form-control" id="pageCount" min="1" max="10" required placeholder="請輸入試卷張數">
-                    <div class="form-text text-muted mt-2">
-                        <i class="bi bi-info-circle me-1"></i>試卷總張數（最小值為 1）
-                        <ul class="mb-0 mt-1 small">
+                    <label class="form-label"><span class="text-danger">*</span> 請選擇要上傳的 PDF 檔案：</label>
+                    <input type="file" id="examFile" accept=".pdf" class="d-none">
+                    <div class="input-group">
+                        <label class="btn btn-outline-secondary" for="examFile">瀏覽檔案</label>
+                        <input type="text" class="form-control border-dark" placeholder="未選擇任何檔案" aria-label="檔案名稱" readonly id="uploadFileDisplay">
+                    </div>
+                    <div class="form-text mt-1">
+                        <i class="bi bi-info-circle me-1"></i>檔案大小限制為 10MB
+                    </div>
+                    <div class="form-text text-danger mt-1" id="fileErrorMsg" style="display:none;"></div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label" for="pageCount">
+                        <span class="text-danger">*</span> 試卷張數：
+                    </label>
+                    <input type="number" class="form-control border-dark" id="pageCount" min="1" required placeholder="請輸入試卷張數">
+                    <div class="form-text mt-2">
+                        <i class="bi bi-info-circle me-1"></i>試卷總張數（必填，最小值為 1）
+                        <ul>
                             <li>試卷與答題卷請一起計算</li>
                             <li>一律採 B4 雙面列印，如需單面列印或其他需求請轉告教學組 #2304。</li>
                             <li>(EX: 4 頁試卷 = 2 張，2 頁試卷 + 1 頁答題卷 = 2 張。假如 5 頁試卷打 5 張，皆認定為單面列印之意)</li>
                         </ul>
                     </div>
                   </div>
-
-                  <div class="mb-4">
-                    <label class="form-label fw-semibold">上傳 PDF 檔案</label>
-                    <input class="form-control" type="file" id="examFile" accept=".pdf" required>
-                    <div class="form-text text-danger" id="fileErrorMsg" style="display:none;"></div>
-                  </div>
-
-                  <div class="d-grid mt-4">
-                    <button type="button" id="submitUploadBtn" class="btn btn-primary py-2 fw-bold" disabled>
-                      <i class="bi bi-send me-2"></i>確認上傳
-                    </button>
-                  </div>
                 </form>
+              </div>
+
+              <div class="modal-footer d-flex justify-content-between">
+                <div id="buttonDisabledMessage" class="text-danger fw-bold small">請選擇 閱卷方式、檔案、張數</div>
+                <div>
+                  <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">取消</button>
+                  <button type="button" id="submitUploadBtn" class="btn btn-primary text-white ms-2" disabled>
+                    <i class="bi bi-upload me-1"></i> 確認上傳
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      `),this.bindEvents())}static bindEvents(){let e=document.getElementById(`uploadForm`),t=document.getElementById(`markingType`),n=document.getElementById(`pageCount`),r=document.getElementById(`examFile`),i=document.getElementById(`submitUploadBtn`),a=document.getElementById(`fileErrorMsg`),o=()=>{let e=!0;t.value||(e=!1),(n.value===``||parseInt(n.value)<0||parseInt(n.value)>10)&&(e=!1);let o=r.files[0];o?o.type===`application/pdf`?o.size>10*1024*1024?(a.textContent=`檔案大小不可超過 10MB！`,a.style.display=`block`,e=!1):a.style.display=`none`:(a.textContent=`只允許上傳 PDF 檔案！`,a.style.display=`block`,e=!1):e=!1,i.disabled=!e};t.addEventListener(`change`,o),n.addEventListener(`input`,o),r.addEventListener(`change`,o),i.addEventListener(`click`,async()=>{let e=i,a=e.innerHTML;e.disabled=!0,e.innerHTML=`<span class="spinner-border spinner-border-sm me-2"></span>上傳中...`;try{let e={base64Data:await(e=>new Promise((t,n)=>{let r=new FileReader;r.readAsDataURL(e),r.onload=()=>t(r.result.split(`,`)[1]),r.onerror=e=>n(e)}))(r.files[0]),examTable:document.getElementById(`modal-exam-table`).value,examId:document.getElementById(`modal-exam-id`).value,examName:window.__currentExamContext.examName,department:window.__currentExamContext.department,subject:window.__currentExamContext.subject,markingType:t.value,pageCount:parseInt(n.value)};await f.uploadExamPaper(e);let i=document.getElementById(`uploadModal`);bootstrap.Modal.getInstance(i).hide(),window.location.reload()}catch(e){console.error(e),alert(`上傳失敗：`+e.message)}finally{e.innerHTML=a,e.disabled=!1}}),document.getElementById(`uploadModal`).addEventListener(`hidden.bs.modal`,function(){e.reset(),i.disabled=!0,a.style.display=`none`})}static show(e){this.init(),document.getElementById(`modal-exam-name`).textContent=e.examName,document.getElementById(`modal-exam-subject`).textContent=`[${e.department}] ${e.grade}年級 ${e.subject}`,document.getElementById(`modal-exam-class`).textContent=`適用班級：${e.applicableClass||`未指定`}`,document.getElementById(`modal-exam-id`).value=e.id,document.getElementById(`modal-exam-table`).value=e.table,e.markingType?document.getElementById(`markingType`).value=e.markingType:document.getElementById(`markingType`).value=``,e.pageCount!==void 0&&e.pageCount!==``?document.getElementById(`pageCount`).value=e.pageCount:document.getElementById(`pageCount`).value=``,window.__currentExamContext={examName:e.examName,department:e.department,subject:e.subject},new bootstrap.Modal(document.getElementById(`uploadModal`)).show()}}})),g,_=e((()=>{p(),h(),g=class{static async render(){let e=await f.getUserInfo(),t=await f.getTableData(`settings`),n=[];window.__exams1=await f.getTableData(`exam1`),window.__exams2=await f.getTableData(`exam2`);for(let r=1;r<=4;r++){let i=r===1?window.__exams1:r===2?window.__exams2:await f.getTableData(`exam${r}`),a=t.find(e=>e.id===r.toString());if(!a)continue;let o=new Date,s=new Date(a.uploadStart),c=new Date(a.uploadEnd),l=o>=s&&o<=c,u=i.filter(t=>t.teacherEmail===e.email);for(let e of u)n.push({...e,table:`exam${r}`,settingId:a.id,academicYear:a.academicYear,semester:a.semester,examName:a.examName,uploadStart:a.uploadStart,uploadEnd:a.uploadEnd,status:l?`active`:`expired`})}if(n.length===0)return`
+      `),this.bindEvents())}static bindEvents(){let e=document.getElementById(`uploadForm`),t=document.querySelectorAll(`input[name="markingType"]`),n=document.getElementById(`pageCount`),r=document.getElementById(`examFile`),i=document.getElementById(`uploadFileDisplay`),a=document.getElementById(`submitUploadBtn`),o=document.getElementById(`fileErrorMsg`),s=document.getElementById(`buttonDisabledMessage`),c=()=>{let e=!0;Array.from(t).find(e=>e.checked)||(e=!1),(n.value===``||parseInt(n.value)<1)&&(e=!1);let c=r.files[0];c?i.value=c.name:i.value=``,c?c.type===`application/pdf`?c.size>10*1024*1024?(o.textContent=`檔案大小不可超過 10MB！`,o.style.display=`block`,e=!1):o.style.display=`none`:(o.textContent=`只允許上傳 PDF 檔案！`,o.style.display=`block`,e=!1):e=!1,a.disabled=!e,s.style.display=e?`none`:`block`};t.forEach(e=>e.addEventListener(`change`,c)),n.addEventListener(`input`,c),r.addEventListener(`change`,c),a.addEventListener(`click`,async()=>{let e=a,t=e.innerHTML;e.disabled=!0,e.innerHTML=`<span class="spinner-border spinner-border-sm me-2"></span>上傳中...`;try{let e=await(e=>new Promise((t,n)=>{let r=new FileReader;r.readAsDataURL(e),r.onload=()=>t(r.result.split(`,`)[1]),r.onerror=e=>n(e)}))(r.files[0]),t=document.getElementById(`modal-exam-table`).value,i=document.getElementById(`modal-exam-id`).value,a=Array.from(document.querySelectorAll(`input[name="markingType"]`)).find(e=>e.checked)?.value,o={base64Data:e,examTable:t,examId:i,examName:document.getElementById(`modal-exam-name-hidden`).value,department:window.__currentExamContext.department,subject:window.__currentExamContext.subject,markingType:a,pageCount:parseInt(n.value)};await f.uploadExamPaper(o);let s=document.getElementById(`uploadModal`);bootstrap.Modal.getInstance(s).hide(),window.location.reload()}catch(e){console.error(e),alert(`上傳失敗：`+e.message)}finally{e.innerHTML=t,e.disabled=!1}}),document.getElementById(`uploadModal`).addEventListener(`hidden.bs.modal`,function(){e.reset(),a.disabled=!0,o.style.display=`none`})}static show(e){if(this.init(),document.getElementById(`modal-exam-subject`).textContent=`${e.department} ${e.grade}年級 ${e.subject}`,document.getElementById(`modal-exam-class`).textContent=`${e.applicableClass||`全體班級`}`,document.getElementById(`modal-exam-id`).value=e.id,document.getElementById(`modal-exam-table`).value=e.table,document.getElementById(`modal-exam-name-hidden`).value=e.examName,document.querySelectorAll(`input[name="markingType"]`).forEach(e=>e.checked=!1),e.markingType){let t=Array.from(document.querySelectorAll(`input[name="markingType"]`)).find(t=>t.value===e.markingType);t&&(t.checked=!0)}e.pageCount!==void 0&&e.pageCount!==``?document.getElementById(`pageCount`).value=e.pageCount:document.getElementById(`pageCount`).value=``,document.getElementById(`uploadFileDisplay`).value=``,document.getElementById(`buttonDisabledMessage`).style.display=`block`,window.__currentExamContext={examName:e.examName,department:e.department,subject:e.subject},new bootstrap.Modal(document.getElementById(`uploadModal`)).show()}}})),g,_=e((()=>{p(),h(),g=class{static async render(){let e=await f.getUserInfo(),t=await f.getTableData(`settings`),n=[];window.__exams1=await f.getTableData(`exam1`),window.__exams2=await f.getTableData(`exam2`);for(let r=1;r<=4;r++){let i=r===1?window.__exams1:r===2?window.__exams2:await f.getTableData(`exam${r}`),a=t.find(e=>e.id===r.toString());if(!a)continue;let o=new Date,s=new Date(a.uploadStart),c=new Date(a.uploadEnd),l=o>=s&&o<=c,u=i.filter(t=>t.teacherEmail===e.email);for(let e of u)n.push({...e,table:`exam${r}`,settingId:a.id,academicYear:a.academicYear,semester:a.semester,examName:a.examName,uploadStart:a.uploadStart,uploadEnd:a.uploadEnd,status:l?`active`:`expired`})}if(n.length===0)return`
             <div class="d-flex justify-content-between align-items-center mb-4">
               <h2 class="h3 fw-bold mb-0">試卷上傳情形</h2>
             </div>
