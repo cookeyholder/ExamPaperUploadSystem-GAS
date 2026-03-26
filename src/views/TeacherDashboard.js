@@ -9,6 +9,12 @@ export class TeacherDashboard {
         pageTitleContainer.innerHTML = '<h3 class="fw-bold mb-0 text-dark" style="pointer-events: auto;"><i class="bi bi-list-task text-primary me-2"></i>試卷上傳情形</h3>';
     }
 
+    // Helper to always treat plain date strings as +08:00 (Asia/Taipei)
+    const parseTpeTime = (dateStr) => {
+        if (!dateStr) return new Date(0);
+        return new Date(dateStr.includes('+') || dateStr.endsWith('Z') || dateStr.includes('-0') ? dateStr : `${dateStr}+08:00`);
+    };
+
     const user = await ApiService.getUserInfo();
     const settings = await ApiService.getTableData("settings");
     let pendingUploads = [];
@@ -30,8 +36,8 @@ export class TeacherDashboard {
       if (!setting) continue; // Skip if no setting
 
       const now = new Date();
-      const start = new Date(setting.uploadStart);
-      const end = new Date(setting.uploadEnd);
+      const start = parseTpeTime(setting.uploadStart);
+      const end = parseTpeTime(setting.uploadEnd);
 
       // Only show currently active exams
       const isActive = now >= start && now <= end;
@@ -78,7 +84,7 @@ export class TeacherDashboard {
 
     // Find closest deadline
     const validDeadlines = pendingUploads
-      .map((ex) => new Date(ex.uploadEnd).getTime())
+      .map((ex) => parseTpeTime(ex.uploadEnd).getTime())
       .filter((t) => t > new Date().getTime());
     const nearestDeadlineMs =
       validDeadlines.length > 0 ? Math.min(...validDeadlines) : null;
@@ -88,8 +94,8 @@ export class TeacherDashboard {
 
     const cardsHtml = pendingUploads
       .map((ex) => {
-        const isOverdue = new Date() > new Date(ex.uploadEnd);
-        const isStarted = new Date() >= new Date(ex.uploadStart);
+        const isOverdue = new Date() > parseTpeTime(ex.uploadEnd);
+        const isStarted = new Date() >= parseTpeTime(ex.uploadStart);
         const isUploaded = !!ex.fileUrl;
 
         let uploadedSign = "";
@@ -191,7 +197,8 @@ export class TeacherDashboard {
             return;
           }
 
-          const deadline = new Date(deadlineStr).getTime();
+          const parseTpeTime = (dateStr) => new Date(dateStr.includes('+') || dateStr.endsWith('Z') || dateStr.includes('-0') ? dateStr : `${dateStr}+08:00`);
+          const deadline = parseTpeTime(deadlineStr).getTime();
           const now = new Date().getTime();
           const distance = deadline - now;
 
