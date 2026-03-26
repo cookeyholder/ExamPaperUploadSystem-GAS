@@ -100,6 +100,11 @@ body {
   border-radius: 12px !important;
 }
 
+/* Topnav Brand (Visible for Teachers, or Admins on Mobile) */
+body:not(.teacher-mode) .topnav-brand {
+  display: none !important;
+}
+
 .user-profile {
   display: flex;
   align-items: center;
@@ -124,6 +129,10 @@ body {
   
   #main-wrapper {
     margin-left: 0;
+  }
+
+  body:not(.teacher-mode) .topnav-brand {
+    display: flex !important;
   }
 }
 
