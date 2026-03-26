@@ -3,6 +3,7 @@ import { Router } from './router.js';
 import { MockApiService } from './services/MockApiService.js';
 import { TeacherDashboard } from './views/TeacherDashboard.js';
 import { UserMgmt } from './views/admin/UserMgmt.js';
+import { ClassMgmt } from './views/admin/ClassMgmt.js';
 
 // Setup Mock User info temporarily
 document.getElementById('user-display-name').textContent = '系統管理員';
@@ -18,10 +19,7 @@ const routes = {
     <h2 class="h3 fw-bold mb-4">科目管理</h2>
     <div class="alert alert-info border-0 shadow-sm"><i class="bi bi-tools me-2"></i> 管理模組建置中...</div>
   `,
-  '/admin/classes': () => `
-    <h2 class="h3 fw-bold mb-4">群科班級管理</h2>
-    <div class="alert alert-info border-0 shadow-sm"><i class="bi bi-tools me-2"></i> 管理模組建置中...</div>
-  `,
+  '/admin/classes': () => ClassMgmt.render(),
   '/admin/users': () => UserMgmt.render(),
   '*': () => `
     <div class="text-center py-5">
