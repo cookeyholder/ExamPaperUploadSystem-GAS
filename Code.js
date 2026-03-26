@@ -678,3 +678,128 @@ function apiGetUserInfo() {
         return JSON.stringify({ error: e.message });
     }
 }
+
+// ---------------------- WRITE API ----------------------
+
+function _getSheetWithMapping(tableName) {
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    let sheet = ss.getSheetByName(tableName);
+    if (!sheet) {
+        const tableMap = {
+            'settings': '網站參數設定',
+            'users': '帳號管理',
+            'classes': '群科班級',
+            'exam1': '第一次定期考',
+            'exam2': '第二次定期考',
+            'exam3': '第三次定期考',
+            'exam4': '期末考'
+        };
+        sheet = ss.getSheetByName(tableMap[tableName]);
+    }
+    return sheet;
+}
+
+/**
+ * 新增一列資料
+ */
+function apiAddTableRow(tableName, dataObj) {
+    try {
+        const email = Session.getActiveUser().getEmail();
+        if (!email) throw new Error("無效的使用者身分");
+
+        const sheet = _getSheetWithMapping(tableName);
+        if (!sheet) throw new Error(`找不到工作表: ${tableName}`);
+
+        const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+        const newRow = new Array(headers.length).fill("");
+
+        // 根據 Header 對應寫入資料
+        Object.keys(dataObj).forEach(key => {
+            const colIndex = headers.indexOf(key);
+            if (colIndex !== -1) {
+                newRow[colIndex] = dataObj[key];
+            }
+        });
+
+        sheet.appendRow(newRow);
+        return JSON.stringify({ success: true });
+    } catch (e) {
+        return JSON.stringify({ error: e.message });
+    }
+}
+
+/**
+ * 更新指定列資料
+ */
+function apiUpdateTableRow(tableName, keyField, keyValue, updateObj) {
+    try {
+        const email = Session.getActiveUser().getEmail();
+        if (!email) throw new Error("無效的使用者身分");
+
+        const sheet = _getSheetWithMapping(tableName);
+        if (!sheet) throw new Error(`找不到工作表: ${tableName}`);
+
+        const data = sheet.getDataRange().getValues();
+        const headers = data[0];
+        const keyColIndex = headers.indexOf(keyField);
+
+        if (keyColIndex === -1) throw new Error(`找不到作為主鍵的欄位: ${keyField}`);
+
+        let targetRowIndex = -1;
+        for (let i = 1; i < data.length; i++) {
+            if (data[i][keyColIndex] !== undefined && data[i][keyColIndex].toString() === keyValue.toString()) {
+                targetRowIndex = i + 1; // getRange 是從 1 開始，而且包含標題列
+                break;
+            }
+        }
+
+        if (targetRowIndex === -1) throw new Error(`找不到主鍵為 ${keyValue} 的紀錄`);
+
+        // 只更新有提供的欄位
+        Object.keys(updateObj).forEach(key => {
+            const colIndex = headers.indexOf(key);
+            if (colIndex !== -1) {
+                sheet.getRange(targetRowIndex, colIndex + 1).setValue(updateObj[key]);
+            }
+        });
+
+        return JSON.stringify({ success: true });
+    } catch (e) {
+        return JSON.stringify({ error: e.message });
+    }
+}
+
+/**
+ * 刪除指定列資料
+ */
+function apiDeleteTableRow(tableName, keyField, keyValue) {
+    try {
+        const email = Session.getActiveUser().getEmail();
+        if (!email) throw new Error("無效的使用者身分");
+
+        const sheet = _getSheetWithMapping(tableName);
+        if (!sheet) throw new Error(`找不到工作表: ${tableName}`);
+
+        const data = sheet.getDataRange().getValues();
+        const headers = data[0];
+        const keyColIndex = headers.indexOf(keyField);
+
+        if (keyColIndex === -1) throw new Error(`找不到作為主鍵的欄位: ${keyField}`);
+
+        let targetRowIndex = -1;
+        for (let i = 1; i < data.length; i++) {
+            if (data[i][keyColIndex] !== undefined && data[i][keyColIndex].toString() === keyValue.toString()) {
+                targetRowIndex = i + 1; 
+                break;
+            }
+        }
+
+        if (targetRowIndex === -1) throw new Error(`找不到主鍵為 ${keyValue} 的紀錄`);
+
+        sheet.deleteRow(targetRowIndex);
+
+        return JSON.stringify({ success: true });
+    } catch (e) {
+        return JSON.stringify({ error: e.message });
+    }
+}
