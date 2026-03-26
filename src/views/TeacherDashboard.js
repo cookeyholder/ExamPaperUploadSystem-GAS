@@ -4,15 +4,22 @@ import { UploadModal } from "../components/UploadModal.js";
 export class TeacherDashboard {
   static async render() {
     // Inject page title into TopNav
-    const pageTitleContainer = document.getElementById('global-page-title-container');
+    const pageTitleContainer = document.getElementById(
+      "global-page-title-container",
+    );
     if (pageTitleContainer) {
-        pageTitleContainer.innerHTML = '<h3 class="fw-bold mb-0 text-dark" style="pointer-events: auto;"><i class="bi bi-list-task text-primary me-2"></i>試卷上傳情形</h3>';
+      pageTitleContainer.innerHTML =
+        '<h3 class="fw-bold mb-0 text-dark" style="pointer-events: auto;"><i class="bi bi-list-task text-primary me-2"></i>試卷上傳情形</h3>';
     }
 
     // Helper to always treat plain date strings as +08:00 (Asia/Taipei)
     const parseTpeTime = (dateStr) => {
-        if (!dateStr) return new Date(0);
-        return new Date(dateStr.includes('+') || dateStr.endsWith('Z') || dateStr.includes('-0') ? dateStr : `${dateStr}+08:00`);
+      if (!dateStr) return new Date(0);
+      return new Date(
+        dateStr.includes("+") || dateStr.endsWith("Z") || dateStr.includes("-0")
+          ? dateStr
+          : `${dateStr}+08:00`,
+      );
     };
 
     const user = await ApiService.getUserInfo();
@@ -102,7 +109,7 @@ export class TeacherDashboard {
         if (isUploaded) {
           uploadedSign = `<span class="badge bg-success-subtle text-success border border-success border-opacity-25 px-3 py-2 fs-6 rounded-pill"><i class="bi bi-check-circle-fill me-1"></i>已上傳</span>`;
         } else if (isOverdue) {
-          uploadedSign = `<span class="badge bg-danger-subtle text-danger border border-danger border-opacity-25 px-3 py-2 fs-6 rounded-pill"><i class="bi bi-x-circle-fill me-1"></i>已逾期</span>`;
+          uploadedSign = `<span class="badge bg-danger-subtle text-danger border border-danger border-opacity-25 px-3 py-2 fs-6 rounded-pill"><i class="bi bi-x-circle-fill me-1"></i>已截止</span>`;
         } else if (!isStarted) {
           uploadedSign = `<span class="badge bg-secondary-subtle text-secondary border border-secondary border-opacity-25 px-3 py-2 fs-6 rounded-pill"><i class="bi bi-clock me-1"></i>未開放</span>`;
         } else {
@@ -156,11 +163,19 @@ export class TeacherDashboard {
                             </div>
                         </div>
 
-                        <div class="text-secondary mb-5 d-flex align-items-start">
+                        <div class="text-secondary mb-4 d-flex align-items-start">
                             <i class="bi bi-file-earmark-check fs-4 fw-bold text-secondary me-3 mt-1"></i>
                             <div>
                                 <strong class="d-block text-muted fs-6 mb-1">閱卷方式</strong>
                                 <span class="fs-5 text-dark fw-medium">${ex.markingType || "未填寫"}</span>
+                            </div>
+                        </div>
+
+                        <div class="text-secondary mb-5 d-flex align-items-start">
+                            <i class="bi bi-files fs-4 fw-bold text-secondary me-3 mt-1"></i>
+                            <div>
+                                <strong class="d-block text-muted fs-6 mb-1">試卷頁數</strong>
+                                <span class="fs-5 text-dark fw-medium">${ex.pageCount > 0 ? ex.pageCount + ' 頁' : "未填寫"}</span>
                             </div>
                         </div>
 
@@ -192,7 +207,8 @@ export class TeacherDashboard {
         cells.forEach((cell) => {
           const deadlineStr = cell.dataset.deadline;
           if (deadlineStr === "EXPIRED") {
-            cell.innerHTML = '<span class="text-danger fw-bold">上傳已截止</span>';
+            cell.innerHTML =
+              '<span class="text-danger fw-bold">上傳已截止</span>';
             return;
           }
           if (!deadlineStr) {
@@ -201,7 +217,14 @@ export class TeacherDashboard {
             return;
           }
 
-          const parseTpeTime = (dateStr) => new Date(dateStr.includes('+') || dateStr.endsWith('Z') || dateStr.includes('-0') ? dateStr : `${dateStr}+08:00`);
+          const parseTpeTime = (dateStr) =>
+            new Date(
+              dateStr.includes("+") ||
+                dateStr.endsWith("Z") ||
+                dateStr.includes("-0")
+                ? dateStr
+                : `${dateStr}+08:00`,
+            );
           const deadline = parseTpeTime(deadlineStr).getTime();
           const now = new Date().getTime();
           const distance = deadline - now;
@@ -222,7 +245,7 @@ export class TeacherDashboard {
           const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
           if (days === 0 && hours === 0 && minutes < 10) {
-            const displaySecs = seconds.toString().padStart(2, '0');
+            const displaySecs = seconds.toString().padStart(2, "0");
             cell.textContent = `${minutes}分 ${displaySecs}秒`;
           } else {
             cell.textContent = `${days}天 ${hours}小時 ${minutes}分`;
