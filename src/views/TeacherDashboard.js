@@ -49,8 +49,8 @@ export class TeacherDashboard {
     // Task 1: Empty state
     if (pendingUploads.length === 0) {
         return `
-            <div class="d-flex justify-content-between align-items-center mb-4">
-              <h2 class="h3 fw-bold mb-0">試卷上傳情形</h2>
+            <div class="d-flex justify-content-between align-items-center mb-4 mt-2">
+              <h3 class="fw-bold mb-0 text-dark"><i class="bi bi-list-task text-success me-2"></i>試卷上傳情形</h3>
             </div>
             <div class="card shadow-sm border-0 rounded-4 p-5 text-center mt-4">
                 <div class="mb-4">
@@ -62,58 +62,99 @@ export class TeacherDashboard {
         `;
     }
 
-    const container = document.createElement('div');
-    container.innerHTML = `
-        <div class="d-flex justify-content-center align-items-center mb-4 mt-2">
-            <h3 class="fw-bold mb-0 text-dark"><i class="bi bi-list-task text-success me-2"></i>試卷上傳情形</h3>
-        </div>
-        
-        <div class="row mb-4 justify-content-center">
-            <div class="col-md-3">
-                <div class="card p-3 shadow-sm border-0 text-center rounded-4">
-                    <h6 class="text-muted mb-1">總分配科目</h6>
-                    <h3 class="fw-bold text-primary mb-0">${totalExams}</h3>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card p-3 shadow-sm border-0 text-center rounded-4">
-                    <h6 class="text-muted mb-1">待上傳</h6>
-                    <h3 class="fw-bold text-warning mb-0">${pendingUploadsArr.length}</h3>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card p-3 shadow-sm border-0 text-center rounded-4">
-                    <h6 class="text-muted mb-1">已上傳</h6>
-                    <h3 class="fw-bold text-success mb-0">${completedUploads}</h3>
-                </div>
-            </div>
-        </div>
+    const totalExams = pendingUploads.length;
+    const completedUploads = pendingUploads.filter(e => e.fileUrl).length;
+    const pendingUploadsArrLength = totalExams - completedUploads;
 
-        <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
-            <div class="table-responsive">
-                <table class="table mb-0">
-                    <thead class="table-light text-muted">
-                        <tr>
-                            <th class="py-3" style="min-width: 120px;">考試分項</th>
-                            <th class="py-3">科目</th>
-                            <th class="py-3" style="min-width: 200px;">適用班級</th>
-                            <th class="py-3">閱卷方式</th>
-                            <th class="py-3 text-center">上傳狀態</th>
-                            <th class="py-3" style="min-width: 140px;">上傳截止時間</th>
-                            <th class="py-3" style="min-width: 150px;">剩餘時間</th>
-                            <th class="py-3 text-center" style="min-width: 120px;">操作</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-        ${TeacherDashboard.generateExamRows(allExams, settings)}
-                    </tbody>
-                </table>
+    // Find closest deadline
+    const validDeadlines = pendingUploads
+        .map(ex => new Date(ex.uploadEnd).getTime())
+        .filter(t => t > new Date().getTime());
+    const nearestDeadlineMs = validDeadlines.length > 0 ? Math.min(...validDeadlines) : null;
+    const nearestDeadlineStr = nearestDeadlineMs ? new Date(nearestDeadlineMs).toISOString() : '';
+
+    const cardsHtml = pendingUploads.map(ex => {
+        const isOverdue = new Date() > new Date(ex.uploadEnd);
+        const isStarted = new Date() >= new Date(ex.uploadStart);
+        const isUploaded = !!ex.fileUrl;
+        
+        let uploadedSign = '';
+        if (isUploaded) {
+            uploadedSign = `<span class="badge bg-success-subtle text-success border border-success border-opacity-25 px-2 py-1"><i class="bi bi-check-circle-fill me-1"></i>已上傳</span>`;
+        } else if (isOverdue) {
+            uploadedSign = `<span class="badge bg-danger-subtle text-danger border border-danger border-opacity-25 px-2 py-1"><i class="bi bi-x-circle-fill me-1"></i>已逾期</span>`;
+        } else if (!isStarted) {
+            uploadedSign = `<span class="badge bg-secondary-subtle text-secondary border border-secondary border-opacity-25 px-2 py-1"><i class="bi bi-clock me-1"></i>未開放</span>`;
+        } else {
+            uploadedSign = `<span class="badge bg-warning-subtle text-warning-emphasis border border-warning border-opacity-25 px-2 py-1"><i class="bi bi-exclamation-circle-fill me-1"></i>未上傳</span>`;
+        }
+
+        const safeExamName = ex.academicYear ? `${ex.academicYear}-${ex.semester}${ex.examName}` : ex.examName;
+
+        const examJSON = {
+            id: ex.id,
+            table: ex.table,
+            examName: safeExamName,
+            department: ex.department,
+            subject: ex.subject,
+            applicableClass: ex.applicableClass,
+            grade: ex.grade,
+            markingType: ex.markingType,
+            pageCount: ex.pageCount,
+            hasListeningExam: ex.hasListeningExam
+        };
+
+        const btnHtml = isUploaded 
+            ? `<button class="btn btn-outline-success w-100 fw-bold upload-btn rounded-pill border-2" data-exam='${JSON.stringify(examJSON).replace(/'/g, "&#39;")}'>
+                 <i class="bi bi-check2-circle me-1"></i> 重新上傳
+               </button>`
+            : (!isStarted || isOverdue) 
+            ? `<button class="btn btn-secondary w-100 fw-bold disabled rounded-pill">
+                 <i class="bi bi-lock me-1"></i> ${!isStarted ? '未開放' : '已截止'}
+               </button>`
+            : `<button class="btn btn-primary w-100 fw-bold upload-btn rounded-pill shadow-sm" data-exam='${JSON.stringify(examJSON).replace(/'/g, "&#39;")}'>
+                 <i class="bi bi-cloud-arrow-up me-1"></i> 上傳試卷
+               </button>`;
+
+        return `
+            <div class="col-md-6 col-lg-4 d-flex align-items-stretch mb-4">
+                <div class="card w-100 shadow-sm border-0 rounded-4 hover-lift ${isUploaded ? 'border-start border-success border-4' : 'border-start border-warning border-4'}">
+                    <div class="card-body d-flex flex-column p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <span class="badge bg-light text-secondary border border-secondary-subtle px-2 py-1">${safeExamName}</span>
+                            ${uploadedSign}
+                        </div>
+                        <h5 class="fw-bold text-dark mt-1 mb-1">${ex.subject}</h5>
+                        <h6 class="text-primary fw-semibold mb-3 small">[${ex.department}] ${ex.grade}年級</h6>
+                        
+                        <div class="text-muted small mb-2 d-flex align-items-start">
+                            <i class="bi bi-people fw-bold text-secondary me-2 mt-1"></i>
+                            <div>
+                                <strong class="d-block text-dark">適用班級</strong>
+                                <span style="line-height: 1.4;">${ex.applicableClass || '全體班級'}</span>
+                            </div>
+                        </div>
+
+                        <div class="text-muted small mb-4 d-flex align-items-start">
+                            <i class="bi bi-file-earmark-check fw-bold text-secondary me-2 mt-1"></i>
+                            <div>
+                                <strong class="d-block text-dark">閱卷方式</strong>
+                                <span>${ex.markingType || '未填寫'}</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-auto">
+                            ${btnHtml}
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    `;
+        `;
+    }).join('');
 
     setTimeout(() => {
-        const uploadBtns = container.querySelectorAll('.upload-btn');
+        // Must search the actual DOM
+        const uploadBtns = document.querySelectorAll('.upload-btn');
         uploadBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const examData = JSON.parse(e.currentTarget.dataset.exam);
@@ -121,21 +162,23 @@ export class TeacherDashboard {
             });
         });
 
-        // Initialize Countdown Timer
         if (TeacherDashboard.countdownInterval) clearInterval(TeacherDashboard.countdownInterval);
         
         TeacherDashboard.countdownInterval = setInterval(() => {
-            const cells = document.querySelectorAll('.countdown-cell');
+            const cells = document.querySelectorAll('.unified-countdown-cell');
             cells.forEach(cell => {
                 const deadlineStr = cell.dataset.deadline;
-                if (!deadlineStr) return;
+                if (!deadlineStr) {
+                    cell.innerHTML = '<span class="text-secondary fw-bold">無截止時間</span>';
+                    return;
+                }
                 
                 const deadline = new Date(deadlineStr).getTime();
                 const now = new Date().getTime();
                 const distance = deadline - now;
                 
                 if (distance < 0) {
-                    cell.innerHTML = '<span class="text-danger fw-bold">已截止</span>';
+                    cell.innerHTML = '<span class="text-danger fw-bold">本梯次已截止</span>';
                     return;
                 }
                 
@@ -150,9 +193,37 @@ export class TeacherDashboard {
     }, 0);
 
     return `
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="h3 fw-bold mb-0">試卷上傳情形</h2>
+        <div class="d-flex justify-content-center align-items-center mb-4 mt-3">
+            <h3 class="fw-bold mb-0 text-dark"><i class="bi bi-list-task text-primary me-2"></i>試卷上傳情形</h3>
         </div>
+        
+        <div class="row mb-5 justify-content-center g-3">
+            <div class="col-6 col-md-3">
+                <div class="card p-3 shadow-sm border-0 text-center rounded-4 h-100 bg-white">
+                    <h6 class="text-muted mb-2 fw-semibold">總分配科目</h6>
+                    <h3 class="fw-bold text-dark mb-0">${totalExams}</h3>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="card p-3 shadow-sm border-0 text-center rounded-4 h-100 bg-white">
+                    <h6 class="text-muted mb-2 fw-semibold">待上傳</h6>
+                    <h3 class="fw-bold text-warning mb-0">${pendingUploadsArrLength}</h3>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="card p-3 shadow-sm border-0 text-center rounded-4 h-100 bg-white">
+                    <h6 class="text-muted mb-2 fw-semibold">已上傳</h6>
+                    <h3 class="fw-bold text-success mb-0">${completedUploads}</h3>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="card p-3 shadow-sm text-center rounded-4 h-100 bg-danger-subtle border-0 border-start border-danger border-4">
+                    <h6 class="text-danger-emphasis mb-2 fw-bold"><i class="bi bi-alarm me-1"></i>統一截止倒數</h6>
+                    <h5 class="fw-bold text-danger mb-0 unified-countdown-cell" data-deadline="${nearestDeadlineStr}">--</h5>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             ${cardsHtml}
         </div>

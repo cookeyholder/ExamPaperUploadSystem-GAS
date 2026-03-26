@@ -126,8 +126,8 @@
           </div>
         </div>
       `),this.bindEvents())}static bindEvents(){let e=document.getElementById(`uploadForm`),t=document.querySelectorAll(`input[name="markingType"]`),n=document.getElementById(`pageCount`),r=document.getElementById(`examFile`),i=document.getElementById(`uploadFileDisplay`),a=document.getElementById(`submitUploadBtn`),o=document.getElementById(`fileErrorMsg`),s=document.getElementById(`buttonDisabledMessage`),c=document.querySelectorAll(`input[name="hasListeningExam"]`),l=document.getElementById(`listeningExamSection`),u=()=>{let e=!0;Array.from(t).find(e=>e.checked)||(e=!1),(n.value===``||parseInt(n.value)<1)&&(e=!1);let u=r.files[0];u?i.value=u.name:i.value=``,u?u.type===`application/pdf`?u.size>10*1024*1024?(o.textContent=`檔案大小不可超過 10MB！`,o.style.display=`block`,e=!1):o.style.display=`none`:(o.textContent=`只允許上傳 PDF 檔案！`,o.style.display=`block`,e=!1):e=!1,l.style.display!==`none`&&(Array.from(c).find(e=>e.checked)||(e=!1)),a.disabled=!e,s.style.display=e?`none`:`block`};t.forEach(e=>e.addEventListener(`change`,u)),c.forEach(e=>e.addEventListener(`change`,u)),n.addEventListener(`input`,u),r.addEventListener(`change`,u),a.addEventListener(`click`,async()=>{let e=a,t=e.innerHTML;e.disabled=!0,e.innerHTML=`<span class="spinner-border spinner-border-sm me-2"></span>上傳中...`;try{let e=await(e=>new Promise((t,n)=>{let r=new FileReader;r.readAsDataURL(e),r.onload=()=>t(r.result.split(`,`)[1]),r.onerror=e=>n(e)}))(r.files[0]),t=document.getElementById(`modal-exam-table`).value,i=document.getElementById(`modal-exam-id`).value,a=Array.from(document.querySelectorAll(`input[name="markingType"]`)).find(e=>e.checked)?.value,o={base64Data:e,examTable:t,examId:i,examName:document.getElementById(`modal-exam-name-hidden`).value,department:window.__currentExamContext.department,subject:window.__currentExamContext.subject,markingType:a,pageCount:parseInt(n.value)};window.__currentExamContext.subject===`英語文`&&(o.hasListeningExam=document.getElementById(`listening_yes`).checked),await f.uploadExamPaper(o);let s=document.getElementById(`uploadModal`);bootstrap.Modal.getInstance(s).hide(),window.location.reload()}catch(e){console.error(e),alert(`上傳失敗：`+e.message)}finally{e.innerHTML=t,e.disabled=!1}}),document.getElementById(`uploadModal`).addEventListener(`hidden.bs.modal`,function(){e.reset(),a.disabled=!0,o.style.display=`none`})}static show(e){if(this.init(),document.getElementById(`modal-exam-subject`).textContent=`${e.department} ${e.grade}年級 ${e.subject}`,document.getElementById(`modal-exam-class`).textContent=`${e.applicableClass||`全體班級`}`,document.getElementById(`modal-exam-id`).value=e.id,document.getElementById(`modal-exam-table`).value=e.table,document.getElementById(`modal-exam-name-hidden`).value=e.examName,document.querySelectorAll(`input[name="markingType"]`).forEach(e=>e.checked=!1),e.markingType){let t=Array.from(document.querySelectorAll(`input[name="markingType"]`)).find(t=>t.value===e.markingType);t&&(t.checked=!0)}let t=document.getElementById(`listeningExamSection`);e.subject===`英語文`?(t.style.display=`block`,e.hasListeningExam===!0?document.getElementById(`listening_yes`).checked=!0:document.getElementById(`listening_no`).checked=!0):(t.style.display=`none`,document.getElementById(`listening_yes`).checked=!1,document.getElementById(`listening_no`).checked=!1),e.pageCount!==void 0&&e.pageCount!==``?document.getElementById(`pageCount`).value=e.pageCount:document.getElementById(`pageCount`).value=``,document.getElementById(`uploadFileDisplay`).value=``,document.getElementById(`buttonDisabledMessage`).style.display=`block`,window.__currentExamContext={examName:e.examName,department:e.department,subject:e.subject},new bootstrap.Modal(document.getElementById(`uploadModal`)).show()}}})),g,_=e((()=>{p(),h(),g=class e{static async render(){let t=await f.getUserInfo(),n=await f.getTableData(`settings`),r=[];window.__exams1=await f.getTableData(`exam1`),window.__exams2=await f.getTableData(`exam2`);for(let e=1;e<=4;e++){let i=e===1?window.__exams1:e===2?window.__exams2:await f.getTableData(`exam${e}`),a=n.find(t=>t.id===e.toString());if(!a)continue;let o=new Date,s=new Date(a.uploadStart),c=new Date(a.uploadEnd),l=o>=s&&o<=c,u=i.filter(e=>e.teacherEmail===t.email);for(let t of u)r.push({...t,table:`exam${e}`,settingId:a.id,academicYear:a.academicYear,semester:a.semester,examName:a.examName,uploadStart:a.uploadStart,uploadEnd:a.uploadEnd,status:l?`active`:`expired`})}if(r.length===0)return`
-            <div class="d-flex justify-content-between align-items-center mb-4">
-              <h2 class="h3 fw-bold mb-0">試卷上傳情形</h2>
+            <div class="d-flex justify-content-between align-items-center mb-4 mt-2">
+              <h3 class="fw-bold mb-0 text-dark"><i class="bi bi-list-task text-success me-2"></i>試卷上傳情形</h3>
             </div>
             <div class="card shadow-sm border-0 rounded-4 p-5 text-center mt-4">
                 <div class="mb-4">
@@ -136,59 +136,79 @@
                 <h4 class="fw-bold text-secondary mb-3">目前沒有需要上傳的試卷</h4>
                 <p class="text-muted mb-0">當教務處開放您的科目上傳時，將會顯示於此處。</p>
             </div>
-        `;let i=document.createElement(`div`);return i.innerHTML=`
-        <div class="d-flex justify-content-center align-items-center mb-4 mt-2">
-            <h3 class="fw-bold mb-0 text-dark"><i class="bi bi-list-task text-success me-2"></i>試卷上傳情形</h3>
+        `;let i=r.length,a=r.filter(e=>e.fileUrl).length,o=i-a,s=r.map(e=>new Date(e.uploadEnd).getTime()).filter(e=>e>new Date().getTime()),c=s.length>0?Math.min(...s):null,l=c?new Date(c).toISOString():``,u=r.map(e=>{let t=new Date>new Date(e.uploadEnd),n=new Date>=new Date(e.uploadStart),r=!!e.fileUrl,i=``;i=r?`<span class="badge bg-success-subtle text-success border border-success border-opacity-25 px-2 py-1"><i class="bi bi-check-circle-fill me-1"></i>已上傳</span>`:t?`<span class="badge bg-danger-subtle text-danger border border-danger border-opacity-25 px-2 py-1"><i class="bi bi-x-circle-fill me-1"></i>已逾期</span>`:n?`<span class="badge bg-warning-subtle text-warning-emphasis border border-warning border-opacity-25 px-2 py-1"><i class="bi bi-exclamation-circle-fill me-1"></i>未上傳</span>`:`<span class="badge bg-secondary-subtle text-secondary border border-secondary border-opacity-25 px-2 py-1"><i class="bi bi-clock me-1"></i>未開放</span>`;let a=e.academicYear?`${e.academicYear}-${e.semester}${e.examName}`:e.examName,o={id:e.id,table:e.table,examName:a,department:e.department,subject:e.subject,applicableClass:e.applicableClass,grade:e.grade,markingType:e.markingType,pageCount:e.pageCount,hasListeningExam:e.hasListeningExam},s=r?`<button class="btn btn-outline-success w-100 fw-bold upload-btn rounded-pill border-2" data-exam='${JSON.stringify(o).replace(/'/g,`&#39;`)}'>
+                 <i class="bi bi-check2-circle me-1"></i> 重新上傳
+               </button>`:!n||t?`<button class="btn btn-secondary w-100 fw-bold disabled rounded-pill">
+                 <i class="bi bi-lock me-1"></i> ${n?`已截止`:`未開放`}
+               </button>`:`<button class="btn btn-primary w-100 fw-bold upload-btn rounded-pill shadow-sm" data-exam='${JSON.stringify(o).replace(/'/g,`&#39;`)}'>
+                 <i class="bi bi-cloud-arrow-up me-1"></i> 上傳試卷
+               </button>`;return`
+            <div class="col-md-6 col-lg-4 d-flex align-items-stretch mb-4">
+                <div class="card w-100 shadow-sm border-0 rounded-4 hover-lift ${r?`border-start border-success border-4`:`border-start border-warning border-4`}">
+                    <div class="card-body d-flex flex-column p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <span class="badge bg-light text-secondary border border-secondary-subtle px-2 py-1">${a}</span>
+                            ${i}
+                        </div>
+                        <h5 class="fw-bold text-dark mt-1 mb-1">${e.subject}</h5>
+                        <h6 class="text-primary fw-semibold mb-3 small">[${e.department}] ${e.grade}年級</h6>
+                        
+                        <div class="text-muted small mb-2 d-flex align-items-start">
+                            <i class="bi bi-people fw-bold text-secondary me-2 mt-1"></i>
+                            <div>
+                                <strong class="d-block text-dark">適用班級</strong>
+                                <span style="line-height: 1.4;">${e.applicableClass||`全體班級`}</span>
+                            </div>
+                        </div>
+
+                        <div class="text-muted small mb-4 d-flex align-items-start">
+                            <i class="bi bi-file-earmark-check fw-bold text-secondary me-2 mt-1"></i>
+                            <div>
+                                <strong class="d-block text-dark">閱卷方式</strong>
+                                <span>${e.markingType||`未填寫`}</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-auto">
+                            ${s}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `}).join(``);return setTimeout(()=>{document.querySelectorAll(`.upload-btn`).forEach(e=>{e.addEventListener(`click`,e=>{let t=JSON.parse(e.currentTarget.dataset.exam);m.show(t)})}),e.countdownInterval&&clearInterval(e.countdownInterval),e.countdownInterval=setInterval(()=>{document.querySelectorAll(`.unified-countdown-cell`).forEach(e=>{let t=e.dataset.deadline;if(!t){e.innerHTML=`<span class="text-secondary fw-bold">無截止時間</span>`;return}let n=new Date(t).getTime()-new Date().getTime();if(n<0){e.innerHTML=`<span class="text-danger fw-bold">本梯次已截止</span>`;return}e.textContent=`${Math.floor(n/(1e3*60*60*24))}天 ${Math.floor(n%(1e3*60*60*24)/(1e3*60*60))}小時 ${Math.floor(n%(1e3*60*60)/(1e3*60))}分 ${Math.floor(n%(1e3*60)/1e3)}秒`})},1e3)},0),`
+        <div class="d-flex justify-content-center align-items-center mb-4 mt-3">
+            <h3 class="fw-bold mb-0 text-dark"><i class="bi bi-list-task text-primary me-2"></i>試卷上傳情形</h3>
         </div>
         
-        <div class="row mb-4 justify-content-center">
-            <div class="col-md-3">
-                <div class="card p-3 shadow-sm border-0 text-center rounded-4">
-                    <h6 class="text-muted mb-1">總分配科目</h6>
-                    <h3 class="fw-bold text-primary mb-0">${totalExams}</h3>
+        <div class="row mb-5 justify-content-center g-3">
+            <div class="col-6 col-md-3">
+                <div class="card p-3 shadow-sm border-0 text-center rounded-4 h-100 bg-white">
+                    <h6 class="text-muted mb-2 fw-semibold">總分配科目</h6>
+                    <h3 class="fw-bold text-dark mb-0">${i}</h3>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card p-3 shadow-sm border-0 text-center rounded-4">
-                    <h6 class="text-muted mb-1">待上傳</h6>
-                    <h3 class="fw-bold text-warning mb-0">${pendingUploadsArr.length}</h3>
+            <div class="col-6 col-md-3">
+                <div class="card p-3 shadow-sm border-0 text-center rounded-4 h-100 bg-white">
+                    <h6 class="text-muted mb-2 fw-semibold">待上傳</h6>
+                    <h3 class="fw-bold text-warning mb-0">${o}</h3>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card p-3 shadow-sm border-0 text-center rounded-4">
-                    <h6 class="text-muted mb-1">已上傳</h6>
-                    <h3 class="fw-bold text-success mb-0">${completedUploads}</h3>
+            <div class="col-6 col-md-3">
+                <div class="card p-3 shadow-sm border-0 text-center rounded-4 h-100 bg-white">
+                    <h6 class="text-muted mb-2 fw-semibold">已上傳</h6>
+                    <h3 class="fw-bold text-success mb-0">${a}</h3>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="card p-3 shadow-sm text-center rounded-4 h-100 bg-danger-subtle border-0 border-start border-danger border-4">
+                    <h6 class="text-danger-emphasis mb-2 fw-bold"><i class="bi bi-alarm me-1"></i>統一截止倒數</h6>
+                    <h5 class="fw-bold text-danger mb-0 unified-countdown-cell" data-deadline="${l}">--</h5>
                 </div>
             </div>
         </div>
 
-        <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
-            <div class="table-responsive">
-                <table class="table mb-0">
-                    <thead class="table-light text-muted">
-                        <tr>
-                            <th class="py-3" style="min-width: 120px;">考試分項</th>
-                            <th class="py-3">科目</th>
-                            <th class="py-3" style="min-width: 200px;">適用班級</th>
-                            <th class="py-3">閱卷方式</th>
-                            <th class="py-3 text-center">上傳狀態</th>
-                            <th class="py-3" style="min-width: 140px;">上傳截止時間</th>
-                            <th class="py-3" style="min-width: 150px;">剩餘時間</th>
-                            <th class="py-3 text-center" style="min-width: 120px;">操作</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-        ${e.generateExamRows(allExams,n)}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    `,setTimeout(()=>{i.querySelectorAll(`.upload-btn`).forEach(e=>{e.addEventListener(`click`,e=>{let t=JSON.parse(e.currentTarget.dataset.exam);m.show(t)})}),e.countdownInterval&&clearInterval(e.countdownInterval),e.countdownInterval=setInterval(()=>{document.querySelectorAll(`.countdown-cell`).forEach(e=>{let t=e.dataset.deadline;if(!t)return;let n=new Date(t).getTime()-new Date().getTime();if(n<0){e.innerHTML=`<span class="text-danger fw-bold">已截止</span>`;return}e.textContent=`${Math.floor(n/(1e3*60*60*24))}天 ${Math.floor(n%(1e3*60*60*24)/(1e3*60*60))}小時 ${Math.floor(n%(1e3*60*60)/(1e3*60))}分 ${Math.floor(n%(1e3*60)/1e3)}秒`})},1e3)},0),`
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="h3 fw-bold mb-0">試卷上傳情形</h2>
-        </div>
         <div class="row">
-            ${cardsHtml}
+            ${u}
         </div>
     `}}})),v,y=e((()=>{p(),v=class{static async render(){let e=await f.getTableData(`users`),t=e.map(e=>`
       <tr>
