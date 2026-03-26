@@ -1,4 +1,5 @@
 import { MockApiService } from '../services/MockApiService.js';
+import { UploadModal } from '../components/UploadModal.js';
 
 export class TeacherDashboard {
   static async render() {
@@ -82,7 +83,7 @@ export class TeacherDashboard {
                         </p>
                     </div>
                     <div class="card-footer bg-white border-0 pb-4 pt-0">
-                        <button class="btn btn-primary w-100 rounded-pill ${exam.status !== 'active' ? 'disabled' : ''}">
+                        <button class="btn btn-primary w-100 rounded-pill upload-btn ${exam.status !== 'active' ? 'disabled' : ''}" data-exam-id="${exam.id}">
                             <i class="bi bi-cloud-arrow-up me-2"></i> 上傳試卷
                         </button>
                     </div>
@@ -90,6 +91,18 @@ export class TeacherDashboard {
             </div>
         `;
     }).join('');
+
+    // Hacky way in Vanilla JS SPA to bind events after returning string
+    // Usually you'd use lit-html or similar. We attach to a global window event or a setTimeout
+    setTimeout(() => {
+        document.querySelectorAll('.upload-btn:not(.disabled)').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const examId = e.currentTarget.getAttribute('data-exam-id');
+                const examData = pendingUploads.find(ex => ex.id === examId);
+                if (examData) UploadModal.show(examData);
+            });
+        });
+    }, 0);
 
     return `
         <div class="d-flex justify-content-between align-items-center mb-4">
