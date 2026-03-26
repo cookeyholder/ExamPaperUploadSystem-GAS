@@ -41,42 +41,42 @@ export class UploadModal {
                   <input type="hidden" id="modal-exam-name-hidden">
 
                   <div class="mb-4">
-                    <label class="form-label fw-bold text-dark"><span class="text-danger me-1">*</span>閱卷方式：</label>
+                    <label class="form-label fw-bold text-dark fs-5"><span class="text-danger me-1">*</span>閱卷方式：</label>
                     <div class="d-flex flex-wrap gap-3 mt-2">
-                        <div class="form-check form-check-inline bg-light border border-secondary-subtle px-4 py-3 rounded-3 m-0 flex-grow-1" style="cursor:pointer;" onclick="document.getElementById('marking_human').click()">
-                            <input class="form-check-input ms-0 me-2" type="radio" name="markingType" id="marking_human" value="人工閱卷" required>
-                            <label class="form-check-label fw-medium stretched-link" for="marking_human">人工閱卷</label>
+                        <div class="form-check form-check-inline bg-light position-relative border border-secondary-subtle px-4 py-3 rounded-4 m-0 flex-grow-1 user-select-none">
+                            <input class="form-check-input ms-0 me-2" style="transform: scale(1.3);" type="radio" name="markingType" id="marking_human" value="人工閱卷" required>
+                            <label class="form-check-label fw-bold fs-5 text-dark stretched-link ms-2" for="marking_human" style="cursor: pointer;">人工閱卷</label>
                         </div>
-                        <div class="form-check form-check-inline bg-light border border-secondary-subtle px-4 py-3 rounded-3 m-0 flex-grow-1" style="cursor:pointer;" onclick="document.getElementById('marking_computer').click()">
-                            <input class="form-check-input ms-0 me-2" type="radio" name="markingType" id="marking_computer" value="電腦閱卷">
-                            <label class="form-check-label fw-medium stretched-link" for="marking_computer">電腦閱卷</label>
+                        <div class="form-check form-check-inline bg-light position-relative border border-secondary-subtle px-4 py-3 rounded-4 m-0 flex-grow-1 user-select-none">
+                            <input class="form-check-input ms-0 me-2" style="transform: scale(1.3);" type="radio" name="markingType" id="marking_computer" value="電腦閱卷">
+                            <label class="form-check-label fw-bold fs-5 text-dark stretched-link ms-2" for="marking_computer" style="cursor: pointer;">電腦閱卷</label>
                         </div>
-                        <div class="form-check form-check-inline bg-light border border-secondary-subtle px-4 py-3 rounded-3 m-0 flex-grow-1" style="cursor:pointer;" onclick="document.getElementById('marking_both').click()">
-                            <input class="form-check-input ms-0 me-2" type="radio" name="markingType" id="marking_both" value="人工閱卷+電腦閱卷">
-                            <label class="form-check-label fw-medium stretched-link" for="marking_both">人工 + 電腦閱卷</label>
+                        <div class="form-check form-check-inline bg-light position-relative border border-secondary-subtle px-4 py-3 rounded-4 m-0 flex-grow-1 user-select-none">
+                            <input class="form-check-input ms-0 me-2" style="transform: scale(1.3);" type="radio" name="markingType" id="marking_both" value="人工閱卷+電腦閱卷">
+                            <label class="form-check-label fw-bold fs-5 text-dark stretched-link ms-2" for="marking_both" style="cursor: pointer;">人工 + 電腦</label>
                         </div>
                     </div>
                   </div>
 
                   <div class="mb-4">
-                    <label class="form-label fw-bold text-dark"><span class="text-danger me-1">*</span>試卷 PDF 檔案：</label>
+                    <label class="form-label fw-bold text-dark fs-5"><span class="text-danger me-1">*</span>試卷 PDF 檔案：</label>
                     <input type="file" id="examFile" accept=".pdf" class="d-none">
                     <div class="input-group input-group-lg shadow-sm">
-                        <label class="btn btn-primary px-4 fw-bold" for="examFile"><i class="bi bi-folder2-open me-2"></i>瀏覽檔案</label>
-                        <input type="text" class="form-control bg-white" placeholder="未選擇任何檔案" aria-label="檔案名稱" readonly id="uploadFileDisplay" style="cursor: pointer;" onclick="document.getElementById('examFile').click()">
+                        <label class="btn btn-primary px-4 fw-bold fs-5" for="examFile"><i class="bi bi-folder2-open me-2"></i>瀏覽</label>
+                        <input type="text" class="form-control bg-white fw-bold fs-5 text-dark" placeholder="未選擇任何檔案" aria-label="檔案名稱" readonly id="uploadFileDisplay" style="cursor: pointer;" onclick="document.getElementById('examFile').click()">
                     </div>
-                    <div class="form-text mt-2 text-muted fw-medium">
+                    <div class="form-text mt-2 text-muted fw-medium fs-6">
                         <i class="bi bi-file-earmark-pdf text-danger me-1"></i> 檔案格式限 PDF，大小限制 10MB
                     </div>
-                    <div class="form-text text-danger mt-1 fw-bold" id="fileErrorMsg" style="display:none;"></div>
+                    <div class="form-text text-danger mt-1 fw-bold fs-6" id="fileErrorMsg" style="display:none;"></div>
                   </div>
 
                   <div class="mb-4">
-                    <label class="form-label fw-bold text-dark" for="pageCount">
+                    <label class="form-label fw-bold text-dark fs-5" for="pageCount">
                         <span class="text-danger me-1">*</span>試卷張數：
                     </label>
-                    <input type="number" class="form-control form-control-lg bg-light" id="pageCount" min="1" required placeholder="請輸入需要的列印張數（單面為 1 張）">
-                    <div class="form-text mt-2 small text-muted">
+                    <input type="number" class="form-control form-control-lg bg-light fw-bold fs-4 text-dark" id="pageCount" min="1" required placeholder="請填寫數字，例如：2">
+                    <div class="form-text mt-2 fs-6 text-muted">
                         <i class="bi bi-info-circle me-1"></i> 請合併計算試卷與答題卷總列印張數 (以 B4 雙面列印為單位，若單面即視為 1 張)。特殊需求請洽教學組 #2304。
                     </div>
                   </div>
