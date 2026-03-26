@@ -8,12 +8,12 @@
 | 01 | `setup-spa-routing-shell` | 建立 Vite 前端架構、全局 Sidebar 側邊導覽列與 Router 機制 | ✅ 完成 |
 | 02 | `base-schema-and-mock` | 建立 7 張工作表結構的完整 JSON Mock 資料引擎 | ✅ 完成 |
 | 03 | `teacher-dashboard-view` | 實作教師登入後的儀表板空狀態與考試清單渲染 | ✅ 完成 |
-| 04 | `teacher-upload-modal` | 實作核心的上傳對話框（包含閱卷方式、張數寫寫與防呆機制） | 🔄 進行中 |
+| 04 | `teacher-upload-modal` | 實作核心的上傳對話框（包含閱卷方式、張數寫寫與防呆機制） | ✅ 完成 |
 
 ## 🛠️ 階段二：管理端介面復刻 (CRUD Tables 組件化)
 | 順序 | 提案資料夾 | 說明 | 狀態 |
 |---|---|---|---|
-| 05 | `admin-account-mgmt` | 實作帳號管理頁面 (新增、編輯教師與權限) | ⏳ 未開始 |
+| 05 | `admin-account-mgmt` | 實作帳號管理頁面 (新增、編輯教師與權限) | 🔄 進行中 |
 | 06 | `admin-class-mgmt` | 實作群科班級管理頁面 | ⏳ 未開始 |
 | 07 | `admin-subject-mgmt` | 實作科目管理與「設定命題教師」功能 | ⏳ 未開始 |
 | 08 | `admin-exam-plan-mgmt` | 實作考試分項管理 | ⏳ 未開始 |
