@@ -18,7 +18,7 @@
 ### 開發進度與架構亮點：
 - **Teacher Dashboard (Vanilla SPA)**：實作高效的非同步視圖加載，精確過濾目前教師與所屬的考科上傳時間。
 - **Upload Modal & 防呆機制**：使用 Bootstrap JS API 封裝共用 Modal，具備完整的表單驗證 (10MB 限制/自定義張數) 與 PDF -> Base64 轉換機能。
-- **後台管理 (CRUD Tables)**：實作「帳號管理」、「群科班級管理」、「科目與命題分配」等 SPA 視圖，支援新增、編輯、刪除，並具備互動式 Spinner。
+- **後台管理 (CRUD Tables)**：實作「帳號管理」、「群科班級管理」、「科目與命題分配」、「考試分項時間窗」等 SPA 視圖，支援新增、編輯、刪除，並具備互動式 Spinner。
 - **資料隔離與 Mock 架構**: 前端開發期全面採用 `MockApiService` 與本機 JSON 模擬 GAS 試算表行為。
 
 ### 1. 建立 Google Cloud 專案與 OAuth Client ID

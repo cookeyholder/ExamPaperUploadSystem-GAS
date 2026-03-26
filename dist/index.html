@@ -359,10 +359,87 @@
         </div>
       </div>
       ${a}
-    `}static bindEvents(e){let t=document.getElementById(`assignTeacherModal`);if(!t)return;let n=new bootstrap.Modal(t),r=document.getElementById(`assignTeacherForm`);document.querySelectorAll(`.edit-subject-btn`).forEach(t=>{t.addEventListener(`click`,t=>{let i=t.currentTarget.getAttribute(`data-id`),a=t.currentTarget.getAttribute(`data-subject`),o=e.find(e=>e.id===i);o&&(r.reset(),document.getElementById(`s-id`).value=i,document.getElementById(`s-subject-name`).textContent=a,o.teacherEmail&&(document.getElementById(`s-teacher-email`).value=o.teacherEmail),n.show())})}),document.querySelectorAll(`.delete-subject-btn`).forEach(e=>{e.addEventListener(`click`,async e=>{let t=e.currentTarget.getAttribute(`data-id`);if(confirm(`確定要刪除該筆考科資料嗎？`))try{e.currentTarget.disabled=!0,await c.deleteTableRow(`exam1`,`id`,t),window.location.reload()}catch(t){alert(`刪除失敗: `+t.message),e.currentTarget.disabled=!1}})}),r.addEventListener(`submit`,async e=>{e.preventDefault();let t=r.querySelector(`button[type="submit"]`);t.disabled=!0,t.innerHTML=`<span class="spinner-border spinner-border-sm me-2"></span>儲存中...`;let i=document.getElementById(`s-id`).value,a=document.getElementById(`s-teacher-email`).value;try{await c.updateTableRow(`exam1`,`id`,i,{teacherEmail:a}),n.hide(),window.location.reload()}catch(e){alert(`儲存失敗: `+e.message),t.disabled=!1,t.innerHTML=`儲存設定`}})}}}));t((()=>{r(),l(),p(),h(),_(),y(),document.getElementById(`user-display-name`).textContent=`系統管理員`,new n({"/":()=>f.render(),"/admin/exam-plans":()=>`
-    <h2 class="h3 fw-bold mb-4">考試分項管理</h2>
-    <div class="alert alert-info border-0 shadow-sm"><i class="bi bi-tools me-2"></i> 管理模組建置中...</div>
-  `,"/admin/subjects":()=>v.render(),"/admin/classes":()=>g.render(),"/admin/users":()=>m.render(),"*":()=>`
+    `}static bindEvents(e){let t=document.getElementById(`assignTeacherModal`);if(!t)return;let n=new bootstrap.Modal(t),r=document.getElementById(`assignTeacherForm`);document.querySelectorAll(`.edit-subject-btn`).forEach(t=>{t.addEventListener(`click`,t=>{let i=t.currentTarget.getAttribute(`data-id`),a=t.currentTarget.getAttribute(`data-subject`),o=e.find(e=>e.id===i);o&&(r.reset(),document.getElementById(`s-id`).value=i,document.getElementById(`s-subject-name`).textContent=a,o.teacherEmail&&(document.getElementById(`s-teacher-email`).value=o.teacherEmail),n.show())})}),document.querySelectorAll(`.delete-subject-btn`).forEach(e=>{e.addEventListener(`click`,async e=>{let t=e.currentTarget.getAttribute(`data-id`);if(confirm(`確定要刪除該筆考科資料嗎？`))try{e.currentTarget.disabled=!0,await c.deleteTableRow(`exam1`,`id`,t),window.location.reload()}catch(t){alert(`刪除失敗: `+t.message),e.currentTarget.disabled=!1}})}),r.addEventListener(`submit`,async e=>{e.preventDefault();let t=r.querySelector(`button[type="submit"]`);t.disabled=!0,t.innerHTML=`<span class="spinner-border spinner-border-sm me-2"></span>儲存中...`;let i=document.getElementById(`s-id`).value,a=document.getElementById(`s-teacher-email`).value;try{await c.updateTableRow(`exam1`,`id`,i,{teacherEmail:a}),n.hide(),window.location.reload()}catch(e){alert(`儲存失敗: `+e.message),t.disabled=!1,t.innerHTML=`儲存設定`}})}}})),b,x=e((()=>{l(),b=class{static async render(){let e=await c.getTableData(`settings`),t=e.map(e=>{let t=``,n=new Date,r=new Date(e.uploadStart),i=new Date(e.uploadEnd);t=!e.uploadStart||!e.uploadEnd?`<span class="badge bg-secondary bg-opacity-10 text-secondary"><i class="bi bi-dash-circle me-1"></i>未設定</span>`:n<r?`<span class="badge bg-warning bg-opacity-10 text-warning"><i class="bi bi-clock me-1"></i>尚未開始</span>`:n>i?`<span class="badge bg-danger bg-opacity-10 text-danger"><i class="bi bi-x-circle me-1"></i>已截止</span>`:`<span class="badge bg-success bg-opacity-10 text-success"><i class="bi bi-check-circle me-1"></i>開放中</span>`;let a=e=>e?new Date(e).toLocaleString(`zh-TW`,{year:`numeric`,month:`2-digit`,day:`2-digit`,hour:`2-digit`,minute:`2-digit`}):`尚未設定`;return`
+      <tr>
+        <td class="align-middle fw-semibold">${e.academicYear}-${e.semester}</td>
+        <td class="align-middle fw-bold text-primary">${e.examName}</td>
+        <td class="align-middle small">
+          <div class="mb-1"><span class="text-muted d-inline-block" style="width:40px;">開始:</span> ${a(e.uploadStart)}</div>
+          <div><span class="text-muted d-inline-block" style="width:40px;">結束:</span> ${a(e.uploadEnd)}</div>
+        </td>
+        <td class="align-middle">
+          ${t}
+        </td>
+        <td class="align-middle text-end">
+          <button class="btn btn-sm btn-light text-primary me-2 edit-plan-btn" data-id="${e.id}">
+            <i class="bi bi-calendar-range me-1"></i>設定時間
+          </button>
+        </td>
+      </tr>
+      `}).join(``);return setTimeout(()=>this.bindEvents(e),0),`
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h2 class="h3 fw-bold mb-1">考試分項管理</h2>
+          <p class="text-muted mb-0">管理系統內各項考試的開放時間窗</p>
+        </div>
+      </div>
+
+      <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0 align-middle">
+            <thead class="table-light text-muted small text-uppercase">
+              <tr>
+                <th class="ps-4">學年度學期</th>
+                <th>考試名稱</th>
+                <th>上傳時間窗</th>
+                <th>狀態</th>
+                <th class="text-end pe-4">操作</th>
+              </tr>
+            </thead>
+            <tbody class="border-top-0">
+              ${t}
+            </tbody>
+          </table>
+          ${e.length===0?`<div class="text-center py-5 text-muted">目前沒有資料</div>`:``}
+        </div>
+      </div>
+      
+      <div class="modal fade" id="examPlanModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-light border-0">
+              <h5 class="modal-title fw-bold">設定上傳時間開放窗</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+              <form id="examPlanForm">
+                <input type="hidden" id="ep-id">
+                <div class="alert alert-info border-0 mb-4">
+                  設定 <strong id="ep-name" class="text-primary"></strong> 的試卷上傳期間。
+                </div>
+                
+                <div class="mb-3">
+                  <label class="form-label fw-semibold">開始時間</label>
+                  <input type="datetime-local" class="form-control" id="ep-start" required>
+                </div>
+                
+                <div class="mb-4">
+                  <label class="form-label fw-semibold">結束時間 (截止期限)</label>
+                  <input type="datetime-local" class="form-control" id="ep-end" required>
+                  <div class="form-text text-danger mt-2" id="ep-error" style="display:none;">結束時間必須晚於開始時間！</div>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                  <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">取消</button>
+                  <button type="submit" class="btn btn-primary px-4 fw-bold" id="ep-submit-btn">儲存設定</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    `}static bindEvents(e){let t=document.getElementById(`examPlanModal`);if(!t)return;let n=new bootstrap.Modal(t),r=document.getElementById(`examPlanForm`),i=document.getElementById(`ep-start`),a=document.getElementById(`ep-end`),o=document.getElementById(`ep-error`),s=document.getElementById(`ep-submit-btn`),l=()=>{let e=new Date(i.value),t=new Date(a.value);e&&t&&e>=t?(o.style.display=`block`,s.disabled=!0):(o.style.display=`none`,s.disabled=!1)};i.addEventListener(`change`,l),a.addEventListener(`change`,l),document.querySelectorAll(`.edit-plan-btn`).forEach(t=>{t.addEventListener(`click`,t=>{let o=t.currentTarget.getAttribute(`data-id`),s=e.find(e=>e.id===o);s&&(r.reset(),document.getElementById(`ep-id`).value=o,document.getElementById(`ep-name`).textContent=`${s.academicYear}-${s.semester} ${s.examName}`,s.uploadStart&&(i.value=s.uploadStart.slice(0,16)),s.uploadEnd&&(a.value=s.uploadEnd.slice(0,16)),l(),n.show())})}),r.addEventListener(`submit`,async e=>{if(e.preventDefault(),new Date(i.value)>=new Date(a.value))return;s.disabled=!0,s.innerHTML=`<span class="spinner-border spinner-border-sm me-2"></span>儲存中...`;let t=document.getElementById(`ep-id`).value;try{let e=i.value+`:00`,r=a.value+`:00`;await c.updateTableRow(`settings`,`id`,t,{uploadStart:e,uploadEnd:r}),n.hide(),window.location.reload()}catch(e){alert(`儲存失敗: `+e.message),s.disabled=!1,s.innerHTML=`儲存設定`}})}}}));t((()=>{r(),l(),p(),h(),_(),y(),x(),document.getElementById(`user-display-name`).textContent=`系統管理員`,new n({"/":()=>f.render(),"/admin/exam-plans":()=>b.render(),"/admin/subjects":()=>v.render(),"/admin/classes":()=>g.render(),"/admin/users":()=>m.render(),"*":()=>`
     <div class="text-center py-5">
       <h1 class="display-4 text-secondary">404</h1>
       <p class="lead">頁面不存在</p>
