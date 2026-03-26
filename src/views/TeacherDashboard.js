@@ -137,19 +137,19 @@ export class TeacherDashboard {
                         <h3 class="fw-bold text-dark mt-2 mb-2">${ex.subject}</h3>
                         <h5 class="text-primary fw-semibold mb-4">[${ex.department}] ${ex.grade}年級</h5>
                         
-                        <div class="text-secondary fs-6 mb-3 d-flex align-items-start">
-                            <i class="bi bi-people fs-5 fw-bold text-secondary me-3 mt-1"></i>
+                        <div class="text-secondary mb-3 d-flex align-items-start">
+                            <i class="bi bi-people fs-4 fw-bold text-secondary me-3 mt-1"></i>
                             <div>
-                                <strong class="d-block text-dark fs-5 mb-1">適用班級</strong>
-                                <span style="line-height: 1.5;">${ex.applicableClass || "全體班級"}</span>
+                                <strong class="d-block text-muted fs-6 mb-1">適用班級</strong>
+                                <span class="fs-5 text-dark fw-medium" style="line-height: 1.5;">${ex.applicableClass || "全體班級"}</span>
                             </div>
                         </div>
 
-                        <div class="text-secondary fs-6 mb-5 d-flex align-items-start">
-                            <i class="bi bi-file-earmark-check fs-5 fw-bold text-secondary me-3 mt-1"></i>
+                        <div class="text-secondary mb-5 d-flex align-items-start">
+                            <i class="bi bi-file-earmark-check fs-4 fw-bold text-secondary me-3 mt-1"></i>
                             <div>
-                                <strong class="d-block text-dark fs-5 mb-1">閱卷方式</strong>
-                                <span>${ex.markingType || "未填寫"}</span>
+                                <strong class="d-block text-muted fs-6 mb-1">閱卷方式</strong>
+                                <span class="fs-5 text-dark fw-medium">${ex.markingType || "未填寫"}</span>
                             </div>
                         </div>
 
