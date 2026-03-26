@@ -79,7 +79,10 @@ export class TeacherDashboard {
                     </div>
                     <div class="card-body">
                         <h5 class="card-title fw-bold mb-1">${exam.examName}</h5>
-                        <h6 class="card-subtitle mb-3 text-primary">${exam.department} - ${exam.subject}</h6>
+                        <h6 class="card-subtitle mb-2 text-primary">[${exam.department}] ${exam.grade}年級 ${exam.subject}</h6>
+                        <div class="text-muted small mb-3">
+                            <i class="bi bi-people me-1"></i>適用班級：${exam.applicableClass || '未指定'}
+                        </div>
                         <div class="d-flex align-items-center mb-3">
                             <span class="text-muted small me-2">狀態:</span>
                             ${uploadedSign}

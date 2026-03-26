@@ -1,9 +1,9 @@
-import { ApiService } from '../services/api.js';
+import { ApiService } from "../services/api.js";
 
 export class UploadModal {
   static init() {
     // Inject modal HTML if not exists
-    if (!document.getElementById('uploadModal')) {
+    if (!document.getElementById("uploadModal")) {
       const modalHtml = `
         <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true" data-bs-backdrop="static">
           <div class="modal-dialog modal-dialog-centered">
@@ -17,7 +17,8 @@ export class UploadModal {
               <div class="modal-body p-4">
                 <div class="alert alert-info border-0 rounded-3 mb-4">
                   <h6 class="fw-bold mb-1" id="modal-exam-name">考試名稱</h6>
-                  <p class="mb-0 text-muted small" id="modal-exam-subject">科目名稱</p>
+                  <p class="mb-1 text-primary fw-semibold" id="modal-exam-subject">科目名稱</p>
+                  <p class="mb-0 text-muted small" id="modal-exam-class">適用班級</p>
                 </div>
 
                 <form id="uploadForm">
@@ -64,49 +65,54 @@ export class UploadModal {
           </div>
         </div>
       `;
-      document.body.insertAdjacentHTML('beforeend', modalHtml);
+      document.body.insertAdjacentHTML("beforeend", modalHtml);
       this.bindEvents();
     }
   }
 
   static bindEvents() {
-    const form = document.getElementById('uploadForm');
-    const markingType = document.getElementById('markingType');
-    const pageCount = document.getElementById('pageCount');
-    const examFile = document.getElementById('examFile');
-    const submitBtn = document.getElementById('submitUploadBtn');
-    const fileErrorMsg = document.getElementById('fileErrorMsg');
+    const form = document.getElementById("uploadForm");
+    const markingType = document.getElementById("markingType");
+    const pageCount = document.getElementById("pageCount");
+    const examFile = document.getElementById("examFile");
+    const submitBtn = document.getElementById("submitUploadBtn");
+    const fileErrorMsg = document.getElementById("fileErrorMsg");
 
     const validateForm = () => {
       let isValid = true;
       if (!markingType.value) isValid = false;
-      if (pageCount.value === '' || parseInt(pageCount.value) < 0 || parseInt(pageCount.value) > 10) isValid = false;
-      
+      if (
+        pageCount.value === "" ||
+        parseInt(pageCount.value) < 0 ||
+        parseInt(pageCount.value) > 10
+      )
+        isValid = false;
+
       const file = examFile.files[0];
       if (!file) {
         isValid = false;
       } else {
-        if (file.type !== 'application/pdf') {
+        if (file.type !== "application/pdf") {
           fileErrorMsg.textContent = "只允許上傳 PDF 檔案！";
-          fileErrorMsg.style.display = 'block';
+          fileErrorMsg.style.display = "block";
           isValid = false;
         } else if (file.size > 10 * 1024 * 1024) {
           fileErrorMsg.textContent = "檔案大小不可超過 10MB！";
-          fileErrorMsg.style.display = 'block';
+          fileErrorMsg.style.display = "block";
           isValid = false;
         } else {
-          fileErrorMsg.style.display = 'none';
+          fileErrorMsg.style.display = "none";
         }
       }
 
       submitBtn.disabled = !isValid;
     };
 
-    markingType.addEventListener('change', validateForm);
-    pageCount.addEventListener('input', validateForm);
-    examFile.addEventListener('change', validateForm);
+    markingType.addEventListener("change", validateForm);
+    pageCount.addEventListener("input", validateForm);
+    examFile.addEventListener("change", validateForm);
 
-    submitBtn.addEventListener('click', async () => {
+    submitBtn.addEventListener("click", async () => {
       const eBtn = submitBtn;
       const originalHtml = eBtn.innerHTML;
       eBtn.disabled = true;
@@ -114,38 +120,38 @@ export class UploadModal {
 
       try {
         const file = examFile.files[0];
-        
+
         // Task 3: Base64 Conversion Mock
-        const toBase64 = file => new Promise((resolve, reject) => {
+        const toBase64 = (file) =>
+          new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result.split(',')[1]);
-            reader.onerror = error => reject(error);
-        });
-        
+            reader.onload = () => resolve(reader.result.split(",")[1]);
+            reader.onerror = (error) => reject(error);
+          });
+
         const b64String = await toBase64(file);
-        
+
         // Payload
-        const targetTable = document.getElementById('modal-exam-table').value;
-        const examId = document.getElementById('modal-exam-id').value;
+        const targetTable = document.getElementById("modal-exam-table").value;
+        const examId = document.getElementById("modal-exam-id").value;
         const payload = {
-            base64Data: b64String,
-            examTable: targetTable,
-            examId: examId,
-            examName: window.__currentExamContext.examName, // Assuming __currentExamContext is available
-            department: window.__currentExamContext.department,
-            subject: window.__currentExamContext.subject,
-            markingType: markingType.value,
-            pageCount: parseInt(pageCount.value)
+          base64Data: b64String,
+          examTable: targetTable,
+          examId: examId,
+          examName: window.__currentExamContext.examName, // Assuming __currentExamContext is available
+          department: window.__currentExamContext.department,
+          subject: window.__currentExamContext.subject,
+          markingType: markingType.value,
+          pageCount: parseInt(pageCount.value),
         };
-        
+
         await ApiService.uploadExamPaper(payload);
 
-        const myModalEl = document.getElementById('uploadModal');
+        const myModalEl = document.getElementById("uploadModal");
         const modal = bootstrap.Modal.getInstance(myModalEl);
         modal.hide();
         window.location.reload(); // Refresh to update badge
-
       } catch (err) {
         console.error(err);
         alert("上傳失敗：" + err.message);
@@ -156,35 +162,40 @@ export class UploadModal {
     });
 
     // Reset form on hidden
-    document.getElementById('uploadModal').addEventListener('hidden.bs.modal', function () {
-      form.reset();
-      submitBtn.disabled = true;
-      fileErrorMsg.style.display = 'none';
-    });
+    document
+      .getElementById("uploadModal")
+      .addEventListener("hidden.bs.modal", function () {
+        form.reset();
+        submitBtn.disabled = true;
+        fileErrorMsg.style.display = "none";
+      });
   }
 
   static show(examData) {
     this.init();
-    
+
     document.getElementById('modal-exam-name').textContent = examData.examName;
-    document.getElementById('modal-exam-subject').textContent = `${examData.department} - ${examData.subject}`;
+    document.getElementById('modal-exam-subject').textContent = `[${examData.department}] ${examData.grade}年級 ${examData.subject}`;
+    document.getElementById('modal-exam-class').textContent = `適用班級：${examData.applicableClass || '未指定'}`;
     document.getElementById('modal-exam-id').value = examData.id;
-    document.getElementById('modal-exam-table').value = examData.table; 
+    document.getElementById("modal-exam-table").value = examData.table;
 
     // Prefill if existing data
-    if (examData.markingType) document.getElementById('markingType').value = examData.markingType;
-    else document.getElementById('markingType').value = '';
-    
-    if (examData.pageCount !== undefined && examData.pageCount !== '') document.getElementById('pageCount').value = examData.pageCount;
-    else document.getElementById('pageCount').value = '';
-    
+    if (examData.markingType)
+      document.getElementById("markingType").value = examData.markingType;
+    else document.getElementById("markingType").value = "";
+
+    if (examData.pageCount !== undefined && examData.pageCount !== "")
+      document.getElementById("pageCount").value = examData.pageCount;
+    else document.getElementById("pageCount").value = "";
+
     window.__currentExamContext = {
-        examName: examData.examName,
-        department: examData.department,
-        subject: examData.subject
+      examName: examData.examName,
+      department: examData.department,
+      subject: examData.subject,
     };
 
-    const myModal = new bootstrap.Modal(document.getElementById('uploadModal'));
+    const myModal = new bootstrap.Modal(document.getElementById("uploadModal"));
     myModal.show();
   }
 }
