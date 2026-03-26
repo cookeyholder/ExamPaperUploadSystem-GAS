@@ -9,7 +9,14 @@ export class ExamPlanMgmt {
         // Pre-fetch all exam tables to build teacher assignment UI
         const allExamData = {};
         for (const row of settings) {
-            allExamData[row.table] = await ApiService.getTableData(row.table);
+            if (row.table) {
+                try {
+                    allExamData[row.table] = await ApiService.getTableData(row.table);
+                } catch (e) {
+                    console.error(`Failed to fetch table ${row.table}:`, e);
+                    allExamData[row.table] = [];
+                }
+            }
         }
 
         const formatDt = (dtStr) => {

@@ -9,6 +9,7 @@ export const mockData = {
             examName: "第三次定期考",
             uploadStart: "2026-03-25T00:00:00+08:00",
             uploadEnd: "2026-04-28T12:35:00+08:00",
+            table: "exam1",
         },
         {
             id: "2",
@@ -17,6 +18,7 @@ export const mockData = {
             examName: "第二次定期考",
             uploadStart: "2025-11-01T00:00:00+08:00",
             uploadEnd: "2025-11-15T23:59:59+08:00",
+            table: "exam2",
         },
     ],
     users: [

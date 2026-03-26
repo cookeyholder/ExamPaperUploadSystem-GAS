@@ -17,9 +17,20 @@ const initUserNav = (user) => {
         document
             .querySelectorAll(".admin-menu-item")
             .forEach((el) => el.classList.remove("d-none"));
+        document
+            .querySelectorAll(".teacher-menu-item")
+            .forEach((el) => el.classList.add("d-none"));
         document.body.classList.remove("teacher-mode");
+
+        // Admin doesn't need to see the upload dashboard, redirect if on home
+        if (window.location.hash === "" || window.location.hash === "#/") {
+            window.location.hash = "#/admin/exam-plans";
+        }
     } else {
         document.body.classList.add("teacher-mode");
+        document
+            .querySelectorAll(".teacher-menu-item")
+            .forEach((el) => el.classList.remove("d-none"));
     }
 };
 
