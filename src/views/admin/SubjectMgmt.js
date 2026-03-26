@@ -1,4 +1,5 @@
 import { ApiService } from "../../services/api.js";
+import { updatePageHeader } from "../../utils/ui.js";
 
 export class SubjectMgmt {
     static async render() {
@@ -26,10 +27,10 @@ export class SubjectMgmt {
 
         setTimeout(() => this.bindEvents(), 0);
 
-        return `
-    static async render() {
         updatePageHeader("科目管理", "管理系統內的所有科目及其對應的群科年級");
-        const settings = await ApiService.getTableData("settings");
+
+        return `
+        <div class="d-flex justify-content-end mb-4">
         <div>
           <button class="btn btn-light shadow-sm text-primary fw-semibold me-2" id="import-subject-btn">
             <i class="bi bi-file-earmark-excel me-1"></i> 匯入名單

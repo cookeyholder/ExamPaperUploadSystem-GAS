@@ -1,4 +1,5 @@
 import { ApiService } from "../../services/api.js";
+import { updatePageHeader } from "../../utils/ui.js";
 
 export class ExamPlanMgmt {
     static async render() {
@@ -181,11 +182,9 @@ export class ExamPlanMgmt {
 
         setTimeout(() => this.bindEvents(settings, allExamData, teachers), 0);
 
-        return `
-    static async render() {
         updatePageHeader("考試分項管理", "管理各項考試的上傳時間，以及各科目的命題教師指派");
-        const settings = await ApiService.getTableData("settings");
 
+        return `
       <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
         <div class="table-responsive">
           <table class="table table-hover mb-0 align-middle fs-6">
