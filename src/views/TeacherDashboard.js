@@ -211,7 +211,8 @@ export class TeacherDashboard {
           const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
           if (days === 0 && hours === 0 && minutes < 10) {
-            cell.textContent = `${minutes}分 ${seconds}秒`;
+            const displaySecs = seconds.toString().padStart(2, '0');
+            cell.textContent = `${minutes}分 ${displaySecs}秒`;
           } else {
             cell.textContent = `${days}天 ${hours}小時 ${minutes}分`;
           }
