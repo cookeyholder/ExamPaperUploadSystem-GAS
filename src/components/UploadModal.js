@@ -26,10 +26,10 @@ export class UploadModal {
                   </div>
                   <div class="col-md-6">
                     <div class="bg-danger-subtle text-danger-emphasis p-3 rounded-4 h-100 border border-danger-subtle">
-                      <p class="mb-2 text-danger fw-bold small"><i class="bi bi-exclamation-triangle-fill me-1"></i> 注意事項</p>
-                      <ul class="mb-0 ps-3 small fw-medium">
+                      <p class="mb-2 text-danger fw-bold fs-6"><i class="bi bi-exclamation-triangle-fill me-1"></i> 注意事項</p>
+                      <ul class="mb-0 ps-3 fs-6 fw-medium">
                         <li class="mb-1">請將題目與答案卷合併為單一 PDF</li>
-                        <li class="text-danger fw-bold">絕對請勿上傳解答！</li>
+                        <li class="text-danger fw-bold fs-5">絕對請勿上傳解答！</li>
                       </ul>
                     </div>
                   </div>

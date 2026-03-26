@@ -177,6 +177,27 @@ export class TeacherDashboard {
                             </div>
                         </div>
 
+                        ${(() => {
+                            if (!ex.uploadEnd) return "";
+                            const parsedEnd = parseTpeTime(ex.uploadEnd);
+                            const formatted = new Intl.DateTimeFormat("zh-TW", {
+                                timeZone: "Asia/Taipei",
+                                year: "numeric",
+                                month: "2-digit",
+                                day: "2-digit",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                                hour12: false,
+                            }).format(parsedEnd);
+                            return `<div class="text-secondary mb-4 d-flex align-items-start">
+                                <i class="bi bi-calendar-x fs-4 fw-bold text-secondary me-3 mt-1"></i>
+                                <div>
+                                    <strong class="d-block text-muted fs-6 mb-1">截止時間</strong>
+                                    <span class="fs-5 text-dark fw-medium">${formatted}</span>
+                                </div>
+                            </div>`;
+                        })()}
+
                         <div class="mt-auto">
                             ${btnHtml}
                         </div>
