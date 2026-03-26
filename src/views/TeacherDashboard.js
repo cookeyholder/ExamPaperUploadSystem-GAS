@@ -107,18 +107,9 @@ export class TeacherDashboard {
                 
                 const table = e.currentTarget.getAttribute('data-table');
                 const id = e.currentTarget.getAttribute('data-id');
-                const settingId = e.currentTarget.getAttribute('data-settingid');
                 
-                const examRows = Number(settingId) === 1 ? window.__exams1 : window.__exams2 || window.__exams1;
-                const rowData = examRows?.find(r => r.id === id);
-                
-                window.__currentExamContext = {
-                    examName: pendingUploads.find(p => p.id === id)?.examName || '當前考科',
-                    department: rowData?.department || '通用',
-                    subject: rowData?.subject || '科目'
-                };
-
-                UploadModal.show(table, id, settingId);
+                const examData = pendingUploads.find(ex => ex.id === id && ex.table === table);
+                if (examData) UploadModal.show(examData);
             });
         });
     }, 0);

@@ -162,14 +162,20 @@ export class UploadModal {
     document.getElementById('modal-exam-name').textContent = examData.examName;
     document.getElementById('modal-exam-subject').textContent = `${examData.department} - ${examData.subject}`;
     document.getElementById('modal-exam-id').value = examData.id;
-    // Derive table from exam id logic? e.g. e1_1 -> exam1
-    const tablePrefix = examData.id.split('_')[0]; // "e1"
-    const tableIndex = tablePrefix.replace('e', ''); // "1"
-    document.getElementById('modal-exam-table').value = `exam${tableIndex}`;
+    document.getElementById('modal-exam-table').value = examData.table; 
 
     // Prefill if existing data
     if (examData.markingType) document.getElementById('markingType').value = examData.markingType;
-    if (examData.pageCount !== undefined) document.getElementById('pageCount').value = examData.pageCount;
+    else document.getElementById('markingType').value = '';
+    
+    if (examData.pageCount !== undefined && examData.pageCount !== '') document.getElementById('pageCount').value = examData.pageCount;
+    else document.getElementById('pageCount').value = '';
+    
+    window.__currentExamContext = {
+        examName: examData.examName,
+        department: examData.department,
+        subject: examData.subject
+    };
 
     const myModal = new bootstrap.Modal(document.getElementById('uploadModal'));
     myModal.show();
