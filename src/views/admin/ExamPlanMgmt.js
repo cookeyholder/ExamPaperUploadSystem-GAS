@@ -369,6 +369,7 @@ export class ExamPlanMgmt {
                 }, { once: true });
             } catch (err) {
                 alert("儲存失敗: " + err.message);
+            } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = "儲存";
             }
@@ -434,6 +435,13 @@ export class ExamPlanMgmt {
                 document.getElementById("aom-subject").textContent = subject;
                 document.getElementById("aom-exam-table").value = tableName;
                 document.getElementById("aom-row-id").value = rowId;
+                
+                // Reset submit button state
+                const submitBtn = document.getElementById("aom-submit-btn");
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = "儲存";
+                }
                 
                 // Set department and trigger filter
                 const deptSelect = document.getElementById("aom-dept");
