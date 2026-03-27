@@ -112,10 +112,9 @@ export class ExamPlanMgmt {
       </div>
     `;
 
-        // Teacher options for the assign modal
-        const teacherOptions = teachers
-            .map((t) => `<option value="${t.email}">${t.name}（${t.email}）</option>`)
-            .join("");
+        // Get unique departments for filtering
+        const departments = [...new Set(teachers.map(t => t.department).filter(Boolean))].sort();
+        const deptOptions = departments.map(d => `<option value="${d}">${d}</option>`).join('');
 
         // Task 3: Assign teacher modal (per exam plan → per subject row)
         const assignModalHtml = `
@@ -162,11 +161,17 @@ export class ExamPlanMgmt {
               <form id="assignOneForm">
                 <input type="hidden" id="aom-exam-table">
                 <input type="hidden" id="aom-row-id">
+                <div class="mb-3">
+                  <label class="form-label fw-semibold fs-6">1. 選擇科別：</label>
+                  <select class="form-select form-select-lg" id="aom-dept">
+                    <option value="">-- 全部科別 --</option>
+                    ${deptOptions}
+                  </select>
+                </div>
                 <div class="mb-4">
-                  <label class="form-label fw-semibold fs-6">選擇教師：</label>
+                  <label class="form-label fw-semibold fs-6">2. 選擇教師：</label>
                   <select class="form-select form-select-lg" id="aom-teacher-email" required>
-                    <option value="" selected disabled>請選擇...</option>
-                    ${teacherOptions}
+                    <option value="" selected disabled>請選擇教師...</option>
                   </select>
                 </div>
                 <div class="d-flex justify-content-end">
@@ -294,54 +299,45 @@ export class ExamPlanMgmt {
 
                 document.getElementById("at-exam-name").textContent = examName;
 
-                tbody.innerHTML = subjectRows
-                    .map((subRow) => {
-                        const teacher = teachers.find((t) => t.email === subRow.teacherEmail);
-                        const teacherCell = teacher
-                            ? `<span class="fw-medium">${teacher.name}</span><small class="text-muted d-block">${subRow.teacherEmail}</small>`
-                            : '<span class="text-danger"><i class="bi bi-exclamation-circle me-1"></i>尚未指派</span>';
-                        return `
-              <tr>
-                <td class="ps-3">${subRow.department}</td>
-                <td class="text-center">${subRow.grade}</td>
-                <td class="fw-semibold text-primary">${subRow.subject}</td>
-                <td>${teacherCell}</td>
-                <td class="text-end pe-3">
-                  <button class="btn btn-sm btn-light text-success fw-medium inline-assign-btn"
-                    data-table="${tableName}"
-                    data-row-id="${subRow.id}"
-                    data-subject="${subRow.subject}"
-                    data-teacher="${subRow.teacherEmail || ""}">
-                    <i class="bi bi-person-fill-add me-1"></i>指派
-                  </button>
-                </td>
-              </tr>`;
-                    })
-                    .join("");
+                ExamPlanMgmt.refreshSubjectTable(tableName, subjectRows, teachers, assignModal);
 
                 // bind inline assign buttons after injecting rows
-                ExamPlanMgmt.bindInlineAssign(assignModal);
+                ExamPlanMgmt.bindInlineAssign(assignModal, teachers);
                 assignModal.show();
             });
         });
 
         // ─── Inline single-subject assign form ───────────────────────────────
         const aomModalEl = document.getElementById("assignOneModal");
-        const aomModal = new bootstrap.Modal(aomModalEl);
+        const aomModal = bootstrap.Modal.getOrCreateInstance(aomModalEl);
+        const aomDeptSelect = document.getElementById("aom-dept");
+        const aomTeacherSelect = document.getElementById("aom-teacher-email");
+
+        // Helper to update teacher options based on department
+        const updateTeacherList = (selectedDept, selectedEmail = "") => {
+            const filtered = selectedDept 
+                ? teachers.filter(t => t.department === selectedDept)
+                : teachers;
+            
+            aomTeacherSelect.innerHTML = '<option value="" selected disabled>請選擇教師...</option>' + 
+                filtered.map(t => `<option value="${t.email}" ${t.email === selectedEmail ? 'selected' : ''}>${t.name}（${t.email}）</option>`).join("");
+        };
+
+        aomDeptSelect.addEventListener("change", (e) => {
+            updateTeacherList(e.target.value);
+        });
 
         // close assignOne → re-open assignTeacher modal
-        ["aom-close-btn", "aom-cancel-btn"].forEach((elId) => {
-            document.getElementById(elId)?.addEventListener("click", () => {
-                aomModal.hide();
-                aomModalEl.addEventListener(
-                    "hidden.bs.modal",
-                    () => {
-                        assignModal.show();
-                    },
-                    { once: true },
-                );
-            });
-        });
+        const returnToParent = () => {
+            aomModal.hide();
+            // We use a slight delay or wait for event to avoid backdrop issues
+            aomModalEl.addEventListener("hidden.bs.modal", () => {
+                assignModal.show();
+            }, { once: true });
+        };
+
+        document.getElementById("aom-close-btn")?.addEventListener("click", returnToParent);
+        document.getElementById("aom-cancel-btn")?.addEventListener("click", returnToParent);
 
         const aomForm = document.getElementById("assignOneForm");
         aomForm.addEventListener("submit", async (e) => {
@@ -357,8 +353,20 @@ export class ExamPlanMgmt {
 
             try {
                 await ApiService.updateTableRow(tableName, "id", rowId, { teacherEmail });
+                
+                // Update local data for immediate UI refresh
+                const subjectRows = allExamData[tableName] || [];
+                const row = subjectRows.find(r => r.id === rowId);
+                if (row) row.teacherEmail = teacherEmail;
+
                 aomModal.hide();
-                window.location.reload();
+                // Refresh the subject table in the parent modal
+                ExamPlanMgmt.refreshSubjectTable(tableName, subjectRows, teachers, assignModal);
+                
+                // Re-open parent modal
+                aomModalEl.addEventListener("hidden.bs.modal", () => {
+                    assignModal.show();
+                }, { once: true });
             } catch (err) {
                 alert("儲存失敗: " + err.message);
                 submitBtn.disabled = false;
@@ -368,15 +376,51 @@ export class ExamPlanMgmt {
     }
 
     /**
-     * 繫結「指派教師」子列表中的各科目「指派」按鈕，開啟單科指派 modal
-     * @param {bootstrap.Modal} parentModal - 父層的科目列表 modal（用來先隱藏它）
+     * Refresh the subject list table content in the modal
      */
-    static bindInlineAssign(parentModal) {
+    static refreshSubjectTable(tableName, subjectRows, teachers, parentModal) {
+        const tbody = document.getElementById("at-subject-tbody");
+        if (!tbody) return;
+
+        tbody.innerHTML = subjectRows
+            .map((subRow) => {
+                const teacher = teachers.find((t) => t.email === subRow.teacherEmail);
+                const teacherCell = teacher
+                    ? `<span class="fw-medium">${teacher.name}</span><small class="text-muted d-block">${subRow.teacherEmail}</small>`
+                    : '<span class="text-danger"><i class="bi bi-exclamation-circle me-1"></i>尚未指派</span>';
+                return `
+          <tr>
+            <td class="ps-3">${subRow.department}</td>
+            <td class="text-center">${subRow.grade}</td>
+            <td class="fw-semibold text-primary">${subRow.subject}</td>
+            <td>${teacherCell}</td>
+            <td class="text-end pe-3">
+              <button class="btn btn-sm btn-light text-success fw-medium inline-assign-btn"
+                data-table="${tableName}"
+                data-row-id="${subRow.id}"
+                data-subject="${subRow.subject}"
+                data-dept="${subRow.department}"
+                data-teacher="${subRow.teacherEmail || ""}">
+                <i class="bi bi-person-fill-add me-1"></i>指派
+              </button>
+            </td>
+          </tr>`;
+            })
+            .join("");
+
+        ExamPlanMgmt.bindInlineAssign(parentModal, teachers);
+    }
+
+    /**
+     * 繫結「指派教師」子列表中的各科目「指派」按鈕，開啟單科指派 modal
+     * @param {bootstrap.Modal} parentModal - 父層的科目列表 modal
+     * @param {Array} teachers - 所有教師資料
+     */
+    static bindInlineAssign(parentModal, teachers) {
         const aomModalEl = document.getElementById("assignOneModal");
-        const aomModal = new bootstrap.Modal(aomModalEl);
+        const aomModal = bootstrap.Modal.getOrCreateInstance(aomModalEl);
 
         document.querySelectorAll(".inline-assign-btn").forEach((btn) => {
-            // remove old listeners by cloning
             const fresh = btn.cloneNode(true);
             btn.parentNode.replaceChild(fresh, btn);
 
@@ -385,21 +429,35 @@ export class ExamPlanMgmt {
                 const rowId = e.currentTarget.getAttribute("data-row-id");
                 const subject = e.currentTarget.getAttribute("data-subject");
                 const currentTeacher = e.currentTarget.getAttribute("data-teacher");
+                const subjectDept = e.currentTarget.getAttribute("data-dept");
 
                 document.getElementById("aom-subject").textContent = subject;
                 document.getElementById("aom-exam-table").value = tableName;
                 document.getElementById("aom-row-id").value = rowId;
-                document.getElementById("aom-teacher-email").value = currentTeacher || "";
+                
+                // Set department and trigger filter
+                const deptSelect = document.getElementById("aom-dept");
+                deptSelect.value = subjectDept || "";
+                
+                // Filter teachers based on subject's department
+                const filteredTeachers = subjectDept 
+                    ? teachers.filter(t => t.department === subjectDept)
+                    : teachers;
+
+                const teacherSelect = document.getElementById("aom-teacher-email");
+                teacherSelect.innerHTML = '<option value="" disabled>請選擇教師...</option>' + 
+                    filteredTeachers.map(t => `<option value="${t.email}" ${t.email === currentTeacher ? 'selected' : ''}>${t.name}（${t.email}）</option>`).join("");
+                
+                if (currentTeacher) {
+                    teacherSelect.value = currentTeacher;
+                } else {
+                    teacherSelect.selectedIndex = 0;
+                }
 
                 parentModal.hide();
-                aomModalEl.addEventListener("hidden.bs.modal", () => {}, { once: true });
-                parentModal._element.addEventListener(
-                    "hidden.bs.modal",
-                    () => {
-                        aomModal.show();
-                    },
-                    { once: true },
-                );
+                parentModal._element.addEventListener("hidden.bs.modal", () => {
+                    aomModal.show();
+                }, { once: true });
             });
         });
     }
