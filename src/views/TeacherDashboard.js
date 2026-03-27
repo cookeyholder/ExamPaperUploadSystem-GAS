@@ -191,6 +191,13 @@ export class TeacherDashboard {
                                 <div>
                                     <strong class="d-block text-muted fs-6 mb-1">截止時間</strong>
                                     <span class="fs-5 text-dark fw-medium">${formatted}</span>
+                                    ${
+                                        !isOverdue && isStarted
+                                            ? `<div class="mt-1">
+                                        <span class="badge rounded-pill bg-danger-subtle text-danger border border-danger border-opacity-25 fs-6 unified-countdown-cell" data-deadline="${ex.uploadEnd}">--</span>
+                                      </div>`
+                                            : ""
+                                    }
                                 </div>
                             </div>`;
                         })()}

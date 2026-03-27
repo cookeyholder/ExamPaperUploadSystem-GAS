@@ -14,7 +14,7 @@ export class MockApiService {
     static async getUserInfo() {
         await delay();
         // Default mock user for testing views — 切換這裡可切換角色
-        const mockEmail = "admin@ksvs.kh.edu.tw";
+        const mockEmail = "admin@school.edu.tw";
         const user = memoryStore.users.find((u) => u.email === mockEmail);
         return user || { email: mockEmail, name: "測試無名氏", role: "teacher" };
     }
