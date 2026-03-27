@@ -4,7 +4,10 @@ import { updatePageHeader } from "../../utils/ui.js";
 export class UserMgmt {
     static async render() {
         updatePageHeader("帳號管理", "管理系統管理員與教師的名單、權限以及登入帳號");
-        const users = await ApiService.getTableData("users");
+        const [users, departments] = await Promise.all([
+            ApiService.getTableData("users"),
+            ApiService.getTableData("departments")
+        ]);
 
         const rowsHtml = users
             .map(
@@ -12,6 +15,7 @@ export class UserMgmt {
       <tr>
         <td class="align-middle">${u.teacherCode || "-"}</td>
         <td class="align-middle fw-semibold">${u.name}</td>
+        <td class="align-middle">${u.department || "-"}</td>
         <td class="align-middle text-muted">${u.email}</td>
         <td class="align-middle">
           <span class="badge ${u.role === "admin" ? "bg-danger" : "bg-primary"} bg-opacity-10 text-${u.role === "admin" ? "danger" : "primary"} px-2 py-1 rounded-pill">
@@ -30,6 +34,9 @@ export class UserMgmt {
     `,
             )
             .join("");
+        
+        // 使用從後端/模擬資料取得的完整科別清單作為下拉選單選項
+        const deptOptions = departments.map(d => `<option value="${d}">${d}</option>`).join('');
 
         const modalHtml = `
       <div class="modal fade" id="userFormModal" tabindex="-1" aria-hidden="true">
@@ -55,6 +62,13 @@ export class UserMgmt {
                 <div class="mb-3">
                   <label class="form-label fw-semibold">教師代碼 (選填)</label>
                   <input type="text" class="form-control" id="u-code" placeholder="例如: T1001">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label fw-semibold">科別</label>
+                  <select class="form-select" id="u-dept">
+                    <option value="">請選擇...</option>
+                    ${deptOptions}
+                  </select>
                 </div>
                 <div class="mb-4">
                   <label class="form-label fw-semibold">系統角色</label>
@@ -90,6 +104,7 @@ export class UserMgmt {
               <tr>
                 <th class="ps-4">代碼</th>
                 <th>姓名</th>
+                <th>科別</th>
                 <th>Google 帳號 (Email)</th>
                 <th>角色</th>
                 <th class="text-end pe-4">操作</th>
@@ -133,6 +148,7 @@ export class UserMgmt {
                     document.getElementById("u-email").value = user.email;
                     document.getElementById("u-email").readOnly = true;
                     document.getElementById("u-code").value = user.teacherCode || "";
+                    document.getElementById("u-dept").value = user.department || "";
                     document.getElementById("u-role").value = user.role;
                     modal.show();
                 }
@@ -166,6 +182,7 @@ export class UserMgmt {
                 name: document.getElementById("u-name").value,
                 email: document.getElementById("u-email").value,
                 teacherCode: document.getElementById("u-code").value,
+                department: document.getElementById("u-dept").value,
                 role: document.getElementById("u-role").value,
             };
 
