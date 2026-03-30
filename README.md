@@ -1,92 +1,197 @@
-# gas-auth-spa-template (Google Apps Script 專案範本)
+# ExamPaperUploadSystem-GAS
 
-這是一個基於 Google Apps Script 的 Web 應用程式範本，採用 Google Identity Services (GIS) 認證與 SPA (Single Page Application) 架構，具備強大的跨網域權限管理功能。
+Google Apps Script（GAS）版的「試卷上傳系統」，目標是逐步對齊 Django 專案 `Exam_Paper_Delivery_System`。
 
-## 專案特色
+本專案採用：
+- 前端：Vanilla JS SPA + Bootstrap 5
+- 後端：GAS `Code.js`
+- 資料來源：Google 試算表
+- 開發方式：Vite 建置 + clasp 推送
 
-- ✅ **跨網域認證**：解決 GAS "Execute as Me" 部署時無法取得外部網域使用者 Email 的限制。
-- ✅ **SPA 架構**：流暢的單頁面體驗，根據使用者角色（管理員、導師、學生）動態切換介面。
-- ✅ **後端資料防護**：基於 JWT Token 與角色的後端驗證機制，確保資料存取安全性。
-- ✅ **帳號白名單管理**：透過 Google 試算表直接控制可存取的使用者及其角色。
-- ✅ **本地開發支援**：使用 clasp 進行本地開發和版本控制。
+## 目前狀態（先看這段）
 
-### 開發技術：
-1. 本專案原為基於 Django 5.2 與 Bootstrap 5 所建構，作為前端行為與規格的參考藍圖。
-2. 為了更佳的 Google 生態系整合，我們將前端重構為 **Vanilla JS SPA (Single Page Application)**。
-3. **前端建置**: 使用 **Vite** 搭配 `vite-plugin-singlefile`，將前端程式碼打包成單一的 `index.html` 供 GAS 伺服。
-4. **前端框架**: Vanilla JS + Bootstrap 5 + 客製化現代 CSS UI。包含動態 Hash Router 以無縫切換各個管理面板。
-### 開發進度與架構亮點：
-- **Teacher Dashboard (Vanilla SPA)**：實作高效的非同步視圖加載，精確過濾目前教師與所屬的考科上傳時間。
-- **Upload Modal & 防呆機制**：使用 Bootstrap JS API 封裝共用 Modal，具備完整的表單驗證 (10MB 限制/自定義張數) 與 PDF -> Base64 轉換機能。
-- **後台管理 (CRUD Tables)**：實作「帳號管理」、「群科班級管理」、「科目與命題分配」、「考試分項時間窗」等 SPA 視圖，支援新增、編輯、刪除，並具備互動式 Spinner。
-- **資料隔離與 Mock 架構**: 前端開發期全面採用 `MockApiService` 與本機 JSON 模擬 GAS 試算表行為。
-- **GAS 雙軌制 API 代理**: `ApiService` 中介層能自動判斷環境，切換 Mock/Real 資料流；並在寫入時自動完成前後端欄位名稱 (英/中) 映射。
-- **Drive 附件直傳機制**: 自製以純 JS 達成檔案切割與 Base64 Encode 後，傳送至 `google.script.run` 進行解碼與 Google Drive 檔案保存（包含舊檔覆蓋機制），並完美回寫 URL 至試算表。
+目前已可使用：
+- 教師端「試卷上傳情形」儀表板（含倒數、上傳表單前端驗證）
+- 管理端頁面：考試分項管理、科目管理、群科班級管理、帳號管理（含部分 CRUD）
+- GAS 讀寫 API：`apiGetTableData`、`apiGetUserInfo`、`apiAddTableRow`、`apiUpdateTableRow`、`apiDeleteTableRow`
 
-🌟 **目前狀態: 全數遷移完成!** (11 個 OpenSpec 提案皆已實作)
+目前尚未補齊（重點）：
+- `apiUploadExamPaper` 後端函式尚未實作（前端已有呼叫）
+- Django 的完整登入安全流程（OTP/Captcha）、統計匯出、封存流程等尚在補齊中
 
-### 1. 建立 Google Cloud 專案與 OAuth Client ID
+相關文件入口：
+- [Django功能比對與GAS待實作清單.md](./docs/Django功能比對與GAS待實作清單.md)
+- [部署前檢查清單.md](./docs/部署前檢查清單.md)
 
-為了讓前端能夠進行 Google 登入，您必須設定 GCP：
+---
 
-1. 前往 [Google Cloud Console](https://console.cloud.google.com/)。
-2. 建立新專案或選擇現有專案。
-3. 進入「API 和服務」 > 「憑證」。
-4. 點選「建立憑證」 > 「OAuth 2.0 用戶端 ID」。
-5. 用戶端類型選擇 **「Web 應用程式」**。
-6. **已授權的 JavaScript 來源**：填入您的 GAS Web App 網址（例如 `https://script.google.com`）。
-7. **已授權的重新導向 URI**：填入您的 GAS Web App 網址。
-8. 建立後，複製 **「用戶端 ID (Client ID)」**。
+## 快速開始（本機開發）
 
-### 2. 初始化試算表與參數
+### 1. 環境需求
+- Node.js 18+
+- npm
+- `@google/clasp`
 
-1. 在 GAS 編輯器中執行 `onOpen` 或直接開啟綁定的試算表。
-2. 系統會自動建立「網站參數設定」與「帳號管理」工作表。
-3. 在「網站參數設定」中，將剛剛得到的 **OAuth Client ID** 填入對應欄位。
-4. 在「帳號管理」中，新增授權使用者的 Email，並設定其角色（admin/teacher/student）與狀態為「啟用」。
+```bash
+npm install -g @google/clasp
+```
 
-### 3. 部署 Web 應用程式
+### 2. 安裝套件
 
-1. 點選「部署」 > 「新增部署作業」。
-2. 類型選擇「網頁應用程式」。
-3. **執行身分**：選擇「我」。
-4. **具有存取權的使用者**：選擇「任何人」。
-5. 完成部署並取得 Web App 網址。
+```bash
+npm install
+```
 
-## 相關文件
+### 3. 啟動前端開發模式
 
-- [🔐 Google OAuth 2.0 認證申請與原理指南](docs/OAUTH_GUIDE.md)：詳細介紹如何取得 Client ID 以及 OAuth2 的運作原理。
+```bash
+npm run dev
+```
 
-## 技術架構說明
+Vite 預設會開在本機開發網址（通常是 `http://localhost:5173`）。
 
-### 前端 (SPA)
-- 使用 `index.html` 作為唯一的入口。
-- 引入 `https://accounts.google.com/gsi/client` SDK 處理登入。
-- 登入成功後取得 JWT (ID Token)，並透過 `google.script.run` 傳送給後端。
-- 根據後端回傳的 Role 屬性，動態切換顯示區塊。
+### 4. 建置單檔版本（給 GAS 使用）
 
-### 後端 (GAS)
-- `doGet(e)`：不進行權限判斷，僅負責回傳 HTML 框架。
-- `validateIdToken(token)`：呼叫 Google 的 `tokeninfo` API 驗證 Token 合法性。
-- `verifyRole(token, requiredRoles)`：核心中介層，檢查 Token、網域及白名單權限。
-- 所有的資料請求 API 都必須攜帶 Token 並經過驗證。
+```bash
+npm run build
+```
 
-## 角色說明
+建置結果會輸出到 `dist/index.html`。
 
-| 角色名稱 | 適用情境 | 權限等級 |
-| :--- | :--- | :--- |
-| **admin / 管理員** | 系統負責人 | 最高權限，可管理所有設定與帳號。 |
-| **teacher / 導師** | 教職員、班導師 | 具備管理特定資料（如學生名單）的權限。 |
-| **student / 學生** | 一般使用者、學生 | 僅能存取個人相關資料。 |
+### 5. 更新 GAS 入口頁
 
-## 常見問題 (FAQ)
+`doGet()` 會回傳根目錄的 `index.html`，因此部署前請把建置結果覆蓋回根目錄：
 
-### Q: 為什麼跨網域的使用者登入後看不到 Email？
-**A:** 在舊版 GAS 機制中這是隱私限制，但在本專案採用的 OAuth2 模式下已解決此問題。只要使用者點擊 Google 登入並授權，系統即可準確取得其 Email 並進行權限比對。
+```bash
+cp dist/index.html index.html
+```
 
-### Q: 如何新增自訂角色？
-**A:** 直接在「帳號管理」試算表的角色欄位填入新名稱，並在 `index.html` 的 `renderDashboard` 函式中增加對應的顯示邏輯即可。
+---
+
+## 部署到 GAS（首次）
+
+### 1. 建立（或準備）Google Apps Script 專案
+- 建議使用「綁定 Google 試算表」的 GAS 專案。
+
+### 2. 設定 `.clasp.json`
+
+把 [`.clasp.json`](./.clasp.json) 內的 `scriptId` 改成你的 GAS Script ID：
+
+```json
+{
+  "scriptId": "你的 Script ID",
+  "rootDir": "."
+}
+```
+
+### 3. 登入 clasp
+
+```bash
+clasp login
+```
+
+### 4. 建置並推送
+
+```bash
+npm run build
+cp dist/index.html index.html
+clasp push
+```
+
+### 5. 發佈 Web App
+1. 到 GAS 編輯器按「部署」->「新增部署作業」
+2. 類型選「網頁應用程式」
+3. 執行身分：`我`
+4. 存取對象：依你的需求設定（例如網域內）
+5. 取得 Web App URL
+
+---
+
+## 試算表設定
+
+### A. 系統會使用的工作表
+
+目前程式會讀寫下列工作表（英文名稱為前端呼叫名，右側是實際工作表）：
+
+- `settings` -> `網站參數設定`
+- `users` -> `帳號管理`
+- `classes` -> `群科班級`
+- `exam1` -> `第一次定期考`
+- `exam2` -> `第二次定期考`
+- `exam3` -> `第三次定期考`
+- `exam4` -> `期末考`
+
+### B. 必要欄位（目前版本）
+
+#### 1) `網站參數設定`
+建議至少有以下資料列：
+- `網站名稱`
+- `網站網域`
+- `OAuth Client ID`
+
+#### 2) `帳號管理`
+建議欄位：
+- `Email`, `姓名`, `人員編號`, `部門單位`, `群組`, `狀態`, `備註`
+
+> `群組` 目前主要使用 `admin` / `teacher`。
+
+#### 3) `群科班級`
+建議欄位：
+- `班級代碼`, `班級名稱`
+
+#### 4) `第一次定期考` ~ `期末考`
+建議欄位：
+- `ID`, `類別`, `年級`, `科目名稱`, `命題教師`, `閱卷方式`, `試卷張數`, `檔案連結`, `適用班級`, `英聽加考`
+
+---
+
+## OAuth 設定（Google 登入）
+
+請先在 Google Cloud Console 建立 OAuth 2.0 Client ID，並填入「網站參數設定」的 `OAuth Client ID`。
+
+詳細步驟請看：
+- [docs/OAUTH_GUIDE.md](./docs/OAUTH_GUIDE.md)
+
+---
+
+## 專案結構（重點）
+
+- `Code.js`：GAS 後端（Web App 入口與試算表 API）
+- `src/`：SPA 原始碼
+  - `src/main.js`：前端入口與路由
+  - `src/views/`：各頁面
+  - `src/services/`：Mock/GAS API 介接
+- `index.html`：GAS 實際載入頁（部署前要更新）
+- `dist/index.html`：Vite 打包輸出
+
+---
+
+## 常用指令
+
+```bash
+# 本機開發
+npm run dev
+
+# 建置單檔
+npm run build
+
+# 更新 GAS 入口頁
+cp dist/index.html index.html
+
+# 推送到 GAS
+clasp push
+```
+
+---
+
+## 已知限制與注意事項
+
+1. 目前前端上傳流程會呼叫 `apiUploadExamPaper`，但 `Code.js` 尚未提供此函式。
+2. 管理頁有部分欄位仍依賴 mock 資料結構，正式資料欄位需持續對齊。
+3. 本專案尚未完全對齊 Django 全功能，請參考差異清單規劃開發順序。
+
+---
 
 ## 授權
 
-MIT License
+本專案目前沿用既有儲存庫設定（`package.json` 顯示 `ISC`）。
